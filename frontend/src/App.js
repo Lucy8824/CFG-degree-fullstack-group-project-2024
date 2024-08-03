@@ -5,8 +5,13 @@ import { useState } from "react";
 const App = () => {
   const [ message, setMessage ] = useState();
 
-  const handleButtonClick = () => {
-    setMessage(`Hello there`)
+  const handleButtonClick = async () => {
+    const response = await fetch(`http://localhost:3003`);
+
+    const json = await response.json();
+    const newMessage = json.message;
+    
+    setMessage(newMessage);
   }
 
   return (
