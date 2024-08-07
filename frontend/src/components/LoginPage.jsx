@@ -7,23 +7,24 @@ const LoginPage = () => {
 const [email, setEmail] = useState("");
 const [password, setPassword] = useState("");
 
-const handleSubmit = (e) => {
-    e.preventDefault();
-    // perform authentication here
+const handleSubmit = (event) => {
+    event.preventDefault();
+    // authentication here
     console.log("Email:", email);
     console.log("Password:", password);
 };
 return (
-<div>
+<div className="container">
+<h1 className="title">Welcome to your Festival Meetup</h1>
 <form onSubmit={handleSubmit}>
-    <h1 className="title">Welcome to your Festival Meetup</h1>
+    
 <div>
 <input 
 type="email"
 id="email"
 value={email}
-onChange={(e) => setEmail(e.target.value)} 
-placeholder="Email" required
+onChange={(event) => setEmail(event.target.value)} 
+required placeholder="Email" 
 />
 </div>
 
@@ -32,8 +33,8 @@ placeholder="Email" required
     type="password"
     id="password"
     value={password}
-    onChange={(e) => setPassword(e.target.value)} 
-    placeholder="Password" required
+    onChange={(event) => setPassword(event.target.value)} 
+    required placeholder="Password"
     />
     </div>
     <button type="submit">Login</button>
