@@ -1,5 +1,6 @@
 
 import React, { useState } from "react"; 
+import "./LoginPage.css";
 
 const LoginPage = () => {
 
@@ -15,7 +16,7 @@ const handleSubmit = (e) => {
 return (
 <div>
 <form onSubmit={handleSubmit}>
-    <h1>Welcome to your Festival Meetup</h1>
+    <h1 className="title">Welcome to your Festival Meetup</h1>
 <div>
 <input 
 type="email"
