@@ -1,6 +1,7 @@
 
 import React, { useState } from "react"; 
 import "./LoginPage.css";
+import CustomButton from "./CustomButton.jsx";
 
 const LoginPage = () => {
 
@@ -37,8 +38,9 @@ required placeholder="Email"
     required placeholder="Password"
     />
     </div>
-    <button type="submit">Login</button>
     </form>
+    <CustomButton type="submit" buttonText="Login"/>
+    
 </div>
 )};
 export default LoginPage;
