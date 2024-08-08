@@ -10,7 +10,7 @@ This **README.md** file contains all the details for the building of our 'Festiv
 
 ### What is the concept?
 
-The “festival Meetup” app would allow users to sign up and create an account, then post a ‘meetup’ for a particular festival and connect with other users who would be able to request to join the meetup. The aim of this app is to help festival goers connect with each other while attending the same festivals whether they are alone or not.
+The aim of the “festival Meetup” app is to connect festival goers together. The app would allow users to sign up and create an account, then post a ‘meetup’ for a particular festival and connect with other users who would be able to request to join the meetup. The aim of this app is to help festival goers connect with each other while attending the same festivals whether they are alone or not.
 
 ---
 
