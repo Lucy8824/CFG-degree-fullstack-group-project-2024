@@ -1,9 +1,16 @@
 
 import React, { useState } from "react"; 
+import { useNavigate } from "react-router-dom";
 import "./LoginPage.css";
 import CustomButton from "./CustomButton.jsx";
 
 const LoginPage = () => {
+
+ const navigate = useNavigate();
+ const handleSignupClick = () => {
+    console.log("sign up is clicked");
+ navigate("/SignUp")
+ };
 
 const [email, setEmail] = useState("");
 const [password, setPassword] = useState("");
@@ -39,8 +46,11 @@ required placeholder="Email"
     />
     </div>
     </form>
-    <CustomButton type="submit" buttonText="Login"/>
     
+    <CustomButton type="submit" buttonText="Login"/>
+    <CustomButton forgotPassword="forgotPassword" buttonText="Forgotten your password?" />
+    <CustomButton type="submit" onClick={handleSignupClick} buttonText="Don't have an account? Sign up"/>
 </div>
 )};
 export default LoginPage;
+
