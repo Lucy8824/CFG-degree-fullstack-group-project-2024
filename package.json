@@ -1,0 +1,13 @@
+{
+  "name": "cfg-degree-fullstack-group-project-2024",
+  "version": "1.0.0",
+  "description": "This repository contains the group project work for the CFG Fullstack Degree of summer 2024: \"Festival Meetup\" app.",
+  "main": "index.js",
+  "scripts": {
+    "start": "cd backend && npm start",
+    "build": "rmdir /S /Q .\\backend\\static && mkdir .\\backend\\static && cd frontend && npm run build && xcopy .\\build\\* ..\\backend\\static\\ /E /I /Y"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
