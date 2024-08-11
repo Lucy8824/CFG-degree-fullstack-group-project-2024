@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CustomButton from "./CustomButton.js";
 
+// only want to navigate to profile from here so useNavigate is better
 const SignUp = () => {
   const navigate = useNavigate();
   const handleProfileClick = () => {

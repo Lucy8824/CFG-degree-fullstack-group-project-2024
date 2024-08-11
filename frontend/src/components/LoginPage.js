@@ -10,6 +10,15 @@ const LoginPage = () => {
     navigate("/SignUp");
   };
 
+  const handleLoginClick = () => {
+    console.log("login is clicked");
+    navigate("/Profile");
+  };
+
+  const handleForgotPasswordClick = () => {
+    console.log("forgot password is clicked");
+    navigate("/ForgotPassword");
+  };
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -46,9 +55,14 @@ const LoginPage = () => {
         </div>
       </form>
 
-      <CustomButton type="submit" buttonText="Login" />
       <CustomButton
-        forgotPassword="forgotPassword"
+        type="submit"
+        onClick={handleLoginClick}
+        buttonText="Login"
+      />
+      <CustomButton
+        type="forgotPassword"
+        onClick={handleForgotPasswordClick}
         buttonText="Forgotten your password?"
       />
       <CustomButton
