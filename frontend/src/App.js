@@ -10,10 +10,12 @@ const App = () => {
       <div id="Root">
         <div className="App">
           <div className="container">
-            <Routes>
-              <Route path="/" index element={<LoginPage />}></Route>
-              <Route path="/SignUp" element={<SignUp />}></Route>
-            </Routes>
+            {
+              <Routes>
+                <Route path="/" index element={<LoginPage />}></Route>
+                <Route path="/SignUp" element={<SignUp />}></Route>
+              </Routes>
+            }
           </div>
         </div>
       </div>

@@ -12,7 +12,7 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [fullName, setFullName] = useState("");
   const [password, setPassword] = useState("");
-
+  const [confirmPassword, setConfirmPassword] = useState("");
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log("it's working");
@@ -29,7 +29,7 @@ const SignUp = () => {
               value={fullName}
               onChange={(event) => setFullName(event.target.value)}
               required
-              placeholder="full name"
+              placeholder="Full name"
             />
           </div>
           <input
@@ -38,7 +38,7 @@ const SignUp = () => {
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             required
-            placeholder="email"
+            placeholder="Email"
           />
         </div>
         <div>
@@ -48,7 +48,18 @@ const SignUp = () => {
             value={password}
             onChange={(event) => setPassword(event.target.value)}
             required
-            placeholder="password"
+            placeholder="Password"
+          />
+        </div>
+
+        <div>
+          <input
+            type="confirmPassword"
+            id="confirmPassword"
+            value={confirmPassword}
+            onChange={(event) => setConfirmPassword(event.target.value)}
+            required
+            placeholder="Confirm password"
           />
         </div>
       </form>
