@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import FestivalCard from "../component/FestivalCard";
 import { Container, Row, Col } from "react-bootstrap";
+import "../App.css";
 
 function Festivals() {
 
@@ -29,22 +30,24 @@ function Festivals() {
     ];
 
     return (
-        <Container>
-            <h1 className="my-4">Where will you dance next?</h1>
-            <p>Here you can find all the upcoming festivals!!</p>
-            <Row>
-                {festivals.map(festival => (
-                    <Col key={festival.id} sm={12} md={6} lg={4}>
-                        <FestivalCard
-                            poster={festival.poster}
-                            name={festival.name}
-                            dates={festival.dates}
-                            location={festival.location}
-                        />
-                    </Col>
-                ))}
-            </Row>
-        </Container>
+        <div className="festivals-page">
+            <Container>
+                <h1 className="my-4">Where will you dance next?</h1>
+                <p>Here you can find all the upcoming festivals!!</p>
+                <Row>
+                    {festivals.map(festival => (
+                        <Col key={festival.id} sm={12} md={6} lg={4}>
+                            <FestivalCard
+                                poster={festival.poster}
+                                name={festival.name}
+                                dates={festival.dates}
+                                location={festival.location}
+                            />
+                        </Col>
+                    ))}
+                </Row>
+            </Container>
+        </div>
     );
 }
 
