@@ -10,6 +10,15 @@ const LoginPage = () => {
     navigate("/SignUp");
   };
 
+  const handleLoginClick = () => {
+    console.log("login is clicked");
+    navigate("/Profile");
+  };
+
+  const handleForgotPasswordClick = () => {
+    console.log("forgot password is clicked");
+    navigate("/ForgotPassword");
+  };
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -20,7 +29,7 @@ const LoginPage = () => {
     console.log("Password:", password);
   };
   return (
-    <div className="container">
+    <div className="login-container">
       <h1 className="title">Welcome to your Festival Meetup</h1>
       <form onSubmit={handleSubmit}>
         <div>
@@ -44,18 +53,23 @@ const LoginPage = () => {
             placeholder="Password"
           />
         </div>
-      </form>
 
-      <CustomButton type="submit" buttonText="Login" />
-      <CustomButton
-        forgotPassword="forgotPassword"
-        buttonText="Forgotten your password?"
-      />
-      <CustomButton
-        type="submit"
-        onClick={handleSignupClick}
-        buttonText="Don't have an account? Sign up"
-      />
+        <CustomButton
+          type="submit"
+          onClick={handleLoginClick}
+          buttonText="Login"
+        />
+        <CustomButton
+          type="forgotPassword"
+          onClick={handleForgotPasswordClick}
+          buttonText="Forgotten your password?"
+        />
+        <CustomButton
+          type="submit"
+          onClick={handleSignupClick}
+          buttonText="Don't have an account? Sign up"
+        />
+      </form>
     </div>
   );
 };
