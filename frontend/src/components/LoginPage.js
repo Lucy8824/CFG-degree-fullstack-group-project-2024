@@ -29,11 +29,12 @@ const LoginPage = () => {
     console.log("Password:", password);
   };
   return (
-    <div className="login-container">
+    <div className="loginContainer">
       <h1 className="title">Welcome to your Festival Meetup</h1>
       <form onSubmit={handleSubmit}>
         <div>
           <input
+            classname="emailBox"
             type="email"
             id="email"
             value={email}
@@ -45,6 +46,7 @@ const LoginPage = () => {
 
         <div>
           <input
+            classname="passwordBox"
             type="password"
             id="password"
             value={password}
