@@ -2,6 +2,7 @@ import React, { useState } from "react";
 // import { Link } from "react-router-dom";
 // import { useNavigate } from "react-router-dom";
 import ProfileView from "./ProfileView.js";
+import ProfileArray from "./ProfileArray.js";
 
 const Profile = () => {
   //   const navigate = useNavigate();
@@ -34,24 +35,19 @@ const Profile = () => {
     location={profile.location} 
     about_me={profile.about_me}/>
   
-      <h2>Favourite Artists</h2>
-      <ul>
-        {profile.favourite_artists.map((artist, index) => (
-          <li key={index}>{artist}</li>
-        ))}
-      </ul>
-      <h2>Festivals to attend</h2>
-      <ul>
-        {profile.festivals_want.map((festival, index) => (
-          <li key={index}>{festival}</li>
-        ))}
-      </ul>
-      <h2>Festivals Attended</h2>
-      <ul>
-        {profile.festivals_attended.map((festival, index) => (
-          <li key={index}>{festival}</li>
-        ))}
-      </ul>
+    <ProfileArray 
+    title="Favourite Artists"
+    items={profile.favourite_artists}
+    />
+    
+    <ProfileArray 
+    title="Festivals to attend"
+    items={profile.festivals_want}/>
+    
+    <ProfileArray 
+    title="Festivals attended"
+    items={profile.festivals_attended}
+    />
       {/* // below is the code to add multiple links to access other pages without
       refreshing the browser */}
       {/* <nav>
