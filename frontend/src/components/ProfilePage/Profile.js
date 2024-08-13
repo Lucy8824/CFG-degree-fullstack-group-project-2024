@@ -3,7 +3,7 @@ import React, { useState } from "react";
 // import { useNavigate } from "react-router-dom";
 import ProfileArray from "./ProfileArray.js";
 import mockdata from "./mockdata.js";
-import CustomButton from "./CustomButton.js";
+import CustomButton from "../CustomButton.js";
 import ProfileInfo from "./ProfileInfo.js";
 import ProfilePicture from "./ProfilePicture.js";
 
