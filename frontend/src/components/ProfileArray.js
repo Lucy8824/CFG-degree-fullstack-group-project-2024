@@ -1,78 +1,49 @@
-import React, { useState } from "react";
+import React from "react";
 
-const ProfileArray = ({ items, title, onItemsChange, isEditing }) => {
-  const [editIndex, setEditIndex] = useState(null);
-  const [newItem, setNewItem] = useState("");
-
-  const handleItemChange = (index, value) => {
-    const updatedItems = [...items];
-    updatedItems[index] = value;
-    onItemsChange(updatedItems);
-  };
-
+const ProfileArray = ({ title, items, onItemsChange, isEditing }) => {
   const handleAddItem = () => {
-    if (newItem.trim()) {
-      onItemsChange([...items, newItem]);
-      setNewItem("");
-    }
+    onItemsChange([...items, '']); // Add a new empty item
   };
 
   const handleRemoveItem = (index) => {
-    const updatedItems = items.filter((_, i) => i !== index);
-    onItemsChange(updatedItems);
+    const newItems = items.filter((_, i) => i !== index);
+    onItemsChange(newItems);
   };
 
   return (
     <div>
-      <h2>{title}</h2>
-      <ul>
-        {items.map((item, index) => (
-          <li key={index}>
-            {isEditing && editIndex === index ? (
+      <h3>{title}</h3>
+      {isEditing ? (
+        <>
+          {items.map((item, index) => (
+            <div key={index} >
               <input
                 type="text"
                 value={item}
-                onChange={(e) => handleItemChange(index, e.target.value)}
-                onBlur={() => setEditIndex(null)}
-                autoFocus
+                onChange={(e) => {
+                  const newItems = [...items];
+                  newItems[index] = e.target.value;
+                  onItemsChange(newItems);
+                }}
               />
-            ) : (
-              <span onClick={() => isEditing && setEditIndex(index)}>{item}</span>
-            )}
-            {isEditing && (
-              <button onClick={() => handleRemoveItem(index)}>Remove</button>
-            )}
-          </li>
-        ))}
-      </ul>
-      {isEditing && (
-        <>
-          <input
-            type="text"
-            value={newItem}
-            onChange={(e) => setNewItem(e.target.value)}
-            placeholder={`Add new ${title.toLowerCase()}`}
-          />
-          <button onClick={handleAddItem}>Add</button>
+              <button type="button" onClick={() => handleRemoveItem(index)}>
+                Remove
+              </button>
+            </div>
+          ))}
+          <button type="button" onClick={handleAddItem}>
+            Add Item
+          </button>
         </>
+      ) : (
+        <ul>
+          {items.map((item, index) => (
+            <li key={index}>{item}</li>
+          ))}
+        </ul>
       )}
     </div>
   );
 };
 
 export default ProfileArray;
-
-
-
-// const ProfileArray = ({ items, title }) => {
-//     return (
-//         <div>
-//             <h2>{title}</h2>
-//             <ul>
-//                 {items.map((item, index) => (
-//                     <li key={index}>{item}</li>
-//                 ))}
-//             </ul>
-//         </div>
-//     );
-// };

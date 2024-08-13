@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 // import { Link } from "react-router-dom";
 // import { useNavigate } from "react-router-dom";
-import ProfileView from "./ProfileView.js";
 import ProfileArray from "./ProfileArray.js";
 import mockdata from "./mockdata.js";
 import CustomButton from "./CustomButton.js";
+import ProfileInfo from "./ProfileInfo.js";
+import ProfilePicture from "./ProfilePicture.js";
 
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -39,43 +40,15 @@ const Profile = () => {
     <div>
       {profile && (
         <>
-          <div>
-            {isEditing ? (
-              <>
-                <input
-                  type="text"
-                  name="fullName"
-                  value={profile.fullName}
-                  onChange={handleInputChange}
-                />
-                <input
-                  type="number"
-                  name="age"
-                  value={profile.age}
-                  onChange={handleInputChange}
-                />
-                <input
-                  type="text"
-                  name="location"
-                  value={profile.location}
-                  onChange={handleInputChange}
-                />
-                <textarea 
-                type="text"
-                name="about_me"
-                value={profile.about_me}
-                onChange={handleInputChange}
-                />
-              </>
-            ) : (
-              <ProfileView
-                fullName={profile.fullName}
-                age={profile.age}
-                location={profile.location}
-                about_me={profile.about_me}
-              />
-            )}
-          </div>
+          <ProfileInfo
+            isEditing={isEditing}
+            profile={profile}
+            handleInputChange={handleInputChange}
+          />
+          <ProfilePicture 
+          isEditing={isEditing} 
+          />
+
           <ProfileArray
             title="Favourite Artists"
             items={profile.favourite_artists}
@@ -97,20 +70,11 @@ const Profile = () => {
             isEditing={isEditing}
           />
 
-          {/* Edit and Save Buttons */}
-          {isEditing ? (
-            <CustomButton
-              type="button"
-              onClick={handleSaveClick}
-              buttonText="Save Changes"
-            />
-          ) : (
-            <CustomButton
-              type="button"
-              onClick={handleEditClick}
-              buttonText="Edit Page"
-            />
-          )}
+          <CustomButton
+            type="button"
+            onClick={isEditing ? handleSaveClick : handleEditClick}
+            buttonText={isEditing ? "Save Changes" : "Edit Page"}
+          />
         </>
       )}
     </div>
@@ -118,20 +82,3 @@ const Profile = () => {
 };
 
 export default Profile;
-
-      {/* // below is the code to add multiple links to access other pages without
-      refreshing the browser */}
-      {/* <nav>
-        <ul>
-          <li>
-            <Link to="/">Login</Link>
-          </li>
-          <li>
-            <Link to="/SignUp">Signup</Link>
-          </li>
-          <li>
-            <Link to="/ForgotPassword">Forgot Password</Link>
-          </li>
-        </ul>
-      </nav> */}
-      
