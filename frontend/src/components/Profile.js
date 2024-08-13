@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 // import { Link } from "react-router-dom";
 // import { useNavigate } from "react-router-dom";
+import ProfileView from "./ProfileView.js";
 
 const Profile = () => {
   //   const navigate = useNavigate();
@@ -23,16 +24,16 @@ const Profile = () => {
   });
 
   return (
+    <div>
+      {profile && 
     // added these bits of code with map to make them appear as a list which apparently does someting to rendering the array
     <>
-      <h1>Profile</h1>
-      <h2>
-        <span>{profile.fullName},</span>
-        {profile.age}
-      </h2>
-      <h3>{profile.location}</h3>
-      <h2>About Me</h2>
-      <p>{profile.about_me}</p>
+  
+    <ProfileView fullName={profile.fullName} 
+    age={profile.age} 
+    location={profile.location} 
+    about_me={profile.about_me}/>
+  
       <h2>Favourite Artists</h2>
       <ul>
         {profile.favourite_artists.map((artist, index) => (
@@ -67,6 +68,8 @@ const Profile = () => {
         </ul>
       </nav> */}
     </>
+    }
+    </div>
   );
 };
 
