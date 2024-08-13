@@ -64,10 +64,6 @@ export default ProfileArray;
 
 
 
-
-
-// import React from "react";
-
 // const ProfileArray = ({ items, title }) => {
 //     return (
 //         <div>
@@ -80,5 +76,3 @@ export default ProfileArray;
 //         </div>
 //     );
 // };
-
-// export default ProfileArray;
