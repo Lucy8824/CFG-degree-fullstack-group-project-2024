@@ -3,6 +3,8 @@ import React, { useState } from "react";
 // import { useNavigate } from "react-router-dom";
 import ProfileView from "./ProfileView.js";
 import ProfileArray from "./ProfileArray.js";
+import mockdata from "./mockdata.js";
+
 
 const Profile = () => {
   //   const navigate = useNavigate();
@@ -13,16 +15,7 @@ const Profile = () => {
   //   };
 
   // if setProfile isn't being used maybe we can take that out too
-  const [profile] = useState({
-    fullName: "Natalie Jones",
-    location: "New York, NY",
-    age: "25",
-    about_me:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    favourite_artists: ["Beyonce", "Taylor Swift", "Eminem"],
-    festivals_want: ["Download", "Boardmasters", "Reading"],
-    festivals_attended: ["Coachella", "Burningman", "Glastonbury"],
-  });
+  const [profile] = useState(mockdata);
 
   return (
     <div>
@@ -63,6 +56,7 @@ const Profile = () => {
           </li>
         </ul>
       </nav> */}
+      <button>Edit page</button>
     </>
     }
     </div>
