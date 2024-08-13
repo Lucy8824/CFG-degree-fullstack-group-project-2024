@@ -1,4 +1,5 @@
 import React from "react";
+import ProfilePicture from "./ProfilePicture";
 
 const ProfileView = ({fullName, age, location, about_me}) => {
 
