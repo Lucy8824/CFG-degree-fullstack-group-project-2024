@@ -4,43 +4,121 @@ import React, { useState } from "react";
 import ProfileView from "./ProfileView.js";
 import ProfileArray from "./ProfileArray.js";
 import mockdata from "./mockdata.js";
-
+import CustomButton from "./CustomButton.js";
 
 const Profile = () => {
-  //   const navigate = useNavigate();
-  //   // handleProfileClick might need taking out but not sure how to because the use navigate part of the function works
-  //   const handleProfileClick = () => {
-  //     console.log("profile info is displayed");
-  //     navigate("/Profile");
-  //   };
+  const [isEditing, setIsEditing] = useState(false);
+  const [profile, setProfile] = useState(mockdata);
 
-  // if setProfile isn't being used maybe we can take that out too
-  const [profile] = useState(mockdata);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setProfile((prevProfile) => ({
+      ...prevProfile,
+      [name]: value,
+    }));
+  };
+
+  const handleEditClick = () => {
+    setIsEditing(!isEditing);
+  };
+
+  const handleSaveClick = () => {
+    setIsEditing(false);
+    console.log('Profile saved:', profile);
+    // Implement API call or other save logic here
+  };
+
+  const handleArrayChange = (key, newItems) => {
+    setProfile((prevProfile) => ({
+      ...prevProfile,
+      [key]: newItems,
+    }));
+  };
 
   return (
     <div>
-      {profile && 
-    // added these bits of code with map to make them appear as a list which apparently does someting to rendering the array
-    <>
-  
-    <ProfileView fullName={profile.fullName} 
-    age={profile.age} 
-    location={profile.location} 
-    about_me={profile.about_me}/>
-  
-    <ProfileArray 
-    title="Favourite Artists"
-    items={profile.favourite_artists}
-    />
-    
-    <ProfileArray 
-    title="Festivals to attend"
-    items={profile.festivals_want}/>
-    
-    <ProfileArray 
-    title="Festivals attended"
-    items={profile.festivals_attended}
-    />
+      {profile && (
+        <>
+          <div>
+            {isEditing ? (
+              <>
+                <input
+                  type="text"
+                  name="fullName"
+                  value={profile.fullName}
+                  onChange={handleInputChange}
+                />
+                <input
+                  type="number"
+                  name="age"
+                  value={profile.age}
+                  onChange={handleInputChange}
+                />
+                <input
+                  type="text"
+                  name="location"
+                  value={profile.location}
+                  onChange={handleInputChange}
+                />
+                <textarea 
+                type="text"
+                name="about_me"
+                value={profile.about_me}
+                onChange={handleInputChange}
+                />
+              </>
+            ) : (
+              <ProfileView
+                fullName={profile.fullName}
+                age={profile.age}
+                location={profile.location}
+                about_me={profile.about_me}
+              />
+            )}
+          </div>
+          <ProfileArray
+            title="Favourite Artists"
+            items={profile.favourite_artists}
+            onItemsChange={(newItems) => handleArrayChange('favourite_artists', newItems)}
+            isEditing={isEditing}
+          />
+
+          <ProfileArray
+            title="Festivals to attend"
+            items={profile.festivals_want}
+            onItemsChange={(newItems) => handleArrayChange('festivals_want', newItems)}
+            isEditing={isEditing}
+          />
+
+          <ProfileArray
+            title="Festivals attended"
+            items={profile.festivals_attended}
+            onItemsChange={(newItems) => handleArrayChange('festivals_attended', newItems)}
+            isEditing={isEditing}
+          />
+
+          {/* Edit and Save Buttons */}
+          {isEditing ? (
+            <CustomButton
+              type="button"
+              onClick={handleSaveClick}
+              buttonText="Save Changes"
+            />
+          ) : (
+            <CustomButton
+              type="button"
+              onClick={handleEditClick}
+              buttonText="Edit Page"
+            />
+          )}
+        </>
+      )}
+    </div>
+  );
+};
+
+export default Profile;
+
       {/* // below is the code to add multiple links to access other pages without
       refreshing the browser */}
       {/* <nav>
@@ -56,11 +134,4 @@ const Profile = () => {
           </li>
         </ul>
       </nav> */}
-      <button>Edit page</button>
-    </>
-    }
-    </div>
-  );
-};
-
-export default Profile;
+      
