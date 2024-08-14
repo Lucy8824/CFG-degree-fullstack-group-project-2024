@@ -4,12 +4,15 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
 import './NavBar.css';
+import logo from './logo.png';
 
 export default function NavBar() {
     return (
         <Navbar expand="lg" className="navbar-custom">
             <Container>
-                <Navbar.Brand href="#My profile" className="brandLogo">LOGO</Navbar.Brand>
+                <Navbar.Brand href="#My profile" className="brandLogo">
+                    <img src={logo} alt="Festival Meet Up Logo" className="logoImage" width='40px' />  Festival Meet Up
+                </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">

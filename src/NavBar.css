@@ -1,15 +1,25 @@
 .navbar-custom {
     background: linear-gradient(135deg, #8164D1, #5334A9);
-    padding: 10px 20px;
+    padding: 0 20px;
     border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .brandLogo {
+    display: flex;
+    align-items: center;
     color: white;
     font-size: 1.5em;
     font-weight: bold;
     text-decoration: none;
+}
+
+.brandLogo:hover {
+    color: white;
+}
+
+.logoImage {
+    margin: 5px 20px 5px 0;
 }
 
 .navBarList {
