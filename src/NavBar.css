@@ -1,0 +1,39 @@
+.navbar-custom {
+    background: linear-gradient(135deg, #8164D1, #5334A9);
+    padding: 10px 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.brandLogo {
+    color: white;
+    font-size: 1.5em;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.navBarList {
+    color: white;
+    margin: 0 15px;
+    font-size: 1.1em;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.navBarList:hover {
+    color: #FFC107;
+    transform: scale(1.1);
+}
+
+.logOutButton {
+    background-color: #FFC107;
+    color: #5334A9;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1em;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.logOutButton:hover {
+    background-color: #FFB300;
+    transform: scale(1.05);
+}
