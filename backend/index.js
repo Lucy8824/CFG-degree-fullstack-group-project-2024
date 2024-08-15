@@ -4,7 +4,7 @@ console.log(process.env);
 
 const express = require(`express`);
 const cors = require(`cors`);
-const pool = require(`./pool.js`);
+const pool = require(`./pool`);
 const bcrypt = require(`bcrypt`);
 const jwt = require(`jsonwebtoken`);
 
@@ -14,8 +14,6 @@ const app = express();
 
 app.use(express.json());
 app.use(cors());
-
-const pool = require('./pool');
 
 app.get(`/`, (req, res) => {
   res.json({
@@ -90,8 +88,8 @@ app.get("/user/validateToken", (req, res) => {
 });
 
 
-app.listen(PORT, () => {
-    console.log(`listening on port ${PORT}`)
+app.listen(port, () => {
+    console.log(`listening on port ${port}`)
 })
 
 
