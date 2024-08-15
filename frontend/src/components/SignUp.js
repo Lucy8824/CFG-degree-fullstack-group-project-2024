@@ -14,9 +14,34 @@ const SignUp = () => {
   const [fullName, setFullName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     console.log("it's working");
+    // fetch data from the backend
+    try {
+      const response = await fetch("http://localhost:3006/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+          email,
+          password,
+        }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setMessage("Signup successful!");
+        //redirect here?
+      } else {
+        const errorData = await response.json();
+        setMessage("Signup failed: ${errorData.message}");
+      }
+    } catch (error) {
+      setMessage("An error occured.");
+      console.error("Error:", error);
+    }
   };
 
   return (
