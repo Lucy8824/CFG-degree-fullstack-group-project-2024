@@ -1,9 +1,10 @@
 import React from "react";
 import { Card, Button } from "react-bootstrap";
+import "./FestivalCard.css";
 
 const FestivalCard = ({ poster, name, dates, location }) => {
     return (
-        <Card style={{ width: '18rem', marginBottom: '20 px' }}>
+        <Card className="festival-card" bg="dark" text="light">
             <Card.Img variant="top" src={poster} alt="Festival Poster" />
             <Card.Body>
                 <Card.Title>{name}</Card.Title>

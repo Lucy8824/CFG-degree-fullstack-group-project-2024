@@ -1,0 +1,10 @@
+.festival-card {
+    width: 25rem;
+    height: 30rem;
+    margin-bottom: 20px;
+}
+
+.festival-card .card-image-top {
+    height: 200px;
+    object-fit:cover;
+}
