@@ -44,7 +44,8 @@ app.post(`/register`, async (req, res) => {
   }
 });
 
-// //request to generate JWT with post
+// these are requests to login using authentication
+// request to generate JWT with post
 app.post(`/user/generateToken`, (req, res) => {
   // this validates user
   const { username, password } = req.body;
