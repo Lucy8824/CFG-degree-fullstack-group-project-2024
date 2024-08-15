@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import LoginPage from "./components/LoginPage.js";
 // import CustomButton from "./components/CustomButton.js";
 import SignUp from "./components/SignUp.js";
-import Profile from "./components/Profile.js";
+import Profile from "./components/ProfilePage/Profile.js";
 import ForgotPassword from "./components/ForgotPassword.js";
 
 const App = () => {
