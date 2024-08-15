@@ -4,6 +4,7 @@ import "./CustomButton.css";
 const CustomButton = (props) => {
   return (
     <button
+      type={props.type}
       className={`button-click ${props.forgotPassword} ${props.signUp}`}
       onClick={props.onClick}
     >

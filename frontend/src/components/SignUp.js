@@ -5,18 +5,16 @@ import CustomButton from "./CustomButton.js";
 // only want to navigate to profile from here so useNavigate is better
 const SignUp = () => {
   const navigate = useNavigate();
-  const handleProfileClick = () => {
-    console.log("Sign up is working");
-    navigate("/Profile");
-  };
 
   const [email, setEmail] = useState("");
   const [fullName, setFullName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [message, setMessage] = useState("");
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("it's working");
+    console.log("The form is working");
     // fetch data from the backend
     try {
       const response = await fetch("http://localhost:3006/register", {
@@ -25,7 +23,7 @@ const SignUp = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username,
+          fullName,
           email,
           password,
         }),
@@ -33,7 +31,8 @@ const SignUp = () => {
       if (response.ok) {
         const data = await response.json();
         setMessage("Signup successful!");
-        //redirect here?
+        //redirect to profile page after successful sign up
+        navigate("/Profile");
       } else {
         const errorData = await response.json();
         setMessage("Signup failed: ${errorData.message}");
@@ -88,12 +87,9 @@ const SignUp = () => {
             placeholder="Confirm password"
           />
         </div>
+        <CustomButton type="submit" buttonText="Sign up" />
       </form>
-      <CustomButton
-        type="signup"
-        onClick={handleProfileClick}
-        buttonText="Sign up"
-      />
+      {message && <p>{message}</p>}
     </div>
   );
 };
