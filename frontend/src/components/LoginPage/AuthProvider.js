@@ -13,10 +13,10 @@ export const AuthProvider = ({ children }) => {
     setToken(null);
   };
 
-  const authenticated = !!token;
+  const isAuthenticated = !!token;
 
   return (
-    <AuthContext.Provider value={{ isAutehnticated, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error("useAth must be used within an Authprovider");
+    throw new Error("useAuth must be used within an Authprovider");
   }
   return context;
 };

@@ -17,14 +17,16 @@ const App = () => {
             <div className="container">
               {
                 <Routes>
-                  <Route element={<PrivateRoutes />}></Route>
                   <Route path="/" index element={<LoginPage />}></Route>
                   <Route path="/SignUp" element={<SignUp />}></Route>
-                  <Route path="/Profile" element={<Profile />}></Route>
                   <Route
                     path="/ForgotPassword"
                     element={<ForgotPassword />}
                   ></Route>
+
+                  <Route element={<PrivateRoutes />}>
+                    <Route path="/Profile" element={<Profile />}></Route>
+                  </Route>
                 </Routes>
               }
             </div>
