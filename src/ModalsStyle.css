@@ -1,4 +1,3 @@
-/* Import a modern font */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
 body {
@@ -35,7 +34,8 @@ a.forgot-password-link:hover {
   margin-bottom: 1rem;
 }
 
-.email-input {
+.email-input,
+.password-input {
   border-radius: 0.5rem;
   padding: 0.75rem;
   border: 1px solid #CBD5E0;
@@ -43,7 +43,8 @@ a.forgot-password-link:hover {
   transition: border-color 0.3s ease;
 }
 
-.email-input:focus {
+.email-input:focus,
+.password-input:focus {
   border-color: #8164D1;
   box-shadow: 0 0 0 0.2rem rgba(37, 37, 38, 0.25);
 }

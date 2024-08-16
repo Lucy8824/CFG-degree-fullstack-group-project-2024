@@ -13,7 +13,6 @@ export default function App() {
       <ModalForgotPassword />
       <br />
       <br />
-      <br />
       <ModalResetPassword />
     </div> 
     
