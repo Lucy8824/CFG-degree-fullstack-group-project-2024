@@ -1,8 +1,9 @@
 import React from "react";
 import "./ForgotPassword";
+import FeedsPage from "./FeedsPage";
 
 const ForgotPassword = () => {
-  return <div>This is a forgot password page</div>;
+  return <div><FeedsPage/></div>;
 };
 
 export default ForgotPassword;
