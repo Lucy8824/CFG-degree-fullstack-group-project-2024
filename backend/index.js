@@ -7,6 +7,7 @@ const cors = require(`cors`);
 const pool = require(`./pool`);
 const bcrypt = require(`bcrypt`);
 const jwt = require(`jsonwebtoken`);
+const bodyParser = require('body-parser');
 
 const port = process.env.PORT || 3006;
 
@@ -14,6 +15,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors());
+app.use(bodyParser.json()); //to parse incoming JSON data
 
 app.get(`/`, (req, res) => {
   res.json({
