@@ -5,13 +5,13 @@ import LoginPage from "./components/LoginPage/LoginPage.js";
 import SignUp from "./components/SignUp.js";
 import Profile from "./components/ProfilePage/Profile.js";
 import ForgotPassword from "./components/ForgotPassword.js";
-import PrivateRoutes from "./components/PrivateRoutes.js";
+import PrivateRoutes from "./components/LoginPage/PrivateRoutes.js";
 import { AuthProvider } from "./components/AuthProvider.js";
 
 const App = () => {
   return (
-    <Router>
-      <AuthProvider>
+    <AuthProvider>
+      <Router>
         <div id="Root">
           <div className="App">
             <div className="container">
@@ -30,8 +30,8 @@ const App = () => {
             </div>
           </div>
         </div>
-      </AuthProvider>
-    </Router>
+      </Router>
+    </AuthProvider>
   );
 };
 
