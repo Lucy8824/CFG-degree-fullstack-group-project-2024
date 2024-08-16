@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./LoginPage.css";
-import CustomButton from "./CustomButton.js";
+import CustomButton from "../CustomButton.js";
+import { useAuth } from "./components/AuthProvider.js";
 
 const LoginPage = () => {
+  const { login } = useAuth();
   const navigate = useNavigate();
   const handleSignupClick = () => {
     console.log("sign up is clicked");
