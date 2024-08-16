@@ -6,7 +6,7 @@ import SignUp from "./components/SignUp.js";
 import Profile from "./components/ProfilePage/Profile.js";
 import ForgotPassword from "./components/ForgotPassword.js";
 import PrivateRoutes from "./components/LoginPage/PrivateRoutes.js";
-import { AuthProvider } from "./components/AuthProvider.js";
+import AuthProvider from "./components/AuthProvider.js";
 
 const App = () => {
   return (
