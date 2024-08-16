@@ -6,7 +6,7 @@ app.put('/updateProfile/:id', authenticateToken, (req, res) => {
     const userid = req.params.id; //the logged-in user ID extracted from the JWT
 
 // this will ensure the logged-in user is only editing their own profile
-if (userID !== profileID) {
+if (userid !== profileID) {
     return res.status(403).send("You are not able to edit this profile")
 }
 
