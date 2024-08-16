@@ -12,23 +12,21 @@ export default function ModalForgotPassword() {
   const handleClose = () => {
     setShow(false);
     setError('');
+    setEmail(''); // Clear email input when closing modal
   };
 
   const handleShow = () => setShow(true);
 
   const handleSubmit = () => {
     if (validateEmail(email)) {
-      // Send reset password instructions
+      // Simulate sending reset password instructions
       handleClose();
     } else {
       setError('Please enter a valid email address.');
     }
   };
 
-  const validateEmail = (email) => {
-    // Basic email validation regex
-    return /\S+@\S+\.\S+/.test(email);
-  };
+  const validateEmail = (email) => /\S+@\S+\.\S+/.test(email);
 
   return (
     <>
@@ -41,7 +39,9 @@ export default function ModalForgotPassword() {
           <Modal.Title id="modal-title">Forgot your password?</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p className="modal-description">Enter your email address and we will send you instructions to reset your password</p>
+          <p className="modal-description">
+            Enter your email address and we will send you instructions to reset your password.
+          </p>
           <Form>
             <Form.Group className="mb-3" controlId="formEmail">
               <Form.Control
@@ -52,16 +52,19 @@ export default function ModalForgotPassword() {
                 autoFocus
                 aria-describedby="emailHelp"
                 className="email-input"
+                isInvalid={!!error} // Bootstrap utility for invalid input
               />
-              {error && <Form.Text className="text-danger">{error}</Form.Text>}
+              <Form.Control.Feedback type="invalid">
+                {error}
+              </Form.Control.Feedback>
             </Form.Group>
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button className="secondary-button" onClick={handleClose}>
+          <Button variant="secondary" className="button secondary-button" onClick={handleClose}>
             Close
           </Button>
-          <Button className="primary-button" onClick={handleSubmit}>
+          <Button variant="primary" className="button primary-button" onClick={handleSubmit}>
             Continue
           </Button>
         </Modal.Footer>

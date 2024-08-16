@@ -9,8 +9,11 @@ export default function App() {
   return (
     <div className="App">
       <NavBar />
+      <br />
       <ModalForgotPassword />
-      
+      <br />
+      <br />
+      <br />
       <ModalResetPassword />
     </div> 
     

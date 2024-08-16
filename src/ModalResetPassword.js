@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import './ModalResetPassword.css';
+import './ModalForgotPassword.css';
 
 export default function ModalResetPassword() {
   const [show, setShow] = useState(false);
