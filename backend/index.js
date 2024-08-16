@@ -35,7 +35,7 @@ app.get('/User_sign_up', async (req, res) => {
 
 
 
-// post request attempt
+// post request for user sign up page
 app.post('/User_sign_up', async (req, res) => {
     const {full_name, email_address, password} = req.body;
 
@@ -55,4 +55,26 @@ try {
     console.error('Data insertion failed', err);
     res.status(500).json({error: 'Data insertion failed'});
 }
+});
+
+
+// post request for edit profile page
+// app.post('/User_profile', async (req, res) => {
+//     const {first_name, age, location, profile_picture_url, about_me, favourite_artists, attended_festivals, plan_to_visit} = req.body;
+
+//     if()
+//     });
+
+
+
+
+
+// get request for feeds page
+app.get('/Feeds', async (req, res) => {
+    try {
+        const [posts] = await pool.query('SELECT * FROM Feeds')
+        res.json(posts)
+    } catch (err) {
+        res.status(500).json({message: 'Problem'})
+    }
 });
