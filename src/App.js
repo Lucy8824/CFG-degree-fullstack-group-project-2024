@@ -1,9 +1,9 @@
 import React from 'react';
 
 import './App.css';
-import NavBar from './NavBar';
-import ModalForgotPassword from './ModalForgotPassword';
-import ModalResetPassword from './ModalResetPassword'
+import NavBar from './components/NavBar';
+import ModalForgotPassword from './components/ModalForgotPassword';
+import ModalResetPassword from './components/ModalResetPassword'
 
 export default function App() {
   return (
