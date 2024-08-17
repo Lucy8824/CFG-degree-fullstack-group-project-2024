@@ -57,11 +57,6 @@ const Profile = ({userId}) => {
 
   const handleSaveClick = async () => {
 
-    console.log('Profile saved:', profile);
-    console.log('Profile saved:', profile);
-    console.log('Favourite Artists:', profile.favourite_artists); // Check if it is an array
-    console.log('Attended Festivals:', profile.attended_festivals); // Check if it is an array
-    console.log('Plan to Visit:', profile.plan_to_visit); // Check if it is an array
     try {
       const response = await fetch(`http://localhost:3006/updateProfile/${userId}`, {
         method: 'PUT',
@@ -121,14 +116,14 @@ const Profile = ({userId}) => {
           <ProfileArray
             title="Festivals to attend"
             items={profile.plan_to_visit}
-            onItemsChange={(newItems) => handleArrayChange('festivals_want', newItems)}
+            onItemsChange={(newItems) => handleArrayChange('plan_to_visit', newItems)}
             isEditing={isEditing}
           />
 
           <ProfileArray
             title="Festivals attended"
             items={profile.attended_festivals}
-            onItemsChange={(newItems) => handleArrayChange('festivals_attended', newItems)}
+            onItemsChange={(newItems) => handleArrayChange('attended_festivals', newItems)}
             isEditing={isEditing}
           />
 
