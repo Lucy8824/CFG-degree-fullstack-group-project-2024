@@ -47,4 +47,15 @@
   .brandLogo {
     font-size: 20px;
   }
+  .logoImage{
+    width: 30px;
+  }
+  .navBarList{
+    font-size: 15px;
+  }
+  .logOutButton{
+    font-size: 15px;
+    padding: 5px 15px;
+    margin-bottom: 10px;
+  }
 }
