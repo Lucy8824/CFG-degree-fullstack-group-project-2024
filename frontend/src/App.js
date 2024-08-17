@@ -5,6 +5,7 @@ import LoginPage from "./components/LoginPage.js";
 import SignUp from "./components/SignUp.js";
 import Profile from "./components/ProfilePage/Profile.js";
 import ForgotPassword from "./components/ForgotPassword.js";
+import FeedsPage from "./components/FeedsPage.js";
 
 const App = () => {
   return (
