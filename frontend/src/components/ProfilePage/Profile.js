@@ -14,7 +14,7 @@ const Profile = ({userId}) => {
   const [error, setError] = useState(null);
 
   const fetchProfile = async () => {
-    const userId = 1; 
+    const userId = 2; 
     try {
       const response = await fetch(`http://localhost:3006/getProfile/${userId}`);
       console.log(response);
@@ -79,6 +79,7 @@ const Profile = ({userId}) => {
           />
           <ProfilePicture 
           isEditing={isEditing} 
+          image={profile.profile_picture_url}
           />
 
           <ProfileArray
