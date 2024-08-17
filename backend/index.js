@@ -181,8 +181,6 @@ app.get('/getProfile/:id', async (req, res) => {
 
 //endpoint for updating user information - put works, however will need to ensure user authentication
 
-
-
 app.put('/updateProfile/:id', async (req, res) => {
   const profileID = req.params.id; // the profile ID being edited
   const userid = req.params.id; // the logged-in user ID extracted from the JWT
@@ -235,7 +233,6 @@ app.put('/updateProfile/:id', async (req, res) => {
       updateValues.push(JSON.stringify(attended_festivals));
   }
 
-  // Remove trailing comma and add the WHERE clause
   updateQuery = updateQuery.slice(0, -1) + ' WHERE user_id = ?';
   updateValues.push(userid);
 
@@ -255,3 +252,4 @@ app.put('/updateProfile/:id', async (req, res) => {
       res.status(500).send("Error updating profile");
   }
 });
+
