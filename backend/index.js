@@ -131,7 +131,6 @@ try {
 });
 
 ///get user information for the profile page (working)
-
 app.get('/getProfile/:id', async (req, res) => {
   const userId = req.params.id;
   console.log("Querying profile for user ID:", userId);  // Log user ID for debugging
@@ -146,7 +145,7 @@ app.get('/getProfile/:id', async (req, res) => {
 
   try {
     const [rows] = await pool.execute(getProfileQuery, [userId]);
-    
+
     console.log("Query Result:", rows);
 
     if (rows.length === 0) {
@@ -156,17 +155,29 @@ app.get('/getProfile/:id', async (req, res) => {
 
     const profile = rows[0];
 
-    // Convert the comma-separated strings into arrays
-    if (profile.favourite_artists && typeof profile.favourite_artists === 'string') {
-      profile.favourite_artists = profile.favourite_artists.split(',').map(artist => artist.trim());
+    // Check if the data is a JSON string or a comma-separated string and parse accordingly
+    if (profile.favourite_artists) {
+      try {
+        profile.favourite_artists = JSON.parse(profile.favourite_artists);
+      } catch (e) {
+        profile.favourite_artists = profile.favourite_artists.split(',').map(artist => artist.trim());
+      }
     }
-    
-    if (profile.plan_to_visit && typeof profile.plan_to_visit === 'string') {
-      profile.plan_to_visit = profile.plan_to_visit.split(',').map(festival => festival.trim());
+
+    if (profile.plan_to_visit) {
+      try {
+        profile.plan_to_visit = JSON.parse(profile.plan_to_visit);
+      } catch (e) {
+        profile.plan_to_visit = profile.plan_to_visit.split(',').map(festival => festival.trim());
+      }
     }
-    
-    if (profile.attended_festivals && typeof profile.attended_festivals === 'string') {
-      profile.attended_festivals = profile.attended_festivals.split(',').map(festival => festival.trim());
+
+    if (profile.attended_festivals) {
+      try {
+        profile.attended_festivals = JSON.parse(profile.attended_festivals);
+      } catch (e) {
+        profile.attended_festivals = profile.attended_festivals.split(',').map(festival => festival.trim());
+      }
     }
 
     console.log("Profile data:", profile);
@@ -180,6 +191,7 @@ app.get('/getProfile/:id', async (req, res) => {
 
 
 //endpoint for updating user information - put works, however will need to ensure user authentication
+
 
 app.put('/updateProfile/:id', async (req, res) => {
   const profileID = req.params.id; // the profile ID being edited
