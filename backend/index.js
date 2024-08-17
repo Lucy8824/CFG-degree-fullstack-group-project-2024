@@ -221,6 +221,7 @@ app.get('/getProfile/:id', async (req, res) => {
   }
 });
 
+
 //endpoint for updating user information - put works, however will need to ensure user authentication
 
 
