@@ -129,3 +129,53 @@ try {
 }
 
 });
+
+///get user information for the profile page (working)
+
+app.get('/getProfile/:id', async (req, res) => {
+  const userId = req.params.id;
+  console.log("Querying profile for user ID:", userId);  // Log user ID for debugging
+
+  const getProfileQuery = `
+  SELECT 
+    first_name, age, location, about_me, profile_picture_url, favourite_artists, attended_festivals, plan_to_visit
+  FROM user_profile
+  WHERE user_id = ?`;
+
+  console.log("Executing query:", getProfileQuery, "with values:", [userId]);  // Log the query
+
+  try {
+    const [rows] = await pool.execute(getProfileQuery, [userId]);
+    
+    console.log("Query Result:", rows);
+
+    if (rows.length === 0) {
+      console.log("User not found for user ID:", userId);
+      return res.status(404).send("User not found");
+    }
+
+    const profile = rows[0];
+
+    // Convert the comma-separated strings into arrays
+    if (profile.favourite_artists && typeof profile.favourite_artists === 'string') {
+      profile.favourite_artists = profile.favourite_artists.split(',').map(artist => artist.trim());
+    }
+    
+    if (profile.plan_to_visit && typeof profile.plan_to_visit === 'string') {
+      profile.plan_to_visit = profile.plan_to_visit.split(',').map(festival => festival.trim());
+    }
+    
+    if (profile.attended_festivals && typeof profile.attended_festivals === 'string') {
+      profile.attended_festivals = profile.attended_festivals.split(',').map(festival => festival.trim());
+    }
+
+    console.log("Profile data:", profile);
+    res.status(200).json(profile);
+
+  } catch (error) {
+    console.error("Error retrieving profile:", error);
+    res.status(500).send("Error retrieving profile");
+  }
+});
+
+

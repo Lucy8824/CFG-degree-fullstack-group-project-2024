@@ -1,7 +1,7 @@
 const pool = require(`./pool`);
 
 /// update userProfile endpoint
-app.put('/updateProfile/:id', authenticateToken, (req, res) => {
+app.put('/updateProfile/:id', (req, res) => {
     const profileID = req.params.id; //the profile ID being edited
     const userid = req.params.id; //the logged-in user ID extracted from the JWT
 
@@ -43,35 +43,4 @@ pool.query(
 );
 });
 
-///get request for viewing users own profile
-
-app.get('getProfile/:id', (req, res) => {
-    const userId = req.params.id; 
-
-    const getProfileQuery = `
-    SELECT 
-    first_name, age, location, about_me, favourite_artists, attended_festivals, plan_to_visit
-    FROM user_profiles
-    WHERE user_id = ?`;
-
-pool.query(getProfileQuery, [userId], (err, result) => {
-    if (err) {
-        console.log(err);
-        res.status(500).send("Error retreiving profile");
-    } else {
-        if (result.length === 0 ) {
-            res.status(404).send("User not found");
-        } else {
-            //send the profile data as JSON
-            const profile = result[0];
-            profile.favorute_artists = JSON.parse(profile.favorute_artists);
-            profile.plan_to_visit = JSON.parse(profile.plan_to_visit);
-            profile.attended_festivals = JSON.parse(profile.attended_festivals);
-
-            res.status(200).json(profile);
-        }
-    }
-}
-);
-});
 
