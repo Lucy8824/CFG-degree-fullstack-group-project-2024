@@ -1,19 +1,19 @@
 import React from "react";
 
-const ProfileView = ({fullName, age, location, about_me}) => {
-
+const ProfileView = ({ name, age, location, aboutme }) => {
+    console.log("ProfileView data:",  name, age, location, aboutme );
     return (
         <div>
             <h1>Profile</h1>
             <h2>
-            <span>{fullName},</span>
-            {age}
+                <span>{name},</span>
+               <span>{age}</span>
             </h2>
             <h3>{location}</h3>
             <h2>About Me</h2>
-             <p>{about_me}</p>
+            <p>{aboutme}</p>
         </div>
-    )
-}
+    );
+};
 
 export default ProfileView;
