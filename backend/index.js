@@ -8,7 +8,7 @@ const pool = require(`./pool`);
 const bcrypt = require(`bcrypt`);
 const jwt = require(`jsonwebtoken`);
 
-const port = process.env.PORT || 3006;
+const port = process.env.PORT || 3003;
 
 const app = express();
 

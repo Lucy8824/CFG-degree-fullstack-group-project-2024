@@ -39,6 +39,7 @@ function Festivals() {
     useEffect (() => {
         const getFestivals = async () => {
             const fetchedFestivals = await fetchFestivals();
+            console.log(fetchedFestivals);
             setFestivals(fetchedFestivals);
         };
 
@@ -56,9 +57,8 @@ function Festivals() {
         <>
             <MenuNavbar />
             <div className="festivals-page">
-                <Container>
+                <Container fluid="md">
                     <h1 className="my-4">Where will you dance next?</h1>
-                    <p>Here you can find all the upcoming festivals!!</p>
 
                     {/* Search Bar */}
                     <Form.Group controlId="search">
@@ -70,10 +70,10 @@ function Festivals() {
                         />
                     </Form.Group>
 
-                    <Row>
+                    <Row className="mt-4 justify-content-center">
                         {filteredFestivals.length > 0 ? (
                             filteredFestivals.map(festival => (
-                            <Col key={festival.id} sm={12} md={6} lg={4}>
+                            <Col key={festival.id} sm={12} md={6} lg={3} className="mb-4 d-flex">
                                 <FestivalCard
                                     poster={festival.images[0]?.url}
                                     name={festival.name}

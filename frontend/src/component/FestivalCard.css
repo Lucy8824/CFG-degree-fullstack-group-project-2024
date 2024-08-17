@@ -1,7 +1,21 @@
 .festival-card {
-    width: 25rem;
-    height: 30rem;
-    margin-bottom: 20px;
+    display: flex;
+    flex-direction:column;
+    justify-content: space-between;
+    width: 100%;
+    height: auto;
+    /* margin-bottom: 20px; */
+}
+
+.festival-card .card-body {
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+}
+
+.festival-card .card-text {
+    margin-bottom: auto;
 }
 
 .festival-card .card-image-top {
