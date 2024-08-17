@@ -1,7 +1,9 @@
 import React from "react";
 import ProfileView from "./ProfileView";
 
-const ProfileInfo = ({ isEditing, profile, handleInputChange }) => (
+const ProfileInfo = ({ isEditing, profile, handleInputChange }) => {
+  console.log("ProfileInfo:", profile);
+ (
     <div>
       {isEditing ? (
         <>
@@ -39,5 +41,5 @@ const ProfileInfo = ({ isEditing, profile, handleInputChange }) => (
       )}
     </div>
   );
-
+}
   export default ProfileInfo;
