@@ -30,39 +30,54 @@ const FeedsPage = () => {
     useEffect(() => {
         fetchPosts();
     }, []);
-
-
-    const userName = "Lydia";
-    const userImage = <img src="/Users/lydiahague/Documents/IMG_1733.jpg"></img>;
+   
+    const [firstName, setFirstName] = useState('');
+    const [profilePictureUrl, setProfilePictureUrl] = useState('');
+    const [postMessage, setPostMessage] = useState('');
     
-    const Post = (event) => {
+    const Post = async (event) => {
         event.preventDefault();
-        if (input !== ''){
-            const newPost = [
-                userName,
-                userImage,
-                input
-        ];
-            setPosts([...posts, newPost]);
-            setInput('');
-        }
-    }
+        console.log("It's working")
+        const postData = {
+            first_name: firstName,
+            profile_picture_url: profilePictureUrl,
+            post_message: postMessage,
+          };
+          try {
+            const secondResponse = await fetch('/Feeds', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(postData),
+              });
+              if (secondResponse.ok) {
+                console.log('Post created successfully!');
+                setFirstName('');
+                setProfilePictureUrl('');
+                setPostMessage('');
+              } else {
+                console.error('Failed to create post');
+              }
+            } catch (error) {
+              console.error('Error creating post:', error);
+            }
+          };
     
     return (
 
     <div>
-        <h1>Festival Meetup</h1>
+       <h1>Festival Meetup</h1>
         <input type="text" placeholder="Search..."/>
-       
         <form>
             <p>Lydia</p> <img src="/Users/lydiahague/Downloads/IMG_6205.HEIC"></img>
-            <input type="text" 
-            value={input} 
-            placeholder="Write your post here..." 
+            <input type="text"
+            value={input}
+            placeholder="Write your post here..."
             onChange={(e) => setInput(e.target.value)}/>
-           
             <button type="submit" onClick={Post}>Post</button>
         </form>
+
         
         <div>
                 {posts.map((post, index) => (
@@ -71,18 +86,13 @@ const FeedsPage = () => {
                 <button id="replyButton" onClick= {reply()} >Reply</button><button>Message</button>
                 <input type="text" id="replyBox" className="hide"/>
             </div>
-  
 </div>
     );
-    
-   
-    
     function reply() {
         const text = document.getElementById("replyBox")
     //     if (text.style.display === "none") {
     //         text.style.display = "block"
     //     }
-    }
-};
-
-export default FeedsPage;
+    };
+}
+    export default FeedsPage;
