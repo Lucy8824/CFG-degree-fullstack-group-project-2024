@@ -14,7 +14,6 @@ const Profile = ({userId}) => {
   const [error, setError] = useState(null);
 
   const fetchProfile = async () => {
-    const userId = 2; 
     try {
       const response = await fetch(`http://localhost:3006/getProfile/${userId}`);
       console.log(response);
@@ -28,6 +27,7 @@ const Profile = ({userId}) => {
     } catch (error) {
       setError(error.message);  // Set any error messages
     }
+    
   };
 
   useEffect(() => {
@@ -55,11 +55,40 @@ const Profile = ({userId}) => {
     setIsEditing(!isEditing);
   };
 
-  const handleSaveClick = () => {
-    setIsEditing(false);
+  const handleSaveClick = async () => {
+
     console.log('Profile saved:', profile);
-    // Implement API call or other save logic here
+    console.log('Profile saved:', profile);
+    console.log('Favourite Artists:', profile.favourite_artists); // Check if it is an array
+    console.log('Attended Festivals:', profile.attended_festivals); // Check if it is an array
+    console.log('Plan to Visit:', profile.plan_to_visit); // Check if it is an array
+    try {
+      const response = await fetch(`http://localhost:3006/updateProfile/${userId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...profile,
+          favourite_artists: profile.favourite_artists,
+          attended_festivals: profile.attended_festivals,
+          plan_to_visit: profile.plan_to_visit
+        }),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to update profile');
+      }
+  
+      const result = await response.json();
+      console.log('Update result:', result);
+      setIsEditing(false);  // Exit editing mode after successful update
+    } catch (error) {
+      console.error('Error saving profile:', error);
+      setError(error.message);
+    }
   };
+
 
   const handleArrayChange = (key, newItems) => {
     setProfile((prevProfile) => ({
