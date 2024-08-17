@@ -105,7 +105,7 @@ app.get('/User_sign_up', async (req, res) => {
 
 
 
-// post request attempt
+// post request for user sign up page
 app.post('/User_sign_up', async (req, res) => {
     const {full_name, email_address, password} = req.body;
 
@@ -126,4 +126,44 @@ try {
     res.status(500).json({error: 'Data insertion failed'});
 }
 
+});
+
+
+// post request for edit profile page
+// app.post('/User_profile', async (req, res) => {
+//     const {first_name, age, location, profile_picture_url, about_me, favourite_artists, attended_festivals, plan_to_visit} = req.body;
+
+//     if()
+//     });
+
+
+
+
+
+// get request for feeds page
+app.get('/Feeds', async (req, res) => {
+    try {
+        const [posts] = await pool.query('SELECT * FROM Feeds')
+        res.json(posts)
+    } catch (err) {
+        res.status(500).json({message: 'Problem'})
+    }
+});
+
+
+// post request for feeds page
+app.post('/Feeds', async (req, res) => {
+    const {first_name, profile_picture_url, post_message} = req.body;
+if (!first_name || !profile_picture_url || !post_message) {
+    return res.status(400).json({error: 'Invalid Request'});
+}
+try {const [results] = await pool.query(
+    'INSERT INTO Feeds (first_name, profile_picture_url, post_message) VALUES (?, ?, ?)',
+    [first_name, profile_picture_url, post_message])
+    console.log('New post data:', results);
+    res.status(200).json({message: 'New post created'})
+} catch (err) {
+    console.error('Data insertion failed', err);
+    res.status(500).json({error: 'Data insertion failed'});
+}
 });
