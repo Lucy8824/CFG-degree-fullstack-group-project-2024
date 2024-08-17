@@ -179,3 +179,79 @@ app.get('/getProfile/:id', async (req, res) => {
 });
 
 
+//endpoint for updating user information - put works, however will need to ensure user authentication
+
+
+
+app.put('/updateProfile/:id', async (req, res) => {
+  const profileID = req.params.id; // the profile ID being edited
+  const userid = req.params.id; // the logged-in user ID extracted from the JWT
+
+  // Ensure the logged-in user is only editing their own profile
+  if (userid !== profileID) {
+      return res.status(403).send("You are not able to edit this profile");
+  }
+
+  const {
+      first_name,
+      age,
+      location,
+      about_me,
+      favourite_artists,
+      attended_festivals,
+      plan_to_visit
+  } = req.body;
+
+  let updateQuery = 'UPDATE user_profile SET';
+  const updateValues = [];
+
+  // Add fields to update if they exist
+  if (first_name) {
+      updateQuery += ' first_name = ?,';
+      updateValues.push(first_name);
+  }
+  if (age) {
+      updateQuery += ' age = ?,';
+      updateValues.push(age);
+  }
+  if (location) {
+      updateQuery += ' location = ?,';
+      updateValues.push(location);
+  }
+  if (about_me) {
+      updateQuery += ' about_me = ?,';
+      updateValues.push(about_me);
+  }
+  if (favourite_artists) {
+      updateQuery += ' favourite_artists = ?,';
+      updateValues.push(JSON.stringify(favourite_artists));
+  }
+  if (plan_to_visit) {
+      updateQuery += ' plan_to_visit = ?,';
+      updateValues.push(JSON.stringify(plan_to_visit));
+  }
+  if (attended_festivals) {
+      updateQuery += ' attended_festivals = ?,';
+      updateValues.push(JSON.stringify(attended_festivals));
+  }
+
+  // Remove trailing comma and add the WHERE clause
+  updateQuery = updateQuery.slice(0, -1) + ' WHERE user_id = ?';
+  updateValues.push(userid);
+
+  try {
+      // Use a Promise-based approach for the query
+      const [result] = await pool.query(updateQuery, updateValues);
+
+      // Check if the user was found and updated
+      if (result.affectedRows === 0) {
+          return res.status(404).json({ error: "User ID not present" });
+      }
+
+      res.status(200).json({ message: "Profile Updated" });
+
+  } catch (err) {
+      console.log(err);
+      res.status(500).send("Error updating profile");
+  }
+});

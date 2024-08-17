@@ -4,7 +4,7 @@ USE login_users;
 
 CREATE TABLE
     users (
-        id INTEGER AUTO_INCREMENT PRIMARY KEY NOT NULL,
+        id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
         email VARCHAR(250) NOT NULL UNIQUE,
         password VARCHAR(250) NOT NULL
     );
