@@ -135,14 +135,33 @@ try {
 
 // get request for feeds page
 app.get('/Feeds', async (req, res) => {
-    try {
-        const [posts] = await pool.query('SELECT * FROM Feeds')
-        res.json(posts)
-    } catch (err) {
-        res.status(500).json({message: 'Problem'})
-    }
-});
+  const query = `
+    SELECT 
+      Feeds.post_id,
+      Feeds.post_message,
+      Feeds.created_at,
+      User_profile.first_name,
+      User_profile.profile_picture_url,
+      User_profile.location
+    FROM 
+      Feeds
+    INNER JOIN 
+      User_profile 
+    ON 
+      Feeds.user_id = User_profile.user_id
+  `;
 
+  try {
+    // Await the execution of the query and store the results
+    const [results] = await pool.query(query);
+
+    // Send the results as a JSON response
+    res.json(results);
+  } catch (error) {
+    console.error('Error fetching posts:', error);
+    res.status(500).json({ error: 'Failed to fetch posts' });
+  }
+});
 
 // post request for feeds page
 app.post('/Feeds', async (req, res) => {
@@ -224,7 +243,6 @@ app.get('/getProfile/:id', async (req, res) => {
 
 //endpoint for updating user information - put works, however will need to ensure user authentication
 
-
 app.put('/updateProfile/:id', async (req, res) => {
   const profileID = req.params.id; // the profile ID being edited
   const userid = req.params.id; // the logged-in user ID extracted from the JWT
@@ -281,7 +299,6 @@ app.put('/updateProfile/:id', async (req, res) => {
   updateValues.push(userid);
 
   try {
-      // Use a Promise-based approach for the query
       const [result] = await pool.query(updateQuery, updateValues);
 
       // Check if the user was found and updated
