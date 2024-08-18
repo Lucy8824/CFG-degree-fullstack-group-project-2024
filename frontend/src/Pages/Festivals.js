@@ -79,6 +79,7 @@ function Festivals() {
                                     name={festival.name}
                                     dates={festival.dates.start.localDate}
                                     location={festival._embedded.venues[0]?.city.name || "Unknown"}
+                                    link={`/festival/${festival.id}`}
                                 />
                             </Col>
                           ))

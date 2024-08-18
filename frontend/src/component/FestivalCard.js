@@ -1,22 +1,20 @@
 import React from "react";
-import { Card, Button } from "react-bootstrap";
+import { Card } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import "./FestivalCard.css";
 
-const FestivalCard = ({ poster, name, dates, location }) => {
+const FestivalCard = ({ poster, name, dates, location, link }) => {
     return (
-        <Card className="festival-card h-100">
-            <Card.Img variant="top" src={poster} alt="Festival Poster" />
-            <Card.Body className="d-flex flex-column">
-                <Card.Title>{name}</Card.Title>
-                <Card.Text className="flex-grow-1">
-                    <strong>Dates:</strong> {dates} <br/>
-                    <strong>Location:</strong> {location}
-                </Card.Text>
-                <Button variant="primary" className="mt-auto">
-                    Join Festival Group
-                </Button>
-            </Card.Body>
-        </Card>
+        <Link to={link} className="festival-card-link">
+            <div className="festival-card">
+                <img src={poster} alt="Festival Poster" className="festival-poster" />
+                <div className="festival-info">
+                    <p className="festival-title">{name}</p>
+                    <p className="festival-dates">Dates: {dates}</p>
+                    <p className="festival-location">Location: {location}</p>
+                </div>
+            </div>
+        </Link>
     );
 }
 
