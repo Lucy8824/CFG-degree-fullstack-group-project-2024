@@ -1,37 +1,23 @@
 import React, { useState, useEffect } from "react";
 import FestivalCard from "../component/FestivalCard";
-import { Container, Row, Col, Card, Button, Form } from "react-bootstrap";
+import { Container, Row, Col, Card, Form } from "react-bootstrap";
 import "../App.css";
 import MenuNavbar from "../component/Navbar";
-import { fetchFestivals } from "../services/ticketmaster";
+// import { fetchFestivals } from "../services/ticketmaster"; Not deleting in case I need it again later
 // Would also need to import Profile, Chats and Logout?
 
-function Festivals() {
+async function fetchFestivals() {
+    try {
+        const response = await fetch('http://localhost:3003/api/festivals?page=0');
+        const data = await response.json();
+        return data._embedded?.events || [];
+    } catch (error) {
+        console.error("Error fetching festivals: ", error);
+        return [];
+    }
+};
 
-    // const festivals = [
-        // {
-        //     id:1,
-        //     poster: "https://via.placeholder.com/150",
-        //     name: "Summer Beats Festival",
-        //     dates: "June 15 -17, 2024",
-        //     location: "Los Angeles, CA"
-        // },
-        // {
-        //     id:2, 
-        //     poster: "https://via.placeholder.com/150",
-        //     name: "Rock the City",
-        //     dates: "July 20 - 22, 2024",
-        //     location: "London, UK"
-        // },
-        // {
-        //     id:3,
-        //     poster: "https://via.placeholder.com/150",
-        //     name: "Electric Castle",
-        //     dates: "July 17 - 20",
-        //     location: "Cluj, Romania"
-        // }
-        // Commenting out as it was a placeholder.
-    // ];
+function Festivals() {
 
     const [festivals, setFestivals] = useState([]);
     const [searchQuery, setSearchQuery] = useState(''); // state to handle search input
@@ -40,7 +26,13 @@ function Festivals() {
         const getFestivals = async () => {
             const fetchedFestivals = await fetchFestivals();
             console.log(fetchedFestivals);
-            setFestivals(fetchedFestivals);
+            // Filter only music events
+            const musicFestivals = fetchedFestivals.filter(event => 
+                event.classifications.some(classification => 
+                    classification.segment.name === 'Music'
+                )
+            );
+            setFestivals(musicFestivals);
         };
 
         getFestivals();

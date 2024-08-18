@@ -7,6 +7,7 @@ const cors = require(`cors`);
 const pool = require(`./pool`);
 const bcrypt = require(`bcrypt`);
 const jwt = require(`jsonwebtoken`);
+const axios = require('axios');
 
 const port = process.env.PORT || 3003;
 
@@ -126,4 +127,28 @@ try {
     res.status(500).json({error: 'Data insertion failed'});
 }
 
+});
+
+// Ticketmaster api routes for fetching festivals
+
+app.get('/api/festivals', async (req, res) => {
+  const API_KEY = process.env.TICKETMASTER_API_KEY;
+  const page = req.query.page || 0; //Default to page 0 if not provided
+
+  try {
+    const response = await axios.get(`https://app.ticketmaster.com/discovery/v2/events.json`, {
+      params: {
+        classificationName: 'Festival',
+        size: 200,
+        page: page,
+        apikey: API_KEY
+      }
+    });
+
+    //send API response data to the frontend
+    res.json(response.data);
+  } catch (error) {
+    console.error("Error fetching festivals:", error);
+    res.status(500).json({message: "Error fetching festivals"});
+  }
 });
