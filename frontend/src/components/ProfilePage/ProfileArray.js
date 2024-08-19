@@ -1,6 +1,6 @@
 import React from "react";
 
-const ProfileArray = ({ title, items, onItemsChange, isEditing }) => {
+const ProfileArray = ({ title, items = [], onItemsChange, isEditing }) => {
   const handleAddItem = () => {
     onItemsChange([...items, '']); // Add a new empty item
   };

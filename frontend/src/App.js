@@ -9,6 +9,7 @@ import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import Festivals from "./Pages/Festivals";
 import FestivalButton from "./component/FestivalButton";
 
+import FeedsPage from "./components/FeedsPage.js";
 
 const App = () => {
   return (
