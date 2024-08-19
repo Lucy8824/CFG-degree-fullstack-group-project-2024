@@ -163,6 +163,48 @@ app.get('/Feeds', async (req, res) => {
   }
 });
 
+//post comments endpoint 
+app.post('/Comments', async (req, res) => {
+  const { post_id, user_id, comment } = req.body;
+
+  try {
+    // Insert comment into database
+    const [result] = await pool.query(`
+        INSERT INTO Comments (post_id, user_id, comment)
+        VALUES (?, ?, ?)
+    `, [post_id, user_id, comment]);
+
+    // Respond with the new comment ID
+    res.status(201).json({ comment_id: result.insertId, post_id, user_id, comment });
+  } catch (error) {
+    console.error('Error adding comment:', error);
+    res.status(500).json({ error: 'Failed to add comment' });
+  }
+});
+
+
+
+// Get comments for a specific post
+app.get('/posts/:id/comments', async (req, res) => {
+  const postId = req.params.id;
+
+  try {
+    const [rows] = await pool.query(`
+      SELECT c.comment_id, c.comment, c.created_at, u.first_name AS user_name
+      FROM Comments c
+      JOIN User_profile u ON c.user_id = u.user_id
+      WHERE c.post_id = ?
+    `, [postId]);
+
+    res.json(rows);
+  } catch (error) {
+    console.error('Error fetching comments:', error);
+    res.status(500).json({ error: 'Failed to fetch comments' });
+  }
+});
+
+
+
 // post request for feeds page
 app.post('/Feeds', async (req, res) => {
     const {first_name, profile_picture_url, post_message} = req.body;

@@ -6,8 +6,6 @@ import CustomButton from "../CustomButton.js";
 import ProfileInfo from "./ProfileInfo.js";
 import ProfilePicture from "./ProfilePicture.js";
 
-
-
 const Profile = ({userId}) => {
   const [isEditing, setIsEditing] = useState(false);
   const [profile, setProfile] = useState(null);
