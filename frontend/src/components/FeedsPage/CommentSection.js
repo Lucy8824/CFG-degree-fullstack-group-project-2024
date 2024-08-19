@@ -17,7 +17,6 @@ const CommentSection = ({ postId }) => {
         if (!response.ok) throw new Error(`Failed to fetch comments: ${response.statusText}`);
 
         const data = await response.json();
-        console.log('Fetched Data:', data); 
         setCommentList(data); // Set the state with fetched comments
       } catch (error) {
         console.error('Error fetching comments:', error);
@@ -66,6 +65,7 @@ const CommentSection = ({ postId }) => {
             <p>
               <strong>{comment.user_name}:</strong> {comment.comment}
             </p>
+        
             <p className="comment-date">{new Date(comment.created_at).toLocaleString()}</p>
           </div>
         ))

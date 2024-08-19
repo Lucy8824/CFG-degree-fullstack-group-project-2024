@@ -39,6 +39,7 @@ const FeedsPage = () => {
         fetchPosts();
       
     }, []);
+    // console.log(posts)
     // const [firstName, setFirstName] = useState('');
     // const [profilePictureUrl, setProfilePictureUrl] = useState('');
     // const [postMessage, setPostMessage] = useState('');
