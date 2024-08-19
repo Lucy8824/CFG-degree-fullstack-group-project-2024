@@ -1,21 +1,21 @@
 
+body {
+  overflow-x: hidden;
+}
 
 .container {
   max-width: 1400px;
 }
 
-.festivals-page {
+/* .festivals-page {
   background-color: rgba(255,255,255,255);
   color: black;
   min-height: 100vh;
   padding-top: 56px;
   margin: 0 auto;
   max-width: 100%;
-}
+} */
 
-.festivals-page h1 {
-  text-align: center;
-}
 
 .my-navbar {
   border-bottom: 2px solid lightgrey;

@@ -4,6 +4,7 @@ import { Container, Row, Col, Card, Form } from "react-bootstrap";
 import "../App.css";
 import MenuNavbar from "../component/Navbar";
 import "../components/SearchBox.css";
+import "../components/Banner.css";
 // import { fetchFestivals } from "../services/ticketmaster"; Not deleting in case I need it again later
 // Would also need to import Profile, Chats and Logout?
 
@@ -49,21 +50,10 @@ function Festivals() {
 
         <>
             <MenuNavbar />
-            <div className="festivals-page">
-                <Container fluid="md">
-                    <h1 className="my-4">Where will you dance next?</h1>
-
-                    {/* Search Bar */}
-                    {/* <Form.Group controlId="search">
-                        <Form.Control
-                            type="text"
-                            placeholder="Search festivals by name or location"
-                            value={searchQuery}
-                            onChange={e => setSearchQuery(e.target.value)}
-                        />
-                    </Form.Group> */}
-
-                    <div className="search__container">
+            <div className="overlay"></div>
+            <div className="banner">
+                <h1>Where will you dance next?</h1>
+                <div className="search__container">
                         <input
                             className="search__input"
                             type="text"
@@ -72,7 +62,8 @@ function Festivals() {
                             onChange={e => setSearchQuery(e.target.value)}
                         />
                     </div>
-
+            </div>
+                <Container fluid="md">
                     <Row className="mt-4 justify-content-center">
                         {filteredFestivals.length > 0 ? (
                             filteredFestivals.map(festival => (
@@ -91,7 +82,6 @@ function Festivals() {
                         )}
                     </Row>
                 </Container>
-            </div>
         </>
     );
 }

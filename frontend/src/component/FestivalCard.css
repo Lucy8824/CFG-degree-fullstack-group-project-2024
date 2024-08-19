@@ -11,8 +11,8 @@
     font-family: "Roboto Condensed", sans-serif;
     overflow: hidden;
     position: relative;
-    width: 310px;
-    height: 220px;
+    width: 260px;
+    height: 200px;
     border-radius: 0.5rem;
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.15), 0 3px 5px rgba(0, 0, 0, 0.27);
     transition:all 300ms;
