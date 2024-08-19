@@ -1,4 +1,3 @@
-
 require(`dotenv`).config();
 console.log(process.env);
 
@@ -14,8 +13,6 @@ const app = express();
 
 app.use(express.json());
 app.use(cors());
-
-const pool = require('./pool');
 
 app.get(`/`, (req, res) => {
   res.json({
@@ -48,7 +45,7 @@ app.post(`/register`, async (req, res) => {
   }
 });
 
-// //request to generate JWT with post
+//request to generate JWT with post
 app.post(`/user/generateToken`, (req, res) => {
   // this validates user
   const { username, password } = req.body;
@@ -88,43 +85,39 @@ app.get("/user/validateToken", (req, res) => {
   }
 });
 
-
-app.listen(PORT, () => {
-    console.log(`listening on port ${PORT}`)
-})
-
-
-// get request attempt
-app.get('/User_sign_up', async (req, res) => {
-    try {
-        const [result] = await pool.query('SELECT * FROM User_sign_up')
-        res.json(result)
-    } catch (err) {
-        res.status(500).json({message: 'Problem'})
-    }
+app.listen(port, () => {
+  console.log(`listening on port ${port}`);
 });
 
-
+// get request attempt
+app.get("/User_sign_up", async (req, res) => {
+  try {
+    const [result] = await pool.query("SELECT * FROM User_sign_up");
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ message: "Problem" });
+  }
+});
 
 // post request attempt
-app.post('/User_sign_up', async (req, res) => {
-    const {full_name, email_address, password} = req.body;
+app.post("/User_sign_up", async (req, res) => {
+  const { full_name, email_address, password } = req.body;
 
-    if (!full_name || !email_address || !password) {
-        return res.status(400).json({error: 'Invalid Request'});
-    }
-    if (!email_address.includes('@')) {
-        return res.status(400).json({message: 'Incorrect email address'});
-    }
-try {
+  if (!full_name || !email_address || !password) {
+    return res.status(400).json({ error: "Invalid Request" });
+  }
+  if (!email_address.includes("@")) {
+    return res.status(400).json({ message: "Incorrect email address" });
+  }
+  try {
     const [results] = await pool.query(
-        'INSERT INTO User_sign_up (full_name, email_address, password) VALUES (?, ?, ?)', 
-        [full_name, email_address, password]);
-    console.log('New user sign up data:', results);
-    res.status(200).json({message: 'New user created'});
-}   catch (err) {
-    console.error('Data insertion failed', err);
-    res.status(500).json({error: 'Data insertion failed'});
-}
-
+      "INSERT INTO User_sign_up (full_name, email_address, password) VALUES (?, ?, ?)",
+      [full_name, email_address, password]
+    );
+    console.log("New user sign up data:", results);
+    res.status(200).json({ message: "New user created" });
+  } catch (err) {
+    console.error("Data insertion failed", err);
+    res.status(500).json({ error: "Data insertion failed" });
+  }
 });

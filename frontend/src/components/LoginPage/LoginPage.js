@@ -21,7 +21,7 @@ const LoginPage = () => {
     console.log("login is clicked");
     event.preventDefault();
     try {
-      const response = await fetch("https:localhost:3006/login", {
+      const response = await fetch("http:localhost:3006/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -36,6 +36,7 @@ const LoginPage = () => {
 
       if (token) {
         login(token);
+        console.log("Navigating to Profile...");
         navigate("/Profile"); // redirect to protected route
       }
     } catch (error) {
