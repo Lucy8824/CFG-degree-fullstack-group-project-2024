@@ -12,6 +12,7 @@ const axios = require('axios');
 const port = process.env.PORT || 3003;
 
 const app = express();
+module.exports = app; // Export the app for testing
 
 app.use(express.json());
 app.use(cors());

@@ -4,7 +4,8 @@ import LoginPage from "./components/LoginPage.js";
 // import CustomButton from "./components/CustomButton.js";
 // import SignUp from "./components/SignUp.js";
 import Profile from "./components/ProfilePage/Profile.js";
-import ForgotPassword from "./components/ForgotPassword.js";import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import ForgotPassword from "./components/ForgotPassword.js";
+import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import Festivals from "./Pages/Festivals";
 import FestivalButton from "./component/FestivalButton";
 
