@@ -39,6 +39,20 @@ profile_picture_url VARCHAR (200),
 post_message VARCHAR (500),
 FOREIGN KEY (user_id) REFERENCES User_sign_up (user_id));
 
+CREATE TABLE conversations (
+    conversation_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(250)
+);
+
+CREATE TABLE messages (
+    messages_id INT AUTO_INCREMENT PRIMARY KEY,
+    conversation_id INT,
+    sender_id INT,
+    content TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TiMESTAMP,
+    FOREIGN KEY (conversation_id) REFERENCES conversations(conversation_id),
+    FOREIGN KEY (sender_id) REFERENCES User_sign_up(user_id)
+);
 
 -- CREATE TABLE Private_messages
 -- (message_id INT AUTO_INCREMENT, 
@@ -49,6 +63,13 @@ FOREIGN KEY (user_id) REFERENCES User_sign_up (user_id));
 -- FOREIGN KEY (sender_id) REFERENCES User_sign_up (user_id),
 -- FOREIGN KEY (receiver_id) REFERENCES User_sign_up (user_id));
 
+INSERT INTO conversations (name) 
+VALUES ("Glasto!!"), ("Festival gals");
+
+INSERT INTO messages (conversation_id, sender_id, content) 
+VALUES 
+(1, 1, "Hey, I saw youre attending Glasto on the feeds page, I am too!"),
+(2,2 "Hiya!! I LOVE dance music!!");
 
 INSERT INTO User_sign_up
 (full_name, email_address, password)
