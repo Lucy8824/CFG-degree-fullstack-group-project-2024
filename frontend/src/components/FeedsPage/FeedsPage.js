@@ -39,39 +39,7 @@ const FeedsPage = () => {
         fetchPosts();
       
     }, []);
-    // console.log(posts)
-    // const [firstName, setFirstName] = useState('');
-    // const [profilePictureUrl, setProfilePictureUrl] = useState('');
-    // const [postMessage, setPostMessage] = useState('');
-    
-    // const Post = async (event) => {
-    //     event.preventDefault();
-    //     console.log("It's working")
-    //     const postData = {
-    //         first_name: firstName,
-    //         profile_picture_url: profilePictureUrl,
-    //         post_message: postMessage,
-    //       };
-    //       try {
-    //         const secondResponse = await fetch('/Feeds', {
-    //             method: 'POST',
-    //             headers: {
-    //               'Content-Type': 'application/json',
-    //             },
-    //             body: JSON.stringify(postData),
-    //           });
-    //           if (secondResponse.ok) {
-    //             console.log('Post created successfully!');
-    //             setFirstName('');
-    //             setProfilePictureUrl('');
-    //             setPostMessage('');
-    //           } else {
-    //             console.error('Failed to create post');
-    //           }
-    //         } catch (error) {
-    //           console.error('Error creating post:', error);
-    //         }
-    //       };
+
     return (
 
     <div>
