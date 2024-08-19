@@ -3,6 +3,7 @@ import FestivalCard from "../component/FestivalCard";
 import { Container, Row, Col, Card, Form } from "react-bootstrap";
 import "../App.css";
 import MenuNavbar from "../component/Navbar";
+import "../components/SearchBox.css";
 // import { fetchFestivals } from "../services/ticketmaster"; Not deleting in case I need it again later
 // Would also need to import Profile, Chats and Logout?
 
@@ -53,14 +54,24 @@ function Festivals() {
                     <h1 className="my-4">Where will you dance next?</h1>
 
                     {/* Search Bar */}
-                    <Form.Group controlId="search">
+                    {/* <Form.Group controlId="search">
                         <Form.Control
                             type="text"
                             placeholder="Search festivals by name or location"
                             value={searchQuery}
                             onChange={e => setSearchQuery(e.target.value)}
                         />
-                    </Form.Group>
+                    </Form.Group> */}
+
+                    <div className="search__container">
+                        <input
+                            className="search__input"
+                            type="text"
+                            placeholder="Search Festivals by Name or Location"
+                            value={searchQuery}
+                            onChange={e => setSearchQuery(e.target.value)}
+                        />
+                    </div>
 
                     <Row className="mt-4 justify-content-center">
                         {filteredFestivals.length > 0 ? (
