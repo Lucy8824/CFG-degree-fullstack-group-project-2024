@@ -1,4 +1,3 @@
-
 require(`dotenv`).config();
 console.log(process.env);
 
@@ -51,26 +50,46 @@ app.post(`/register`, async (req, res) => {
   }
 });
 
-// these are requests to login using authentication
-// request to generate JWT with post
-app.post(`/user/generateToken`, (req, res) => {
+
+//request to generate JWT with post
+app.post(`/user/generateToken`, async (req, res) => {
+
   // this validates user
-  const { username, password } = req.body;
-  if (username === "validUser" && password === "validPassword") {
-    // this generate JWT token if validation succeded
-    let jwtSecretKey = process.env.JWT_SECRET_KEY;
-    let data = {
-      time: Date(),
-      userID: username, // stored user identifier in jwt payload
-    };
+  const { email, password } = req.body;
+  try {
+    //query to db to find the user by email
+    const [rows] = await pool.query("SELECT * FROM users WHERE email = ?", [
+      email,
+    ]);
+    if (rows.length > 0) {
+      const user = rows[0];
 
-    //sign jwt with secret key
-    const token = jwt.sign(data, jwtSecretKey, { expiresIn: "1h" });
+      // compare password with stored hashed one in db
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+      if (isPasswordValid) {
+        // if it's valid generate a token
+        const jwtSecretKey = process.env.JWT_SECRET_KEY;
+        const data = {
+          time: Date(),
+          userID: user.id,
+        };
 
-    //send token in response
-    res.send(token);
-  } else {
-    res.status(401).send("Invalid credentials");
+        // Sign the JWT token with the secret key
+        const token = jwt.sign(data, jwtSecretKey, { expiresIn: "1h" });
+
+        // Send the token as a response
+        res.status(200).json({ token });
+      } else {
+        // If the password is incorrect
+        res.status(401).json({ message: "Invalid credentials" });
+      }
+    } else {
+      // If the email does not exist
+      res.status(401).json({ message: "Invalid credentials" });
+    }
+  } catch (error) {
+    console.error("Error generating token:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 
@@ -92,45 +111,43 @@ app.get("/user/validateToken", (req, res) => {
   }
 });
 
-
 app.listen(port, () => {
-    console.log(`listening on port ${port}`)
-})
-
-
-// get request attempt
-app.get('/User_sign_up', async (req, res) => {
-    try {
-        const [result] = await pool.query('SELECT * FROM User_sign_up')
-        res.json(result)
-    } catch (err) {
-        res.status(500).json({message: 'Problem'})
-    }
+  console.log(`listening on port ${port}`);
 });
 
 
+// get request attempt
+app.get("/User_sign_up", async (req, res) => {
+  try {
+    const [result] = await pool.query("SELECT * FROM User_sign_up");
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ message: "Problem" });
+  }
+});
 
-// post request for user sign up page
-app.post('/User_sign_up', async (req, res) => {
-    const {full_name, email_address, password} = req.body;
+// post request attempt
+app.post("/User_sign_up", async (req, res) => {
+  const { full_name, email_address, password } = req.body;
 
-    if (!full_name || !email_address || !password) {
-        return res.status(400).json({error: 'Invalid Request'});
-    }
-    if (!email_address.includes('@')) {
-        return res.status(400).json({message: 'Incorrect email address'});
-    }
-try {
+
+  if (!full_name || !email_address || !password) {
+    return res.status(400).json({ error: "Invalid Request" });
+  }
+  if (!email_address.includes("@")) {
+    return res.status(400).json({ message: "Incorrect email address" });
+  }
+  try {
     const [results] = await pool.query(
-        'INSERT INTO User_sign_up (full_name, email_address, password) VALUES (?, ?, ?)', 
-        [full_name, email_address, password]);
-    console.log('New user sign up data:', results);
-    res.status(200).json({message: 'New user created'});
-}   catch (err) {
-    console.error('Data insertion failed', err);
-    res.status(500).json({error: 'Data insertion failed'});
-}
-
+      "INSERT INTO User_sign_up (full_name, email_address, password) VALUES (?, ?, ?)",
+      [full_name, email_address, password]
+    );
+    console.log("New user sign up data:", results);
+    res.status(200).json({ message: "New user created" });
+  } catch (err) {
+    console.error("Data insertion failed", err);
+    res.status(500).json({ error: "Data insertion failed" });
+  }
 });
 
 
