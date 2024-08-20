@@ -13,6 +13,7 @@ const App = () => {
       <div id="Root">
         <div className="App">
           <div className="container">
+             {/* <FeedsPage userid={2}/> */}
             {
               <Routes>
                 <Route path="/" index element={<LoginPage />}></Route>

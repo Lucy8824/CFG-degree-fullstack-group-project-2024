@@ -46,8 +46,6 @@ const CommentSection = ({ postId }) => {
                     value={newComment}
                     onChange={(e) => setNewComment(e.target.value)}
                     placeholder="Add a comment"
-                    rows="3"
-                    cols="50"
                     required
                 />
                 <button type="submit">Comment</button>
