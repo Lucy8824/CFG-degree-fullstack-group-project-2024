@@ -87,16 +87,19 @@ const LoginPage = () => {
           type="submit"
           onClick={handleLoginClick}
           buttonText="Login"
+          className="customButtonLogin"
         />
         <CustomButton
           type="forgotPassword"
           onClick={handleForgotPasswordClick}
           buttonText="Forgotten your password?"
+          className="customButtonForgotPassword"
         />
         <CustomButton
           type="submit"
           onClick={handleSignupClick}
           buttonText="Don't have an account? Sign up"
+          className="customButtonForgotPassword"
         />
       </form>
     </div>
