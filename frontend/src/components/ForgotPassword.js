@@ -3,7 +3,7 @@ import "./ForgotPassword";
 import FeedsPage from "./FeedsPage/FeedsPage";
 
 const ForgotPassword = () => {
-  return <FeedsPage userId={2}/>;
+  return <FeedsPage userid={2}/>;
 };
 
 export default ForgotPassword;

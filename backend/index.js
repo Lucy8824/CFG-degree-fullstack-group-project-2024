@@ -131,8 +131,6 @@ try {
 });
 
 
-
-
 // get request for feeds page
 app.get('/Feeds', async (req, res) => {
   const query = `
@@ -163,6 +161,8 @@ app.get('/Feeds', async (req, res) => {
   }
 });
 
+
+
 //post comments endpoint 
 app.post('/Comments', async (req, res) => {
   const { post_id, user_id, comment } = req.body;
@@ -179,6 +179,45 @@ app.post('/Comments', async (req, res) => {
   } catch (error) {
     console.error('Error adding comment:', error);
     res.status(500).json({ error: 'Failed to add comment' });
+  }
+});
+
+
+app.post('/newpost', async (req, res) => {
+  const { user_id, post_message } = req.body;
+
+  if (!user_id || !post_message) {
+      return res.status(400).json({ error: 'user_id and post_message are required' });
+  }
+
+  try {
+      
+      const [result] = await pool.query(
+          'INSERT INTO Feeds (user_id, post_message) VALUES (?, ?)',
+          [user_id, post_message]
+      );
+
+      const post_id = result.insertId;
+
+      const [rows] = await pool.query(`
+          SELECT 
+              f.post_id,
+              f.post_message,
+              f.created_at,
+              u.user_id,
+              u.first_name,
+              u.profile_picture_url
+          FROM Feeds f
+          JOIN User_profile u ON f.user_id = u.user_id
+          WHERE f.post_id = ?
+      `, [post_id]);
+
+      const newPost = rows[0];
+
+      res.status(201).json(newPost);
+  } catch (error) {
+      console.error('Error creating post:', error);
+      res.status(500).json({ error: 'Failed to create post' });
   }
 });
 
@@ -204,23 +243,22 @@ app.get('/posts/:id/comments', async (req, res) => {
 });
 
 
-
-// post request for feeds page
-app.post('/Feeds', async (req, res) => {
-    const {first_name, profile_picture_url, post_message} = req.body;
-if (!first_name || !profile_picture_url || !post_message) {
-    return res.status(400).json({error: 'Invalid Request'});
-}
-try {const [results] = await pool.query(
-    'INSERT INTO Feeds (first_name, profile_picture_url, post_message) VALUES (?, ?, ?)',
-    [first_name, profile_picture_url, post_message])
-    console.log('New post data:', results);
-    res.status(200).json({message: 'New post created'})
-} catch (err) {
-    console.error('Data insertion failed', err);
-    res.status(500).json({error: 'Data insertion failed'});
-}
-});
+// // post request for feeds page
+// app.post('/Feeds', async (req, res) => {
+//     const {first_name, profile_picture_url, post_message} = req.body;
+// if (!first_name || !profile_picture_url || !post_message) {
+//     return res.status(400).json({error: 'Invalid Request'});
+// }
+// try {const [results] = await pool.query(
+//     'INSERT INTO Feeds (first_name, profile_picture_url, post_message) VALUES (?, ?, ?)',
+//     [first_name, profile_picture_url, post_message])
+//     console.log('New post data:', results);
+//     res.status(200).json({message: 'New post created'})
+// } catch (err) {
+//     console.error('Data insertion failed', err);
+//     res.status(500).json({error: 'Data insertion failed'});
+// }
+// });
 
 
 ///get user information for the profile page (working)

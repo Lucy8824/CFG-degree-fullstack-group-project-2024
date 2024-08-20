@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import "./FeedsPage.css";
 import Post from './Post';
+import NewPost from './NewPost';
 
 
-const FeedsPage = () => {
-    // const [input, setInput] = useState('');
+const FeedsPage = ({userid}) => {
+   
     const [posts, setPosts] = useState([]);
-
+  
     const fetchPosts = async () => {
         try {
             // Fetch data from the backend
@@ -33,6 +34,9 @@ const FeedsPage = () => {
             console.error('Error fetching posts:', error);
         }
     };
+    const updatePosts = (newPost) => {
+        setPosts(prevPosts => [newPost, ...prevPosts]);
+    };
  
 
     useEffect(() => {
@@ -44,9 +48,10 @@ const FeedsPage = () => {
 
     <div>
        <h2>Festival Feed</h2>
+       <NewPost userId={userid} setPosts={updatePosts} />
         
-       {posts.map((post) => (
-  <Post key={post.post_id} postId={post.post_id} post={post} />
+       {posts.map((post, index) => (
+  <Post key={index} postId={post.post_id} post={post} userid={userid} />
 ))}
 
 

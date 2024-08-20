@@ -1,25 +1,24 @@
-import React from "react";
-import CommentSection from "./CommentSection";
+import React from 'react';
+import CommentSection from './CommentSection';
 
-const Post = ({postId, post}) => {
+const Post = ({ post }) => {
+    const { post_id, profile_picture_url, first_name, post_message, created_at } = post;
 
     return (
-        <div>
         <div className="post">
             <div className="post-header">
-                <img src={post.profile_picture_url} alt={`${post.first_name}'s profile`} style={{
-                    height: 100,
-                    width: 100,
-                }} />
-                <h3>{post.first_name}</h3>
+                <img 
+                    src={profile_picture_url} 
+                    alt={`${first_name}'s profile`} 
+                    style={{ height: 100, width: 100 }} 
+                />
+                <h3>{first_name}</h3>
             </div>
-        </div>
-        <p>{post.post_message}</p>
-
-    <CommentSection postId={postId} />
-
+            <p>{post_message}</p>
+            <small>Posted on: {new Date(created_at).toLocaleString()}</small>
+            <CommentSection postId={post_id} />
         </div>
     );
 };
 
-export default Post; 
+export default Post;

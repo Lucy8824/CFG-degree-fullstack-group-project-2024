@@ -1,52 +1,45 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
-const NewPost = () => {
-  const [postMessage, setPostMessage] = useState('');
-  const [error, setError] = useState(null);
+const NewPost = ({ setPosts, userId }) => {
+    const [content, setContent] = useState('');
 
-  const handlePostSubmit = async () => {
-    if (postMessage.trim() === '') {
-      setError('Post message cannot be empty');
-      return;
-    }
+    const handlePostSubmit = async (e) => {
+        e.preventDefault();
 
-    try {
-      // Assume user_id is 2
-      const response = await fetch('/posts', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ user_id: 2, post_message: postMessage }),
-      });
+        const postData = {
+            user_id: userId,
+            post_message: content
+        };
 
-      if (!response.ok) {
-        throw new Error('Failed to create post');
-      }
+        try {
+            const response = await axios.post('http://localhost:3006/newpost', postData, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            const newPost = response.data;
 
-      const data = await response.json();
-      console.log('Post created:', data);
-      setPostMessage('');
-      setError(null);
-      // Optionally, trigger a refresh of posts or redirect
-    } catch (error) {
-      console.error('Error posting content:', error);
-      setError('Failed to create post');
-    }
-  };
+            setPosts(prevPosts => [newPost, ...prevPosts]);
+            setContent('');
+        } catch (error) {
+            console.error('Error creating post:', error.response ? error.response.data : error.message);
+        }
+    };
 
-  return (
-    <div className="create-post">
-      <h2>Create New Post</h2>
-      <textarea
-        value={postMessage}
-        onChange={(e) => setPostMessage(e.target.value)}
-        placeholder="Where are you heading?"
-      />
-      <button onClick={handlePostSubmit}>Post</button>
-      {error && <p className="error-message" style={{ color: 'red' }}>{error}</p>}
-    </div>
-  );
+    return (
+        <form onSubmit={handlePostSubmit}>
+            <textarea 
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                placeholder="What festival are you excited about?"
+                rows="4"
+                cols="50"
+                required
+            />
+            <button type="submit">Post</button>
+        </form>
+    );
 };
 
 export default NewPost;
