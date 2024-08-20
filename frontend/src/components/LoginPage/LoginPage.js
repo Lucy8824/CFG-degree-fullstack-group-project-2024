@@ -92,7 +92,7 @@ const LoginPage = () => {
         <CustomButton
           type="forgotPassword"
           onClick={handleForgotPasswordClick}
-          buttonText="Forgotten your password?"
+          buttonText="Forgot password?"
           className="customButtonForgotPassword"
         />
         <CustomButton

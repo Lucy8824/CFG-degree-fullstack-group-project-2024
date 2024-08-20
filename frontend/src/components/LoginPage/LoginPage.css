@@ -56,6 +56,7 @@
   color: whitesmoke;
   line-height: 5px;
   font-size: 15px;
+  display: block;
   /* box-sizing: border-box; */
 }
 
@@ -68,6 +69,9 @@
   width: 250px;
   height: 10px;
   margin-bottom: 15px;
+  line-height: 5px;
+  font-size: 15px;
+  display: block;
 }
 
 .customButtonSignUp {
@@ -76,7 +80,10 @@
   border-width: 1px;
   border-color: lightgray;
   padding: 20px;
-  width: 250px;
+  width: 255px;
   height: 10px;
   margin-bottom: 15px;
+  line-height: 5px;
+  font-size: 15px;
+  display: block;
 }
