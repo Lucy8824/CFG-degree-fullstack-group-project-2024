@@ -153,3 +153,12 @@ app.get('/api/festivals', async (req, res) => {
     res.status(500).json({message: "Error fetching festivals"});
   }
 });
+
+// Only start the server if this file is executed directly (not needed by tests)
+if (require.main === module) {
+  app.listen(port, () => {
+    console.log(`listening on port ${port}`)
+  });
+}
+
+module.exports = app; // Export the app for testing purposes

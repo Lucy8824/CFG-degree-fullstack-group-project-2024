@@ -34,7 +34,7 @@ const LoginPage = () => {
       <form onSubmit={handleSubmit}>
         <div>
           <input
-            classname="emailBox"
+            className="emailBox"
             type="email"
             id="email"
             value={email}
@@ -46,7 +46,7 @@ const LoginPage = () => {
 
         <div>
           <input
-            classname="passwordBox"
+            className="passwordBox"
             type="password"
             id="password"
             value={password}

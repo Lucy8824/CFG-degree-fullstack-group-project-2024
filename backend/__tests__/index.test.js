@@ -1,9 +1,10 @@
 const request = require('supertest');
 const axios = require('axios');
-const app = require('../backend/index');
+const app = require('../index');
 // require('dotenv').config({ path: '.env'});
 
 jest.mock('axios');
+
 
 describe('GET /api/festivals', () => {
     it('should return festivals data successfully', async () => {

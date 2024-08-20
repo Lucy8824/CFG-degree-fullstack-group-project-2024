@@ -6,7 +6,7 @@
   "scripts": {
     "start": "cd backend && npm start",
     "build": "rmdir /S /Q .\\backend\\static && mkdir .\\backend\\static && cd frontend && npm run build && xcopy .\\build\\* ..\\backend\\static\\ /E /I /Y",
-    "test": "jest"
+    "test": "test"
   },
   "keywords": [],
   "author": "",
