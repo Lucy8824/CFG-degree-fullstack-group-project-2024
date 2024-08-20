@@ -16,3 +16,25 @@
   font-size: 75px;
   line-height: 85px;
 }
+
+.emailBox {
+  border-radius: 25px;
+  border-style: ridge;
+  border-width: 1px;
+  border-color: lightgray;
+  padding: 20px;
+  width: 250px;
+  height: 10px;
+  margin-bottom: 15px;
+}
+
+.passwordBox {
+  border-radius: 25px;
+  border-style: ridge;
+  border-width: 1px;
+  border-color: lightgray;
+  padding: 20px;
+  width: 250px;
+  height: 10px;
+  margin-bottom: 15px;
+}
