@@ -5,18 +5,45 @@ import CustomButton from "./CustomButton.js";
 // only want to navigate to profile from here so useNavigate is better
 const SignUp = () => {
   const navigate = useNavigate();
-  const handleProfileClick = () => {
-    console.log("Sign up is working");
-    navigate("/Profile");
-  };
+  console.log("Sign up is working");
 
   const [email, setEmail] = useState("");
   const [fullName, setFullName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const handleSubmit = (event) => {
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     console.log("it's working");
+
+    // check if passwords match
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+    try {
+      const response = await fetch("http://localhost:3006/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ fullName, email, password }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Registration failed");
+      }
+
+      const data = await response.json();
+      console.log("Registration successful", data);
+
+      // Navigate to profile or login page on success
+      navigate("/Profile");
+    } catch (error) {
+      console.error("Error during registration:", error);
+      setError(error.message);
+    }
   };
 
   return (
@@ -63,12 +90,9 @@ const SignUp = () => {
             placeholder="Confirm password"
           />
         </div>
+        {error && <p className="error">{error}</p>}
+        <CustomButton type="submit" onClick={() => {}} buttonText="Sign up" />
       </form>
-      <CustomButton
-        type="signup"
-        onClick={handleProfileClick}
-        buttonText="Sign up"
-      />
     </div>
   );
 };
