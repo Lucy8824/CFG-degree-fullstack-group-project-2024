@@ -82,25 +82,26 @@ const LoginPage = () => {
             placeholder="Password"
           />
         </div>
-
-        <CustomButton
-          type="submit"
-          onClick={handleLoginClick}
-          buttonText="Login"
-          className="customButtonLogin"
-        />
-        <CustomButton
-          type="forgotPassword"
-          onClick={handleForgotPasswordClick}
-          buttonText="Forgot password?"
-          className="customButtonForgotPassword"
-        />
-        <CustomButton
-          type="submit"
-          onClick={handleSignupClick}
-          buttonText="Don't have an account? Sign up"
-          className="customButtonSignUp"
-        />
+        <div className="inputContainer">
+          <CustomButton
+            type="submit"
+            onClick={handleLoginClick}
+            buttonText="Login"
+            className="customButtonLogin"
+          />
+          <CustomButton
+            type="forgotPassword"
+            onClick={handleForgotPasswordClick}
+            buttonText="Forgot password?"
+            className="customButtonForgotPassword"
+          />
+          <CustomButton
+            type="submit"
+            onClick={handleSignupClick}
+            buttonText="Don't have an account? Sign up"
+            className="customButtonSignUp"
+          />
+        </div>
       </form>
     </div>
   );
