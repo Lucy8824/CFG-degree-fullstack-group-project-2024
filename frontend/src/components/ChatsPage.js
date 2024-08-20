@@ -5,15 +5,15 @@ import Messages from "./Messages";
 const ChatsPage = () => {
   const [currentChatId, setCurrentChatId] = useState(null);
 
-  const handleCreateChat = (conversationId) => {
-    setCurrentChatId(conversationId);
+  const handleCreateChat = (conversation_id) => {
+    setCurrentChatId(conversation_id);
   };
   return (
     <div>
       {!currentChatId ? (
         <NewMessage onCreate={handleCreateChat} />
       ) : (
-        <Messages conversationId={currentChatId} />
+        <Messages conversation_id={currentChatId} />
       )}
     </div>
   );
