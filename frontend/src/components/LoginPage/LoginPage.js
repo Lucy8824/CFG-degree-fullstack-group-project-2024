@@ -21,7 +21,7 @@ const LoginPage = () => {
     console.log("login is clicked");
     event.preventDefault();
     try {
-      const response = await fetch("http:localhost:3006/login", {
+      const response = await fetch("http://localhost:3006/user/generateToken", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
