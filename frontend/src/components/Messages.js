@@ -18,18 +18,17 @@ const Messages = ({ conversation_id }) => {
       }
     };
 
-    fetchConversationDetails();
-
     const fetchMessages = async () => {
       try {
         // await prevents data loading before it's ready, prevents errors
         const response = await axios.get(`/api/messages/${conversation_id}`);
         setMessages(response.data);
       } catch (error) {
-        console.error("Error fetching messsages:", error);
+        console.error("Error fetching messages:", error);
       }
     };
 
+    fetchConversationDetails();
     fetchMessages();
 
     const interval = setInterval(fetchMessages, 5000); // polling
@@ -44,13 +43,17 @@ const Messages = ({ conversation_id }) => {
           conversation_id,
           content: newMessages,
         });
-        setMessages([...messages, response.data]); // adds new message to the list
-        setNewMessages("");
+        setMessages((prevMessages) => [...prevMessages, response.data]); // adds new message to the list
+        setNewMessages(""); // clears input field after sending
       } catch (error) {
         console.error("Error sending message:", error);
       }
     }
   };
+
+  if (!conversationDetails) {
+    return <div>Loading conversation...</div>;
+  }
 
   return (
     <div>

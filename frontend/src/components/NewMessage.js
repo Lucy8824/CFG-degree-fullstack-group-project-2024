@@ -6,9 +6,22 @@ const NewMessage = ({ onCreate }) => {
   const [participants, setParticipants] = useState([]);
   const [type, setType] = useState("private");
 
+  const handleParticipantsChange = (e) => {
+    const input = e.target.value;
+    const ids = input
+      .split(",")
+      .map((id) => id.trim())
+      .filter((id) => id !== "");
+    setParticipants(ids);
+  };
+
   const handleCreateChat = async () => {
-    if (type === "group" && chatnName.trim() === "") {
+    if (type === "group" && chatName.trim() === "") {
       alert("Group conversations must have a name.");
+      return;
+    }
+    if (participants.length === 0) {
+      alert("Please add at least one participant.");
       return;
     }
 
@@ -21,6 +34,7 @@ const NewMessage = ({ onCreate }) => {
       onCreate(response.data.conversation_id);
     } catch (error) {
       console.error("Error creating conversation:", error);
+      alert("Failed to create conversation. Please try again later.");
     }
   };
 
@@ -57,7 +71,7 @@ const NewMessage = ({ onCreate }) => {
           <input
             type="text"
             value={participants.join(",")}
-            onChange={(e) => setParticipants(e.target.value.split(","))}
+            onChange={handleParticipantsChange}
             placeholder="Enter user IDs"
           />
         </label>
