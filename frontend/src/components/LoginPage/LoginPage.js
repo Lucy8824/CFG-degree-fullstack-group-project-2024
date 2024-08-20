@@ -99,7 +99,7 @@ const LoginPage = () => {
           type="submit"
           onClick={handleSignupClick}
           buttonText="Don't have an account? Sign up"
-          className="customButtonForgotPassword"
+          className="customButtonSignUp"
         />
       </form>
     </div>

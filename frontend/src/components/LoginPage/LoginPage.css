@@ -26,9 +26,51 @@
   width: 250px;
   height: 10px;
   margin-bottom: 15px;
+  line-height: 5px;
+  font-size: 15px;
 }
 
 .passwordBox {
+  border-radius: 25px;
+  border-style: ridge;
+  border-width: 1px;
+  border-color: lightgray;
+  padding: 20px;
+  width: 250px;
+  height: 10px;
+  margin-bottom: 15px;
+  line-height: 5px;
+  font-size: 15px;
+}
+
+.customButtonLogin {
+  border-radius: 25px;
+  border-style: ridge;
+  border-width: 1px;
+  border-color: lightgray;
+  padding: 20px;
+  width: 250px;
+  height: 10px;
+  margin-bottom: 15px;
+  background-color: rgb(174, 109, 236);
+  color: whitesmoke;
+  line-height: 5px;
+  font-size: 15px;
+  /* box-sizing: border-box; */
+}
+
+.customButtonForgotPassword {
+  border-radius: 25px;
+  border-style: ridge;
+  border-width: 1px;
+  border-color: lightgray;
+  padding: 20px;
+  width: 250px;
+  height: 10px;
+  margin-bottom: 15px;
+}
+
+.customButtonSignUp {
   border-radius: 25px;
   border-style: ridge;
   border-width: 1px;
