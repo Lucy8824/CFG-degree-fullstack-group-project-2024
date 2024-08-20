@@ -65,7 +65,7 @@
   border-style: none;
   /* border-width: 1px; */
   border-color: lightgray;
-  background: rgba(100, 60, 50, 0);
+  background: rgba(105, 100, 100, 0);
   padding: 20px;
   width: 250px;
   height: 10px;
@@ -80,8 +80,8 @@
   border-style: none;
   /* border-width: 1px; */
   border-color: lightgray;
-  background: rgba(100, 60, 50, 0);
-  padding: 20px;
+  background: rgba(105, 100, 100, 0);
+  padding: 10px;
   width: 255px;
   height: 10px;
   margin-bottom: 15px;
@@ -95,5 +95,5 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 25vh;
+  height: 20vh;
 }
