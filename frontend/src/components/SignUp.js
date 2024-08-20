@@ -22,12 +22,14 @@ const SignUp = () => {
       setError("Passwords do not match");
       return;
     }
+
     try {
       const response = await fetch("http://localhost:3006/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+
         body: JSON.stringify({ fullName, email, password }),
       });
 
@@ -43,6 +45,7 @@ const SignUp = () => {
     } catch (error) {
       console.error("Error during registration:", error);
       setError(error.message);
+
     }
   };
 

@@ -3,16 +3,21 @@ console.log(process.env);
 
 const express = require(`express`);
 const cors = require(`cors`);
-const pool = require(`./pool.js`);
+const pool = require(`./pool`);
 const bcrypt = require(`bcrypt`);
 const jwt = require(`jsonwebtoken`);
+const axios = require('axios');
+const bodyParser = require('body-parser');
 
-const port = process.env.PORT || 3006;
+
+const port = process.env.PORT || 3003;
 
 const app = express();
+module.exports = app; // Export the app for testing
 
 app.use(express.json());
 app.use(cors());
+app.use(bodyParser.json()); //to parse incoming JSON data
 
 app.get(`/`, (req, res) => {
   res.json({
@@ -45,8 +50,10 @@ app.post(`/register`, async (req, res) => {
   }
 });
 
+
 //request to generate JWT with post
 app.post(`/user/generateToken`, async (req, res) => {
+
   // this validates user
   const { email, password } = req.body;
   try {
@@ -108,6 +115,7 @@ app.listen(port, () => {
   console.log(`listening on port ${port}`);
 });
 
+
 // get request attempt
 app.get("/User_sign_up", async (req, res) => {
   try {
@@ -121,6 +129,7 @@ app.get("/User_sign_up", async (req, res) => {
 // post request attempt
 app.post("/User_sign_up", async (req, res) => {
   const { full_name, email_address, password } = req.body;
+
 
   if (!full_name || !email_address || !password) {
     return res.status(400).json({ error: "Invalid Request" });
@@ -140,3 +149,108 @@ app.post("/User_sign_up", async (req, res) => {
     res.status(500).json({ error: "Data insertion failed" });
   }
 });
+
+
+// Ticketmaster api routes for fetching festivals
+
+app.get('/api/festivals', async (req, res) => {
+  const API_KEY = process.env.TICKETMASTER_API_KEY;
+  const page = req.query.page || 0; //Default to page 0 if not provided
+
+  try {
+    const response = await axios.get(`https://app.ticketmaster.com/discovery/v2/events.json`, {
+      params: {
+        classificationName: 'Festival',
+        size: 200,
+        page: page,
+        apikey: API_KEY
+      }
+    });
+
+    //send API response data to the frontend
+    res.json(response.data);
+  } catch (error) {
+    console.error("Error fetching festivals:", error);
+    res.status(500).json({message: "Error fetching festivals"});
+  }
+});
+
+
+
+// get request for feeds page
+app.get('/Feeds', async (req, res) => {
+    try {
+        const [posts] = await pool.query('SELECT * FROM Feeds')
+        res.json(posts)
+    } catch (err) {
+        res.status(500).json({message: 'Problem'})
+    }
+});
+
+
+// post request for feeds page
+app.post('/Feeds', async (req, res) => {
+    const {first_name, profile_picture_url, post_message} = req.body;
+if (!first_name || !profile_picture_url || !post_message) {
+    return res.status(400).json({error: 'Invalid Request'});
+}
+try {const [results] = await pool.query(
+    'INSERT INTO Feeds (first_name, profile_picture_url, post_message) VALUES (?, ?, ?)',
+    [first_name, profile_picture_url, post_message])
+    console.log('New post data:', results);
+    res.status(200).json({message: 'New post created'})
+} catch (err) {
+    console.error('Data insertion failed', err);
+    res.status(500).json({error: 'Data insertion failed'});
+}
+});
+
+
+///get user information for the profile page (working)
+
+app.get('/getProfile/:id', async (req, res) => {
+  const userId = req.params.id;
+  console.log("Querying profile for user ID:", userId);  // Log user ID for debugging
+
+  const getProfileQuery = `
+  SELECT 
+    first_name, age, location, about_me, profile_picture_url, favourite_artists, attended_festivals, plan_to_visit
+  FROM user_profile
+  WHERE user_id = ?`;
+
+  console.log("Executing query:", getProfileQuery, "with values:", [userId]);  // Log the query
+
+  try {
+    const [rows] = await pool.execute(getProfileQuery, [userId]);
+    
+    console.log("Query Result:", rows);
+
+    if (rows.length === 0) {
+      console.log("User not found for user ID:", userId);
+      return res.status(404).send("User not found");
+    }
+
+    const profile = rows[0];
+
+    // Convert the comma-separated strings into arrays
+    if (profile.favourite_artists && typeof profile.favourite_artists === 'string') {
+      profile.favourite_artists = profile.favourite_artists.split(',').map(artist => artist.trim());
+    }
+    
+    if (profile.plan_to_visit && typeof profile.plan_to_visit === 'string') {
+      profile.plan_to_visit = profile.plan_to_visit.split(',').map(festival => festival.trim());
+    }
+    
+    if (profile.attended_festivals && typeof profile.attended_festivals === 'string') {
+      profile.attended_festivals = profile.attended_festivals.split(',').map(festival => festival.trim());
+    }
+
+    console.log("Profile data:", profile);
+    res.status(200).json(profile);
+
+  } catch (error) {
+    console.error("Error retrieving profile:", error);
+    res.status(500).send("Error retrieving profile");
+  }
+});
+
