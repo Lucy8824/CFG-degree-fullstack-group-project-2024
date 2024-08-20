@@ -1,4 +1,36 @@
 {
+  "name": "cfg-degree-fullstack-group-project-2024",
+  "version": "1.0.0",
+  "description": "This repository contains the group project work for the CFG Fullstack Degree of summer 2024: \"Festival Meetup\" app.",
+  "main": "index.js",
+  "scripts": {
+    "start": "cd backend && npm start",
+    "build": "rmdir /S /Q .\\backend\\static && mkdir .\\backend\\static && cd frontend && npm run build && xcopy .\\build\\* ..\\backend\\static\\ /E /I /Y",
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.4",
+    "bootstrap": "^5.3.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.25.2",
+    "@babel/preset-env": "^7.25.3",
+    "@babel/preset-react": "^7.24.7",
+    "babel-jest": "^29.7.0",
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.(js|jsx)$": "babel-jest"
+    },
+    "moduleFileExtensions": [
+      "js",
+      "jsx"
+
   "name": "cfg-project",
   "version": "0.1.0",
   "private": true,
@@ -35,6 +67,7 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+
     ]
   }
 }
