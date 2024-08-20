@@ -292,8 +292,81 @@ app.put("/updateProfile/:id", async (req, res) => {
 });
 
 // Messages
+//// need to add a middleware/route to not repeat myself so much with the authorisation
+// creating conversations
+app.post("/api/conversations", (req, res) => {
+  const { name, type, participants } = req.body;
 
-// getting messages for conversation
+  const token = req.headers.authorization?.split(" ")[1];
+  if (!token) {
+    return res.status(401).json({ error: "Unauthorised" });
+  }
+  try {
+    const jwtSecretKey = process.env.JWT_SECRET_KEY;
+    const decoded = jwt.verify(token, jwtSecretKey);
+    const creator_id = decoded.userID;
+
+    let addConversationQuery = ` 
+    INSERT INTO conversations (name, type) VALUES (?, ?)`;
+
+    pool.query(addConversationQuery, [name, type], (err, result) => {
+      if (err) return res.status(500).json({ error: err });
+
+      const conversation_id = result.insertId;
+
+      const addParticipantsQuery = `
+      INSERT INTO group_memberships (conversation_id, user_id) VALUES ?`;
+      const values = participants.map((participant_id) => [
+        conversation_id,
+        participant_id,
+      ]);
+      values.push([conversation_id, creator_id]); // adds the creator to the chat too
+
+      pool.query(addParticipantsQuery, [values], (err) => {
+        if (err) return res.status(500).json({ error: err });
+        res.status(201).json({
+          conversation_id,
+          message: "You can now send messages to eachother",
+        });
+      });
+    });
+  } catch (error) {
+    return res.status(401).json({ error: "invalid token" });
+  }
+});
+
+// fetching all conversations for user
+app.get("/api/conversations", (req, res) => {
+  const token = req.headers.authorization?.split(" ")[1];
+  if (!token) {
+    return res.status(401).json({ error: "Unauthorised" });
+  }
+
+  try {
+    const jwtSecretKey = process.env.JWT_SECRET_KEY;
+    const decoded = jwt.verify(token, jwtSecretKey);
+    const user_id = decoded.userID;
+
+    const getConversations = `
+    SELECT c.conversation_id, c.name, c.type
+    FROM conversations c
+    LEFT JOIN group_memberships gm ON c.conversation_id = gm.conversation_id
+    WHERE (c.type = 'private' AND c.conversation_id IN (
+      SELECT conversation_id FROM messages WHERE sender_id = ? ))
+      OR (c.type = 'group' AND gm.user_id = ?)
+    GROUP BY c.conversation_id
+    `;
+
+    pool.query(getConversations, [user_id, user_id], (err, results) => {
+      if (err) return res.status(500).json({ error: err });
+      res.json(results);
+    });
+  } catch (error) {
+    return res.status(401).json({ error: "Invalid token" });
+  }
+});
+
+// getting messages for conversation (private + group)
 app.get("/api/messages/:conversation_id", (req, res) => {
   const { conversation_id } = req.params;
   const receive = `
@@ -308,40 +381,36 @@ app.get("/api/messages/:conversation_id", (req, res) => {
   });
 });
 
-// sending messages
-app.post('/api/messages', (req, res) => {
-  const {conversation_id, content} = req.body;
+// sending messages (private + group)
+app.post("/api/messages", (req, res) => {
+  const { conversation_id, content } = req.body;
+
   // only logged in users can send messages etc.
-  const token = req.headers.authorization?.split(" ")
+  const token = req.headers.authorization?.split(" ")[1];
   if (!token) {
-    return res.status(401).json({error: "Unauthorised"});
+    return res.status(401).json({ error: "Unauthorised" });
   }
-  
+
   try {
     const jwtSecretKey = process.env.JWT_SECRET_KEY;
-    const decoded =jwt.verify(token, jwtSecretKey);
-  
-    const sender_id = decoded.userID;
-  
+    const decoded = jwt.verify(token, jwtSecretKey);
+    const user_id = decoded.userID;
+
     const send = `INSERT INTO messages (conversation_id, sender_id, content)
     VALUES (?, ?, ?)`;
 
     pool.query(send, [conversation_id, sender_id, content], (err, result) => {
-      if (err) return res.status(500).json({error: err});
+      if (err) return res.status(500).json({ error: err });
       res.json({
         messages_id: result.insertId,
-        sender_id,
+        user_id,
         conversation_id,
         content,
-        senderUsername:
-        created_at: new Date() // current timestamp
-      })
+        senderUsername: decoded.userID,
+        created_at: new Date(), // current timestamp
+      });
     });
   } catch (error) {
-    return res.status(401).json({error: "Invalid token"});
+    return res.status(401).json({ error: "Invalid token" });
   }
-})
-
-app.listen(port, () => {
-  console.log(`listening on port ${port}`);
 });

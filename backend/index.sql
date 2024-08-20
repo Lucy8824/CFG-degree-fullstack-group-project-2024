@@ -42,16 +42,25 @@ FOREIGN KEY (user_id) REFERENCES User_sign_up (user_id));
 CREATE TABLE conversations (
     conversation_id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(250)
+    type ENUM('private', 'group') NOT NULL
 );
 
 CREATE TABLE messages (
     messages_id INT AUTO_INCREMENT PRIMARY KEY,
     conversation_id INT,
-    sender_id INT,
+    user_id INT,
     content TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TiMESTAMP,
     FOREIGN KEY (conversation_id) REFERENCES conversations(conversation_id),
-    FOREIGN KEY (sender_id) REFERENCES User_sign_up(user_id)
+    FOREIGN KEY (user_id) REFERENCES User_sign_up(user_id)
+);
+
+CREATE TABLE group_memberships (
+    membership_id INT AUTO_INCREMENT PRIMARY KEY,
+    conversation_id INT,
+    user_id INT,
+    FOREIGN KEY (conversation_id) REFERENCES conversations(conversation_id),
+    FOREIGN KEY (user_id) REFERENCES User_sign_up(user_id)
 );
 
 
