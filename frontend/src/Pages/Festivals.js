@@ -10,7 +10,7 @@ import "../components/Banner.css";
 
 async function fetchFestivals() {
     try {
-        const response = await fetch('http://localhost:3003/api/festivals?page=0');
+        const response = await fetch('http://localhost:3006/api/festivals?page=0');
         const data = await response.json();
         return data._embedded?.events || [];
     } catch (error) {
@@ -73,7 +73,7 @@ function Festivals() {
                                     name={festival.name}
                                     dates={festival.dates.start.localDate}
                                     location={festival._embedded.venues[0]?.city.name || "Unknown"}
-                                    link={`/festival/${festival.id}`}
+                                    link={`/festival/${festival.id}`} // Dynamic link to the festival details page
                                 />
                             </Col>
                           ))
