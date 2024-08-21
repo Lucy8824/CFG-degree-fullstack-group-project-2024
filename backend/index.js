@@ -151,6 +151,7 @@ app.post("/User_sign_up", async (req, res) => {
 });
 
 
+
 // Ticketmaster api routes for fetching festivals
 
 app.get('/api/festivals', async (req, res) => {
@@ -176,38 +177,137 @@ app.get('/api/festivals', async (req, res) => {
 });
 
 
-
 // get request for feeds page
 app.get('/Feeds', async (req, res) => {
-    try {
-        const [posts] = await pool.query('SELECT * FROM Feeds')
-        res.json(posts)
-    } catch (err) {
-        res.status(500).json({message: 'Problem'})
-    }
+  const query = `
+    SELECT 
+      Feeds.post_id,
+      Feeds.post_message,
+      Feeds.created_at,
+      User_profile.first_name,
+      User_profile.profile_picture_url,
+      User_profile.location
+    FROM 
+      Feeds
+    INNER JOIN 
+      User_profile 
+    ON 
+      Feeds.user_id = User_profile.user_id
+  `;
+
+  try {
+    // Await the execution of the query and store the results
+    const [results] = await pool.query(query);
+
+    // Send the results as a JSON response
+    res.json(results);
+  } catch (error) {
+    console.error('Error fetching posts:', error);
+    res.status(500).json({ error: 'Failed to fetch posts' });
+  }
 });
 
 
-// post request for feeds page
-app.post('/Feeds', async (req, res) => {
-    const {first_name, profile_picture_url, post_message} = req.body;
-if (!first_name || !profile_picture_url || !post_message) {
-    return res.status(400).json({error: 'Invalid Request'});
-}
-try {const [results] = await pool.query(
-    'INSERT INTO Feeds (first_name, profile_picture_url, post_message) VALUES (?, ?, ?)',
-    [first_name, profile_picture_url, post_message])
-    console.log('New post data:', results);
-    res.status(200).json({message: 'New post created'})
-} catch (err) {
-    console.error('Data insertion failed', err);
-    res.status(500).json({error: 'Data insertion failed'});
-}
+
+//post comments endpoint 
+app.post('/Comments', async (req, res) => {
+  const { post_id, user_id, comment } = req.body;
+
+  try {
+    // Insert comment into database
+    const [result] = await pool.query(`
+        INSERT INTO Comments (post_id, user_id, comment)
+        VALUES (?, ?, ?)
+    `, [post_id, user_id, comment]);
+
+    // Respond with the new comment ID
+    res.status(201).json({ comment_id: result.insertId, post_id, user_id, comment });
+  } catch (error) {
+    console.error('Error adding comment:', error);
+    res.status(500).json({ error: 'Failed to add comment' });
+  }
 });
+
+
+app.post('/newpost', async (req, res) => {
+  const { user_id, post_message } = req.body;
+
+  if (!user_id || !post_message) {
+      return res.status(400).json({ error: 'user_id and post_message are required' });
+  }
+
+  try {
+      
+      const [result] = await pool.query(
+          'INSERT INTO Feeds (user_id, post_message) VALUES (?, ?)',
+          [user_id, post_message]
+      );
+
+      const post_id = result.insertId;
+
+      const [rows] = await pool.query(`
+          SELECT 
+              f.post_id,
+              f.post_message,
+              f.created_at,
+              u.user_id,
+              u.first_name,
+              u.profile_picture_url
+          FROM Feeds f
+          JOIN User_profile u ON f.user_id = u.user_id
+          WHERE f.post_id = ?
+      `, [post_id]);
+
+      const newPost = rows[0];
+
+      res.status(201).json(newPost);
+  } catch (error) {
+      console.error('Error creating post:', error);
+      res.status(500).json({ error: 'Failed to create post' });
+  }
+});
+
+
+
+// Get comments for a specific post
+app.get('/posts/:id/comments', async (req, res) => {
+  const postId = req.params.id;
+
+  try {
+    const [rows] = await pool.query(`
+      SELECT c.comment_id, c.comment, c.created_at, u.first_name AS user_name
+      FROM Comments c
+      JOIN User_profile u ON c.user_id = u.user_id
+      WHERE c.post_id = ?
+    `, [postId]);
+
+    res.json(rows);
+  } catch (error) {
+    console.error('Error fetching comments:', error);
+    res.status(500).json({ error: 'Failed to fetch comments' });
+  }
+});
+
+
+// // post request for feeds page
+// app.post('/Feeds', async (req, res) => {
+//     const {first_name, profile_picture_url, post_message} = req.body;
+// if (!first_name || !profile_picture_url || !post_message) {
+//     return res.status(400).json({error: 'Invalid Request'});
+// }
+// try {const [results] = await pool.query(
+//     'INSERT INTO Feeds (first_name, profile_picture_url, post_message) VALUES (?, ?, ?)',
+//     [first_name, profile_picture_url, post_message])
+//     console.log('New post data:', results);
+//     res.status(200).json({message: 'New post created'})
+// } catch (err) {
+//     console.error('Data insertion failed', err);
+//     res.status(500).json({error: 'Data insertion failed'});
+// }
+// });
 
 
 ///get user information for the profile page (working)
-
 app.get('/getProfile/:id', async (req, res) => {
   const userId = req.params.id;
   console.log("Querying profile for user ID:", userId);  // Log user ID for debugging
@@ -222,7 +322,7 @@ app.get('/getProfile/:id', async (req, res) => {
 
   try {
     const [rows] = await pool.execute(getProfileQuery, [userId]);
-    
+
     console.log("Query Result:", rows);
 
     if (rows.length === 0) {
@@ -232,17 +332,29 @@ app.get('/getProfile/:id', async (req, res) => {
 
     const profile = rows[0];
 
-    // Convert the comma-separated strings into arrays
-    if (profile.favourite_artists && typeof profile.favourite_artists === 'string') {
-      profile.favourite_artists = profile.favourite_artists.split(',').map(artist => artist.trim());
+    // Check if the data is a JSON string or a comma-separated string and parse accordingly
+    if (profile.favourite_artists) {
+      try {
+        profile.favourite_artists = JSON.parse(profile.favourite_artists);
+      } catch (e) {
+        profile.favourite_artists = profile.favourite_artists.split(',').map(artist => artist.trim());
+      }
     }
-    
-    if (profile.plan_to_visit && typeof profile.plan_to_visit === 'string') {
-      profile.plan_to_visit = profile.plan_to_visit.split(',').map(festival => festival.trim());
+
+    if (profile.plan_to_visit) {
+      try {
+        profile.plan_to_visit = JSON.parse(profile.plan_to_visit);
+      } catch (e) {
+        profile.plan_to_visit = profile.plan_to_visit.split(',').map(festival => festival.trim());
+      }
     }
-    
-    if (profile.attended_festivals && typeof profile.attended_festivals === 'string') {
-      profile.attended_festivals = profile.attended_festivals.split(',').map(festival => festival.trim());
+
+    if (profile.attended_festivals) {
+      try {
+        profile.attended_festivals = JSON.parse(profile.attended_festivals);
+      } catch (e) {
+        profile.attended_festivals = profile.attended_festivals.split(',').map(festival => festival.trim());
+      }
     }
 
     console.log("Profile data:", profile);
@@ -251,6 +363,80 @@ app.get('/getProfile/:id', async (req, res) => {
   } catch (error) {
     console.error("Error retrieving profile:", error);
     res.status(500).send("Error retrieving profile");
+  }
+});
+
+
+//endpoint for updating user information - put works, however will need to ensure user authentication
+
+app.put('/updateProfile/:id', async (req, res) => {
+  const profileID = req.params.id; // the profile ID being edited
+  const userid = req.params.id; // the logged-in user ID extracted from the JWT
+
+  // Ensure the logged-in user is only editing their own profile
+  if (userid !== profileID) {
+      return res.status(403).send("You are not able to edit this profile");
+  }
+
+  const {
+      first_name,
+      age,
+      location,
+      about_me,
+      favourite_artists,
+      attended_festivals,
+      plan_to_visit
+  } = req.body;
+
+  let updateQuery = 'UPDATE user_profile SET';
+  const updateValues = [];
+
+  // Add fields to update if they exist
+  if (first_name) {
+      updateQuery += ' first_name = ?,';
+      updateValues.push(first_name);
+  }
+  if (age) {
+      updateQuery += ' age = ?,';
+      updateValues.push(age);
+  }
+  if (location) {
+      updateQuery += ' location = ?,';
+      updateValues.push(location);
+  }
+  if (about_me) {
+      updateQuery += ' about_me = ?,';
+      updateValues.push(about_me);
+  }
+  if (favourite_artists) {
+      updateQuery += ' favourite_artists = ?,';
+      updateValues.push(JSON.stringify(favourite_artists));
+  }
+  if (plan_to_visit) {
+      updateQuery += ' plan_to_visit = ?,';
+      updateValues.push(JSON.stringify(plan_to_visit));
+  }
+  if (attended_festivals) {
+      updateQuery += ' attended_festivals = ?,';
+      updateValues.push(JSON.stringify(attended_festivals));
+  }
+
+  updateQuery = updateQuery.slice(0, -1) + ' WHERE user_id = ?';
+  updateValues.push(userid);
+
+  try {
+      const [result] = await pool.query(updateQuery, updateValues);
+
+      // Check if the user was found and updated
+      if (result.affectedRows === 0) {
+          return res.status(404).json({ error: "User ID not present" });
+      }
+
+      res.status(200).json({ message: "Profile Updated" });
+
+  } catch (err) {
+      console.log(err);
+      res.status(500).send("Error updating profile");
   }
 });
 

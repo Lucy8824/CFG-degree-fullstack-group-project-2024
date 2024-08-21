@@ -1,7 +1,6 @@
 import React from "react";
 
 const ProfileView = ({ name, age, location, aboutme }) => {
-    console.log("ProfileView data:",  name, age, location, aboutme );
     return (
         <div>
             <h1>Profile</h1>

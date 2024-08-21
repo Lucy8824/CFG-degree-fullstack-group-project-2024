@@ -6,15 +6,12 @@ import CustomButton from "../CustomButton.js";
 import ProfileInfo from "./ProfileInfo.js";
 import ProfilePicture from "./ProfilePicture.js";
 
-
-
 const Profile = ({userId}) => {
   const [isEditing, setIsEditing] = useState(false);
   const [profile, setProfile] = useState(null);
   const [error, setError] = useState(null);
 
   const fetchProfile = async () => {
-    const userId = 2; 
     try {
       const response = await fetch(`http://localhost:3006/getProfile/${userId}`);
       console.log(response);
@@ -28,6 +25,7 @@ const Profile = ({userId}) => {
     } catch (error) {
       setError(error.message);  // Set any error messages
     }
+    
   };
 
   useEffect(() => {
@@ -55,11 +53,35 @@ const Profile = ({userId}) => {
     setIsEditing(!isEditing);
   };
 
-  const handleSaveClick = () => {
-    setIsEditing(false);
-    console.log('Profile saved:', profile);
-    // Implement API call or other save logic here
+  const handleSaveClick = async () => {
+
+    try {
+      const response = await fetch(`http://localhost:3006/updateProfile/${userId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...profile,
+          favourite_artists: profile.favourite_artists,
+          attended_festivals: profile.attended_festivals,
+          plan_to_visit: profile.plan_to_visit
+        }),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to update profile');
+      }
+  
+      const result = await response.json();
+      console.log('Update result:', result);
+      setIsEditing(false);  // Exit editing mode after successful update
+    } catch (error) {
+      console.error('Error saving profile:', error);
+      setError(error.message);
+    }
   };
+
 
   const handleArrayChange = (key, newItems) => {
     setProfile((prevProfile) => ({
@@ -92,14 +114,14 @@ const Profile = ({userId}) => {
           <ProfileArray
             title="Festivals to attend"
             items={profile.plan_to_visit}
-            onItemsChange={(newItems) => handleArrayChange('festivals_want', newItems)}
+            onItemsChange={(newItems) => handleArrayChange('plan_to_visit', newItems)}
             isEditing={isEditing}
           />
 
           <ProfileArray
             title="Festivals attended"
             items={profile.attended_festivals}
-            onItemsChange={(newItems) => handleArrayChange('festivals_attended', newItems)}
+            onItemsChange={(newItems) => handleArrayChange('attended_festivals', newItems)}
             isEditing={isEditing}
           />
 
