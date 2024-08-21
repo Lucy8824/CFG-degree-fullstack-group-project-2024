@@ -30,12 +30,9 @@ const ProfileInfo = ({ isEditing, profile, handleInputChange }) => (
           />
         </>
       ) : (
-        <ProfileView
-          fullName={profile.fullName}
-          age={profile.age}
-          location={profile.location}
-          about_me={profile.about_me}
-        />
+        <div>
+        <ProfileView name={profile.first_name} age={profile.age} location={profile.location} aboutme={profile.about_me}/>
+  </div>
       )}
     </div>
   );

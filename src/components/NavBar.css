@@ -1,0 +1,61 @@
+.navbar-custom {
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+  padding: 0px;
+}
+
+.brandLogo {
+  display: flex;
+  align-items: center;
+  color: black;
+  font-size: 1.5em;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.logoImage {
+  margin: 5px 20px 5px 0;
+}
+
+.navBarList {
+  color: black;
+  margin: 0 15px;
+  font-size: 1.1em;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.navBarList:hover {
+  transform: scale(1.1);
+}
+
+.logOutButton {
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1em;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.logOutButton:hover {
+  color: #ffffff;
+  background-color: black;
+  transform: scale(1.05);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 900px) {
+  .brandLogo {
+    font-size: 20px;
+  }
+  .logoImage{
+    width: 30px;
+  }
+  .navBarList{
+    font-size: 15px;
+  }
+  .logOutButton{
+    font-size: 15px;
+    padding: 5px 15px;
+    margin-bottom: 10px;
+  }
+}
