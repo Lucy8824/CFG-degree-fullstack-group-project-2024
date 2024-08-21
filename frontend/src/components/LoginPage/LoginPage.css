@@ -1,0 +1,99 @@
+.loginContainer {
+  background-image: url("./img/festival.jpeg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+.title {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  color: black;
+  font-weight: 600;
+  font-size: 75px;
+  line-height: 85px;
+}
+
+.emailBox {
+  border-radius: 25px;
+  border-style: ridge;
+  border-width: 1px;
+  border-color: lightgray;
+  padding: 20px;
+  width: 250px;
+  height: 10px;
+  margin-bottom: 15px;
+  line-height: 5px;
+  font-size: 15px;
+}
+
+.passwordBox {
+  border-radius: 25px;
+  border-style: ridge;
+  border-width: 1px;
+  border-color: lightgray;
+  padding: 20px;
+  width: 250px;
+  height: 10px;
+  margin-bottom: 15px;
+  line-height: 5px;
+  font-size: 15px;
+}
+
+.customButtonLogin {
+  border-radius: 25px;
+  border-style: ridge;
+  border-width: 1px;
+  border-color: lightgray;
+  padding: 20px;
+  width: 250px;
+  height: 10px;
+  margin-bottom: 15px;
+  background-color: rgb(174, 109, 236);
+  color: whitesmoke;
+  line-height: 5px;
+  font-size: 15px;
+  display: block;
+  /* box-sizing: border-box; */
+}
+
+.customButtonForgotPassword {
+  border-radius: 25px;
+  border-style: none;
+  /* border-width: 1px; */
+  border-color: lightgray;
+  background: rgba(105, 100, 100, 0);
+  padding: 20px;
+  width: 250px;
+  height: 10px;
+  margin-bottom: 15px;
+  line-height: 5px;
+  font-size: 15px;
+  display: block;
+}
+
+.customButtonSignUp {
+  border-radius: 25px;
+  border-style: none;
+  /* border-width: 1px; */
+  border-color: lightgray;
+  background: rgba(105, 100, 100, 0);
+  padding: 10px;
+  width: 255px;
+  height: 10px;
+  margin-bottom: 15px;
+  line-height: 5px;
+  font-size: 15px;
+  display: block;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 20vh;
+}

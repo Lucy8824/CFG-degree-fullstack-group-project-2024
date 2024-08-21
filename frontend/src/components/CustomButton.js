@@ -2,12 +2,10 @@ import React from "react";
 import "./CustomButton.css";
 
 const CustomButton = (props) => {
+  const buttonClassName = `button-click ${props.className || ""}`;
+
   return (
-    <button
-      className={`button-click ${props.forgotPassword} ${props.signUp}`}
-      onClick={props.onClick}
-    >
-      {" "}
+    <button className={buttonClassName} onClick={props.onClick}>
       {props.buttonText}
     </button>
   );

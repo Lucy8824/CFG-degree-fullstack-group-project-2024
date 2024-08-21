@@ -6,11 +6,16 @@ const cors = require(`cors`);
 const pool = require(`./pool`);
 const bcrypt = require(`bcrypt`);
 const jwt = require(`jsonwebtoken`);
-const bodyParser = require("body-parser");
 
-const port = process.env.PORT || 3006;
+const axios = require('axios');
+const bodyParser = require('body-parser');
+
+
+
+const port = process.env.PORT || 3003;
 
 const app = express();
+module.exports = app; // Export the app for testing
 
 app.use(express.json());
 app.use(cors());
@@ -47,26 +52,46 @@ app.post(`/register`, async (req, res) => {
   }
 });
 
-// these are requests to login using authentication
-// request to generate JWT with post
-app.post(`/user/generateToken`, (req, res) => {
+
+//request to generate JWT with post
+app.post(`/user/generateToken`, async (req, res) => {
+
   // this validates user
-  const { username, password } = req.body;
-  if (username === "validUser" && password === "validPassword") {
-    // this generate JWT token if validation succeded
-    let jwtSecretKey = process.env.JWT_SECRET_KEY;
-    let data = {
-      time: Date(),
-      userID: username, // stored user identifier in jwt payload
-    };
+  const { email, password } = req.body;
+  try {
+    //query to db to find the user by email
+    const [rows] = await pool.query("SELECT * FROM users WHERE email = ?", [
+      email,
+    ]);
+    if (rows.length > 0) {
+      const user = rows[0];
 
-    //sign jwt with secret key
-    const token = jwt.sign(data, jwtSecretKey, { expiresIn: "1h" });
+      // compare password with stored hashed one in db
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+      if (isPasswordValid) {
+        // if it's valid generate a token
+        const jwtSecretKey = process.env.JWT_SECRET_KEY;
+        const data = {
+          time: Date(),
+          userID: user.id,
+        };
 
-    //send token in response
-    res.send(token);
-  } else {
-    res.status(401).send("Invalid credentials");
+        // Sign the JWT token with the secret key
+        const token = jwt.sign(data, jwtSecretKey, { expiresIn: "1h" });
+
+        // Send the token as a response
+        res.status(200).json({ token });
+      } else {
+        // If the password is incorrect
+        res.status(401).json({ message: "Invalid credentials" });
+      }
+    } else {
+      // If the email does not exist
+      res.status(401).json({ message: "Invalid credentials" });
+    }
+  } catch (error) {
+    console.error("Error generating token:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 
@@ -92,6 +117,7 @@ app.listen(port, () => {
   console.log(`listening on port ${port}`);
 });
 
+
 // get request attempt
 app.get("/User_sign_up", async (req, res) => {
   try {
@@ -105,6 +131,8 @@ app.get("/User_sign_up", async (req, res) => {
 // post request for user sign up page
 app.post("/User_sign_up", async (req, res) => {
   const { full_name, email_address, password } = req.body;
+
+
 
   if (!full_name || !email_address || !password) {
     return res.status(400).json({ error: "Invalid Request" });
@@ -124,6 +152,7 @@ app.post("/User_sign_up", async (req, res) => {
     res.status(500).json({ error: "Data insertion failed" });
   }
 });
+
 
 // get request for feeds page
 app.get("/Feeds", async (req, res) => {
@@ -153,6 +182,145 @@ app.post("/Feeds", async (req, res) => {
     res.status(500).json({ error: "Data insertion failed" });
   }
 });
+
+
+
+// Ticketmaster api routes for fetching festivals
+
+app.get('/api/festivals', async (req, res) => {
+  const API_KEY = process.env.TICKETMASTER_API_KEY;
+  const page = req.query.page || 0; //Default to page 0 if not provided
+
+  try {
+    const response = await axios.get(`https://app.ticketmaster.com/discovery/v2/events.json`, {
+      params: {
+        classificationName: 'Festival',
+        size: 200,
+        page: page,
+        apikey: API_KEY
+      }
+    });
+
+    //send API response data to the frontend
+    res.json(response.data);
+  } catch (error) {
+    console.error("Error fetching festivals:", error);
+    res.status(500).json({message: "Error fetching festivals"});
+  }
+});
+
+
+// get request for feeds page
+app.get('/Feeds', async (req, res) => {
+  const query = `
+    SELECT 
+      Feeds.post_id,
+      Feeds.post_message,
+      Feeds.created_at,
+      User_profile.first_name,
+      User_profile.profile_picture_url,
+      User_profile.location
+    FROM 
+      Feeds
+    INNER JOIN 
+      User_profile 
+    ON 
+      Feeds.user_id = User_profile.user_id
+  `;
+
+  try {
+    // Await the execution of the query and store the results
+    const [results] = await pool.query(query);
+
+    // Send the results as a JSON response
+    res.json(results);
+  } catch (error) {
+    console.error('Error fetching posts:', error);
+    res.status(500).json({ error: 'Failed to fetch posts' });
+  }
+});
+
+
+
+//post comments endpoint 
+app.post('/Comments', async (req, res) => {
+  const { post_id, user_id, comment } = req.body;
+
+  try {
+    // Insert comment into database
+    const [result] = await pool.query(`
+        INSERT INTO Comments (post_id, user_id, comment)
+        VALUES (?, ?, ?)
+    `, [post_id, user_id, comment]);
+
+    // Respond with the new comment ID
+    res.status(201).json({ comment_id: result.insertId, post_id, user_id, comment });
+  } catch (error) {
+    console.error('Error adding comment:', error);
+    res.status(500).json({ error: 'Failed to add comment' });
+  }
+});
+
+
+app.post('/newpost', async (req, res) => {
+  const { user_id, post_message } = req.body;
+
+  if (!user_id || !post_message) {
+      return res.status(400).json({ error: 'user_id and post_message are required' });
+  }
+
+  try {
+      
+      const [result] = await pool.query(
+          'INSERT INTO Feeds (user_id, post_message) VALUES (?, ?)',
+          [user_id, post_message]
+      );
+
+      const post_id = result.insertId;
+
+      const [rows] = await pool.query(`
+          SELECT 
+              f.post_id,
+              f.post_message,
+              f.created_at,
+              u.user_id,
+              u.first_name,
+              u.profile_picture_url
+          FROM Feeds f
+          JOIN User_profile u ON f.user_id = u.user_id
+          WHERE f.post_id = ?
+      `, [post_id]);
+
+      const newPost = rows[0];
+
+      res.status(201).json(newPost);
+  } catch (error) {
+      console.error('Error creating post:', error);
+      res.status(500).json({ error: 'Failed to create post' });
+  }
+});
+
+
+
+// Get comments for a specific post
+app.get('/posts/:id/comments', async (req, res) => {
+  const postId = req.params.id;
+
+  try {
+    const [rows] = await pool.query(`
+      SELECT c.comment_id, c.comment, c.created_at, u.first_name AS user_name
+      FROM Comments c
+      JOIN User_profile u ON c.user_id = u.user_id
+      WHERE c.post_id = ?
+    `, [postId]);
+
+    res.json(rows);
+  } catch (error) {
+    console.error('Error fetching comments:', error);
+    res.status(500).json({ error: 'Failed to fetch comments' });
+  }
+});
+
 
 ///get user information for the profile page (working)
 app.get("/getProfile/:id", async (req, res) => {
@@ -220,7 +388,9 @@ app.get("/getProfile/:id", async (req, res) => {
 
 //endpoint for updating user information - put works, however will need to ensure user authentication
 
-app.put("/updateProfile/:id", async (req, res) => {
+
+app.put('/updateProfile/:id', async (req, res) => {
+
   const profileID = req.params.id; // the profile ID being edited
   const userid = req.params.id; // the logged-in user ID extracted from the JWT
 
@@ -276,8 +446,11 @@ app.put("/updateProfile/:id", async (req, res) => {
   updateValues.push(userid);
 
   try {
+
     // Use a Promise-based approach for the query
     const [result] = await pool.query(updateQuery, updateValues);
+
+
 
     // Check if the user was found and updated
     if (result.affectedRows === 0) {
