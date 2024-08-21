@@ -6,8 +6,10 @@ const cors = require(`cors`);
 const pool = require(`./pool`);
 const bcrypt = require(`bcrypt`);
 const jwt = require(`jsonwebtoken`);
+
 const axios = require('axios');
 const bodyParser = require('body-parser');
+
 
 
 const port = process.env.PORT || 3003;
@@ -126,9 +128,10 @@ app.get("/User_sign_up", async (req, res) => {
   }
 });
 
-// post request attempt
+// post request for user sign up page
 app.post("/User_sign_up", async (req, res) => {
   const { full_name, email_address, password } = req.body;
+
 
 
   if (!full_name || !email_address || !password) {
@@ -144,6 +147,36 @@ app.post("/User_sign_up", async (req, res) => {
     );
     console.log("New user sign up data:", results);
     res.status(200).json({ message: "New user created" });
+  } catch (err) {
+    console.error("Data insertion failed", err);
+    res.status(500).json({ error: "Data insertion failed" });
+  }
+});
+
+
+// get request for feeds page
+app.get("/Feeds", async (req, res) => {
+  try {
+    const [posts] = await pool.query("SELECT * FROM Feeds");
+    res.json(posts);
+  } catch (err) {
+    res.status(500).json({ message: "Problem" });
+  }
+});
+
+// post request for feeds page
+app.post("/Feeds", async (req, res) => {
+  const { first_name, profile_picture_url, post_message } = req.body;
+  if (!first_name || !profile_picture_url || !post_message) {
+    return res.status(400).json({ error: "Invalid Request" });
+  }
+  try {
+    const [results] = await pool.query(
+      "INSERT INTO Feeds (first_name, profile_picture_url, post_message) VALUES (?, ?, ?)",
+      [first_name, profile_picture_url, post_message]
+    );
+    console.log("New post data:", results);
+    res.status(200).json({ message: "New post created" });
   } catch (err) {
     console.error("Data insertion failed", err);
     res.status(500).json({ error: "Data insertion failed" });
@@ -289,28 +322,10 @@ app.get('/posts/:id/comments', async (req, res) => {
 });
 
 
-// // post request for feeds page
-// app.post('/Feeds', async (req, res) => {
-//     const {first_name, profile_picture_url, post_message} = req.body;
-// if (!first_name || !profile_picture_url || !post_message) {
-//     return res.status(400).json({error: 'Invalid Request'});
-// }
-// try {const [results] = await pool.query(
-//     'INSERT INTO Feeds (first_name, profile_picture_url, post_message) VALUES (?, ?, ?)',
-//     [first_name, profile_picture_url, post_message])
-//     console.log('New post data:', results);
-//     res.status(200).json({message: 'New post created'})
-// } catch (err) {
-//     console.error('Data insertion failed', err);
-//     res.status(500).json({error: 'Data insertion failed'});
-// }
-// });
-
-
 ///get user information for the profile page (working)
-app.get('/getProfile/:id', async (req, res) => {
+app.get("/getProfile/:id", async (req, res) => {
   const userId = req.params.id;
-  console.log("Querying profile for user ID:", userId);  // Log user ID for debugging
+  console.log("Querying profile for user ID:", userId); // Log user ID for debugging
 
   const getProfileQuery = `
   SELECT 
@@ -318,7 +333,7 @@ app.get('/getProfile/:id', async (req, res) => {
   FROM user_profile
   WHERE user_id = ?`;
 
-  console.log("Executing query:", getProfileQuery, "with values:", [userId]);  // Log the query
+  console.log("Executing query:", getProfileQuery, "with values:", [userId]); // Log the query
 
   try {
     const [rows] = await pool.execute(getProfileQuery, [userId]);
@@ -337,7 +352,9 @@ app.get('/getProfile/:id', async (req, res) => {
       try {
         profile.favourite_artists = JSON.parse(profile.favourite_artists);
       } catch (e) {
-        profile.favourite_artists = profile.favourite_artists.split(',').map(artist => artist.trim());
+        profile.favourite_artists = profile.favourite_artists
+          .split(",")
+          .map((artist) => artist.trim());
       }
     }
 
@@ -345,7 +362,9 @@ app.get('/getProfile/:id', async (req, res) => {
       try {
         profile.plan_to_visit = JSON.parse(profile.plan_to_visit);
       } catch (e) {
-        profile.plan_to_visit = profile.plan_to_visit.split(',').map(festival => festival.trim());
+        profile.plan_to_visit = profile.plan_to_visit
+          .split(",")
+          .map((festival) => festival.trim());
       }
     }
 
@@ -353,90 +372,218 @@ app.get('/getProfile/:id', async (req, res) => {
       try {
         profile.attended_festivals = JSON.parse(profile.attended_festivals);
       } catch (e) {
-        profile.attended_festivals = profile.attended_festivals.split(',').map(festival => festival.trim());
+        profile.attended_festivals = profile.attended_festivals
+          .split(",")
+          .map((festival) => festival.trim());
       }
     }
 
     console.log("Profile data:", profile);
     res.status(200).json(profile);
-
   } catch (error) {
     console.error("Error retrieving profile:", error);
     res.status(500).send("Error retrieving profile");
   }
 });
 
-
 //endpoint for updating user information - put works, however will need to ensure user authentication
 
+
 app.put('/updateProfile/:id', async (req, res) => {
+
   const profileID = req.params.id; // the profile ID being edited
   const userid = req.params.id; // the logged-in user ID extracted from the JWT
 
   // Ensure the logged-in user is only editing their own profile
   if (userid !== profileID) {
-      return res.status(403).send("You are not able to edit this profile");
+    return res.status(403).send("You are not able to edit this profile");
   }
 
   const {
-      first_name,
-      age,
-      location,
-      about_me,
-      favourite_artists,
-      attended_festivals,
-      plan_to_visit
+    first_name,
+    age,
+    location,
+    about_me,
+    favourite_artists,
+    attended_festivals,
+    plan_to_visit,
   } = req.body;
 
-  let updateQuery = 'UPDATE user_profile SET';
+  let updateQuery = "UPDATE user_profile SET";
   const updateValues = [];
 
   // Add fields to update if they exist
   if (first_name) {
-      updateQuery += ' first_name = ?,';
-      updateValues.push(first_name);
+    updateQuery += " first_name = ?,";
+    updateValues.push(first_name);
   }
   if (age) {
-      updateQuery += ' age = ?,';
-      updateValues.push(age);
+    updateQuery += " age = ?,";
+    updateValues.push(age);
   }
   if (location) {
-      updateQuery += ' location = ?,';
-      updateValues.push(location);
+    updateQuery += " location = ?,";
+    updateValues.push(location);
   }
   if (about_me) {
-      updateQuery += ' about_me = ?,';
-      updateValues.push(about_me);
+    updateQuery += " about_me = ?,";
+    updateValues.push(about_me);
   }
   if (favourite_artists) {
-      updateQuery += ' favourite_artists = ?,';
-      updateValues.push(JSON.stringify(favourite_artists));
+    updateQuery += " favourite_artists = ?,";
+    updateValues.push(JSON.stringify(favourite_artists));
   }
   if (plan_to_visit) {
-      updateQuery += ' plan_to_visit = ?,';
-      updateValues.push(JSON.stringify(plan_to_visit));
+    updateQuery += " plan_to_visit = ?,";
+    updateValues.push(JSON.stringify(plan_to_visit));
   }
   if (attended_festivals) {
-      updateQuery += ' attended_festivals = ?,';
-      updateValues.push(JSON.stringify(attended_festivals));
+    updateQuery += " attended_festivals = ?,";
+    updateValues.push(JSON.stringify(attended_festivals));
   }
 
-  updateQuery = updateQuery.slice(0, -1) + ' WHERE user_id = ?';
+  updateQuery = updateQuery.slice(0, -1) + " WHERE user_id = ?";
   updateValues.push(userid);
 
   try {
-      const [result] = await pool.query(updateQuery, updateValues);
 
-      // Check if the user was found and updated
-      if (result.affectedRows === 0) {
-          return res.status(404).json({ error: "User ID not present" });
-      }
+    // Use a Promise-based approach for the query
+    const [result] = await pool.query(updateQuery, updateValues);
 
-      res.status(200).json({ message: "Profile Updated" });
 
+
+    // Check if the user was found and updated
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: "User ID not present" });
+    }
+
+    res.status(200).json({ message: "Profile Updated" });
   } catch (err) {
-      console.log(err);
-      res.status(500).send("Error updating profile");
+    console.log(err);
+    res.status(500).send("Error updating profile");
   }
 });
 
+// Messages
+//// need to add a middleware/route to not repeat myself so much with the authorisation
+// creating conversations
+app.post("/api/conversations", (req, res) => {
+  const { name, type, participants } = req.body;
+
+  const token = req.headers.authorization?.split(" ")[1];
+  if (!token) {
+    return res.status(401).json({ error: "Unauthorised" });
+  }
+  try {
+    const jwtSecretKey = process.env.JWT_SECRET_KEY;
+    const decoded = jwt.verify(token, jwtSecretKey);
+    const creator_id = decoded.userID;
+
+    let addConversationQuery = ` 
+    INSERT INTO conversations (name, type) VALUES (?, ?)`;
+
+    pool.query(addConversationQuery, [name, type], (err, result) => {
+      if (err) return res.status(500).json({ error: err });
+
+      const conversation_id = result.insertId;
+
+      const addParticipantsQuery = `
+      INSERT INTO group_memberships (conversation_id, user_id) VALUES ?`;
+      const values = participants.map((participant_id) => [
+        conversation_id,
+        participant_id,
+      ]);
+      values.push([conversation_id, creator_id]); // adds the creator to the chat too
+
+      pool.query(addParticipantsQuery, [values], (err) => {
+        if (err) return res.status(500).json({ error: err });
+        res.status(201).json({
+          conversation_id,
+          message: "You can now send messages to eachother",
+        });
+      });
+    });
+  } catch (error) {
+    return res.status(401).json({ error: "invalid token" });
+  }
+});
+
+// fetching all conversations for user
+app.get("/api/conversations", (req, res) => {
+  const token = req.headers.authorization?.split(" ")[1];
+  if (!token) {
+    return res.status(401).json({ error: "Unauthorised" });
+  }
+
+  try {
+    const jwtSecretKey = process.env.JWT_SECRET_KEY;
+    const decoded = jwt.verify(token, jwtSecretKey);
+    const user_id = decoded.userID;
+
+    const getConversations = `
+    SELECT c.conversation_id, c.name, c.type
+    FROM conversations c
+    LEFT JOIN group_memberships gm ON c.conversation_id = gm.conversation_id
+    WHERE (c.type = 'private' AND c.conversation_id IN (
+      SELECT conversation_id FROM messages WHERE sender_id = ? ))
+      OR (c.type = 'group' AND gm.user_id = ?)
+    GROUP BY c.conversation_id
+    `;
+
+    pool.query(getConversations, [user_id, user_id], (err, results) => {
+      if (err) return res.status(500).json({ error: err });
+      res.json(results);
+    });
+  } catch (error) {
+    return res.status(401).json({ error: "Invalid token" });
+  }
+});
+
+// getting messages for conversation (private + group)
+app.get("/api/messages/:conversation_id", (req, res) => {
+  const { conversation_id } = req.params;
+  const receive = `
+    SELECT m.content, u.full_name AS sender_username, m.created_at
+    FROM messages m
+    JOIN User_sign_up u ON m.sender_id = u.user_id
+    WHERE m.conversation_id = ?
+    ORDER BY m.created_at ASC `;
+  pool.query(receive, [conversation_id], (err, results) => {
+    if (err) return res.status(500).json({ error: err });
+    res.json(results);
+  });
+});
+
+// sending messages (private + group)
+app.post("/api/messages", (req, res) => {
+  const { conversation_id, content } = req.body;
+
+  // only logged in users can send messages etc.
+  const token = req.headers.authorization?.split(" ")[1];
+  if (!token) {
+    return res.status(401).json({ error: "Unauthorised" });
+  }
+
+  try {
+    const jwtSecretKey = process.env.JWT_SECRET_KEY;
+    const decoded = jwt.verify(token, jwtSecretKey);
+    const user_id = decoded.userID;
+
+    const send = `INSERT INTO messages (conversation_id, sender_id, content)
+    VALUES (?, ?, ?)`;
+
+    pool.query(send, [conversation_id, sender_id, content], (err, result) => {
+      if (err) return res.status(500).json({ error: err });
+      res.json({
+        messages_id: result.insertId,
+        user_id,
+        conversation_id,
+        content,
+        senderUsername: decoded.userID,
+        created_at: new Date(), // current timestamp
+      });
+    });
+  } catch (error) {
+    return res.status(401).json({ error: "Invalid token" });
+  }
+});
