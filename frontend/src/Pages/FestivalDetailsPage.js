@@ -9,15 +9,15 @@ function FestivalDetailsPage() {
 
     useEffect(() => {
 
-        if (!id) {
-            setError("Festival ID is missing");
-            return;
-        }
+        // if (!id) {
+        //     setError("Festival ID is missing");
+        //     return;
+        // }
 
         //Fetch the festival data by ID
         const fetchFestivalById = async () => {
             try {
-                const response = await fetch(`http://localhost:3006/api/festival/${id}`);
+                const response = await fetch(`http://localhost:3006/api/festivals/${id}`);
                 console.log('API Response:', response);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);

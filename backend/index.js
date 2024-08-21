@@ -184,34 +184,6 @@ app.post("/Feeds", async (req, res) => {
 });
 
 
-
-// Ticketmaster api routes for fetching festivals
-
-app.get('/api/festivals', async (req, res) => {
-  const API_KEY = process.env.TICKETMASTER_API_KEY;
-  const page = req.query.page || 0; //Default to page 0 if not provided
-
-  console.log(`Fetching festivals from URL: https://app.ticketmaster.com/discovery/v2/events.json?classificationName=Festivals&size=200&page=${page}&apikey=${API_KEY}`);
-
-  try {
-    const response = await axios.get(`https://app.ticketmaster.com/discovery/v2/events.json`, {
-      params: {
-        classificationName: 'Festival',
-        size: 200,
-        page: page,
-        apikey: API_KEY
-      }
-    });
-
-    //send API response data to the frontend
-    res.json(response.data);
-  } catch (error) {
-    console.error("Error fetching festivals:", error);
-    res.status(500).json({message: "Error fetching festivals"});
-  }
-});
-
-
 // get request for feeds page
 app.get('/Feeds', async (req, res) => {
   const query = `
@@ -587,6 +559,32 @@ app.post("/api/messages", (req, res) => {
     });
   } catch (error) {
     return res.status(401).json({ error: "Invalid token" });
+  }
+});
+
+// Ticketmaster api routes for fetching festivals
+
+app.get('/api/festivals', async (req, res) => {
+  const API_KEY = process.env.TICKETMASTER_API_KEY;
+  const page = req.query.page || 0; //Default to page 0 if not provided
+
+  console.log(`Fetching festivals from URL: https://app.ticketmaster.com/discovery/v2/events.json?classificationName=Festivals&size=200&page=${page}&apikey=${API_KEY}`);
+
+  try {
+    const response = await axios.get(`https://app.ticketmaster.com/discovery/v2/events.json`, {
+      params: {
+        classificationName: 'Festival',
+        size: 200,
+        page: page,
+        apikey: API_KEY
+      }
+    });
+
+    //send API response data to the frontend
+    res.json(response.data);
+  } catch (error) {
+    console.error("Error fetching festivals:", error);
+    res.status(500).json({message: "Error fetching festivals"});
   }
 });
 
