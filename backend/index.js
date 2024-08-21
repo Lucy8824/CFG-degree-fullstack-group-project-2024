@@ -9,7 +9,7 @@ const bcrypt = require(`bcrypt`);
 const jwt = require(`jsonwebtoken`);
 const axios = require('axios');
 
-const port = process.env.PORT || 3003;
+const port = process.env.PORT || 3006;
 
 const app = express();
 module.exports = app; // Export the app for testing
@@ -136,6 +136,8 @@ app.get('/api/festivals', async (req, res) => {
   const API_KEY = process.env.TICKETMASTER_API_KEY;
   const page = req.query.page || 0; //Default to page 0 if not provided
 
+  console.log(`Fetching festivals from URL: https://app.ticketmaster.com/discovery/v2/events.json?classificationName=Festivals&size=200&page=${page}&apikey=${API_KEY}`);
+
   try {
     const response = await axios.get(`https://app.ticketmaster.com/discovery/v2/events.json`, {
       params: {
@@ -154,11 +156,32 @@ app.get('/api/festivals', async (req, res) => {
   }
 });
 
+// Requests to the festival api for each festival data
+app.get('/api/festival/:id', async (req, res) => {
+  const festivalId = req.params.id;
+  const API_KEY = process.env.TICKETMASTER_API_KEY;
+
+  console.log(`Fetching festival with ID ${festivalId} from URL: https://app.ticketmaster.com/discovery/v2/events/${festivalId}.json?apikey=${API_KEY}`);
+
+  try {
+    const response = await axios.get(`https://app.ticketmaster.com/discovery/v2/events/${festivalId}.json`, {
+      params: {
+        apikey: API_KEY
+      }
+    });
+
+    res.json(response.data);
+  } catch (error) {
+    console.error("Error fetching festival by ID:", error);
+    res.status(500).json({ message: "Error fetching festival by ID" });
+  }
+});
+
 // Only start the server if this file is executed directly (not needed by tests)
-if (require.main === module) {
-  app.listen(port, () => {
-    console.log(`listening on port ${port}`)
-  });
-}
+// if (require.main === module) {
+//   app.listen(port, () => {
+//     console.log(`listening on port ${port}`)
+//   });
+// }
 
 module.exports = app; // Export the app for testing purposes

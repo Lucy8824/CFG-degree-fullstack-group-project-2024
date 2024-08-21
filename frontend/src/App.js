@@ -7,6 +7,7 @@ import Profile from "./components/ProfilePage/Profile.js";
 import ForgotPassword from "./components/ForgotPassword.js";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import Festivals from "./Pages/Festivals";
+import FestivalDetailsPage from './Pages/FestivalDetailsPage';
 import FestivalButton from "./component/FestivalButton";
 
 
@@ -26,6 +27,7 @@ const App = () => {
                   element={<ForgotPassword />}
                 ></Route>
                 <Route path="/festivals" element={<Festivals />} />
+                <Route path="/festival/:id" element={<FestivalDetailsPage />} />
               </Routes>
             }
           </div>
