@@ -9,7 +9,7 @@
   "private": true,
   "scripts": {
     "start": "cd backend && npm start",
-    "build": "rmdir /S /Q .\\backend\\static && mkdir .\\backend\\static && cd frontend && npm run build && xcopy .\\build\\* ..\\backend\\static\\ /E /I /Y",
+    "build": "rm -rf ./backend/static && mkdir -p ./backend/static && cd frontend && npm run build && cp -R ./build/* ../backend/static/",
     "test": "test"
   },
 

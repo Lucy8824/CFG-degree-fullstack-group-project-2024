@@ -9,7 +9,7 @@ import PrivateRoutes from "./components/LoginPage/PrivateRoutes.js";
 import AuthProvider from "./components/AuthProvider.js";
 import FeedsPage from "./components/FeedsPage/FeedsPage.js";
 // import CustomButton from "./components/CustomButton.js";
-import FestivalDetailsPage from './Pages/FestivalDetailsPage';
+import FestivalDetailsPage from "./Pages/FestivalDetailsPage";
 import FestivalButton from "./component/FestivalButton";
 
 const App = () => {
@@ -19,21 +19,25 @@ const App = () => {
         <div id="Root">
           <div className="App">
             <div className="container">
-                <Routes>
-                  <Route path="/" element={<LoginPage />}></Route>
-                  <Route path="/SignUp" element={<SignUp />}></Route>
+              <Routes>
+                <Route path="/" element={<LoginPage />}></Route>
+                <Route path="/SignUp" element={<SignUp />}></Route>
+                <Route
+                  path="/ForgotPassword"
+                  element={<ForgotPassword />}
+                ></Route>
+                {/* Protected Routes */}
+                <Route element={<PrivateRoutes />}>
+                  {/* <Route path="/Profile" element={<Profile />}></Route> */}{" "}
+                  {/* Uncomment if we need this one */}
+                  <Route path="/Profile" element={<Profile />}></Route>
+                  <Route path="/festivals" element={<Festivals />} />
                   <Route
-                    path="/ForgotPassword"
-                    element={<ForgotPassword />}
-                  ></Route>
-                  {/* Protected Routes */}
-                  <Route element={<PrivateRoutes />}>
-                    {/* <Route path="/Profile" element={<Profile />}></Route> */} {/* Uncomment if we need this one */}
-                    <Route path="/Profile" element={<Profile userId={2}/>}></Route>
-                    <Route path="/festivals" element={<Festivals />} />
-                    <Route path="/festival/:id" element={<FestivalDetailsPage />} />
-                  </Route>
-                </Routes>
+                    path="/festival/:id"
+                    element={<FestivalDetailsPage />}
+                  />
+                </Route>
+              </Routes>
             </div>
           </div>
         </div>
@@ -43,3 +47,5 @@ const App = () => {
 };
 
 export default App;
+
+// userId={2}
