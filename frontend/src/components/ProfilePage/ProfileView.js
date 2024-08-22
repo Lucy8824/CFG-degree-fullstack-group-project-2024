@@ -2,7 +2,6 @@ import React from "react";
 import "./Profile.css";
 
 const ProfileView = ({ name, age, location, aboutme }) => {
-    console.log("ProfileView data:",  name, age, location, aboutme );
     return (
         <div className="main-body">
          <div className="flexThree">
