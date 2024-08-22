@@ -1,4 +1,3 @@
-
 require(`dotenv`).config();
 console.log(process.env);
 
@@ -7,11 +6,16 @@ const cors = require(`cors`);
 const pool = require(`./pool`);
 const bcrypt = require(`bcrypt`);
 const jwt = require(`jsonwebtoken`);
+
+const axios = require('axios');
 const bodyParser = require('body-parser');
+
+
 
 const port = process.env.PORT || 3006;
 
 const app = express();
+module.exports = app; // Export the app for testing
 
 app.use(express.json());
 app.use(cors());
@@ -48,9 +52,10 @@ app.post(`/register`, async (req, res) => {
   }
 });
 
-// these are requests to login using authentication
+
 // request to generate JWT with post
 app.post(`/user/generateToken`, (req, res) => {
+  
   // this validates user
   const { username, password } = req.body;
   if (username === "validUser" && password === "validPassword") {
