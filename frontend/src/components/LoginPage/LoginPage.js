@@ -21,7 +21,7 @@ const LoginPage = () => {
     console.log("login is clicked");
     event.preventDefault();
     try {
-      const response = await fetch("http://localhost:3006/user/generateToken", {
+      const response = await fetch("/user/generateToken", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -33,11 +33,12 @@ const LoginPage = () => {
       }
       const data = await response.json();
       const token = data.token;
+      const { userID } = data
 
       if (token) {
         login(token);
         console.log("Navigating to Profile...");
-        navigate("/Profile/:user_id"); // redirect to protected route
+        navigate(`/Profile/${userID}`); // redirect to protected route
       }
     } catch (error) {
       setError(error.message);
