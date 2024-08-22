@@ -65,6 +65,7 @@ app.post(`/user/generateToken`, async (req, res) => {
     ]);
     if (rows.length > 0) {
       const user = rows[0];
+      console.log("user", user);
 
       // compare password with stored hashed one in db
       const isPasswordValid = await bcrypt.compare(password, user.password);
@@ -73,14 +74,14 @@ app.post(`/user/generateToken`, async (req, res) => {
         const jwtSecretKey = process.env.JWT_SECRET_KEY;
         const data = {
           time: Date(),
-          userID: user_id,
+          userID:user.user_id
         };
-
+        console.log("data", data);
         // Sign the JWT token with the secret key
         const token = jwt.sign(data, jwtSecretKey, { expiresIn: "1h" });
 
         // Send the token as a response
-        res.status(200).json({ token, userID: user_id });
+        res.status(200).json({ token, userID: user.user_id });
       } else {
         // If the password is incorrect
         res.status(401).json({ message: "Invalid credentials" });
