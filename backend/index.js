@@ -602,10 +602,29 @@ app.get('/api/festival/:id', async (req, res) => {
       }
     });
 
-    res.json(response.data);
+    //Extract relevant information from response
+    const event = response.data;
+    const festival = {
+      id: event.id,
+      name: event.name,
+      dates: event.dates.start.localDate,
+      location: event._embedded.venues[0]?.city.name || "Unknown",
+      description: event.info || "No festival infromation available",
+      website: event.url || "No website available",
+      tickets: event.url || "No ticket link available",
+      lineup: event._embedded.attractions?.map(attraction => attraction.name) || [] 
+    };
+
+    // Send festival data to the frontend
+    res.json(festival);
   } catch (error) {
-    console.error("Error fetching festival by ID:", error);
-    res.status(500).json({ message: "Error fetching festival by ID" });
+    console.error("Error fetching festival by ID:", error.response?.data || error.message);
+
+    if (error.response?.status === 404){
+      res.status(404).json({message: "Festival not found"});
+    } else {
+      res.status(500).json({ message: "Error fetching festival by ID" });
+    }
   }
 });
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Card, ListGroup } from 'react-bootstrap';
+// import '../Pages/FestivalDetailsPage.css';
 
 function FestivalDetailsPage() {
     const { id } = useParams(); //Extract festival ID from the URL params
@@ -17,17 +18,11 @@ function FestivalDetailsPage() {
         //Fetch the festival data by ID
         const fetchFestivalById = async () => {
             try {
-                const response = await fetch(`http://localhost:3006/api/festivals/${id}`);
+                const response = await fetch(`http://localhost:3006/api/festival/${id}`);
                 console.log('API Response:', response);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-
-                // Checking if the response is in JSON format
-                // const contentType = response.headers.get("content-type");
-                // if (!contentType || !contentType.includes("application/json")) {
-                //     throw new Error("Received non-JSON response from the server");
-                // }
 
                 const data = await response.json();
                 console.log('Festival Data:', data);
@@ -51,10 +46,31 @@ function FestivalDetailsPage() {
     return (
         <Container>
             <Row>
-                <Col>
-                    <h1>{festival.name}</h1>
-                    <p>Date: {festival.dates.start.localDate}</p>
-                    <p>Location: {festival._embedded.venues[0]?.city.name}</p>
+                <Col md={8}>
+                    <Card className="mb-4">
+                        <Card.Body>
+                            <Card.Title>{festival.name}</Card.Title>
+                            <Card.Subtitle className="mb-2 text-muted">Date: {festival.dates}</Card.Subtitle>
+                            <Card.Subtitle className="mb-2 text-muted">Location: {festival.location}</Card.Subtitle>
+                            <Card.Text>{festival.description}</Card.Text>
+                            {festival.website && (
+                                <Card.Link href={festival.website} target="_blank">Event Website</Card.Link>
+                            )}
+                            {festival.tickets && (
+                                <Card.Link href={festival.tickets} target="_blank">Buy Tickets</Card.Link>
+                            )}
+                        </Card.Body>
+                    </Card>
+                    {festival.lineup.length > 0 && (
+                        <Card>
+                            <Card.Header>Lineup</Card.Header>
+                            <ListGroup variant="flush">
+                                {festival.lineup.map((artist, index) => (
+                                    <ListGroup.Item key={index}>{artist}</ListGroup.Item>
+                                ))}
+                            </ListGroup>
+                        </Card>
+                    )}
                 </Col>
             </Row>
         </Container>
