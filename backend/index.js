@@ -32,7 +32,7 @@ app.post(`/register`, async (req, res) => {
   const { email, password } = req.body;
   try {
     // checks if email already exists
-    const [rows] = await pool.query("SELECT * FROM users WHERE email = ?", [
+    const [rows] = await pool.query("SELECT * FROM User_login WHERE email = ?", [
       email,
     ]);
     if (rows.length > 0) {
@@ -42,7 +42,7 @@ app.post(`/register`, async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // insert new user into sql query
-    const insertUserQuery = "INSERT INTO USERS (email, password) VALUES (?, ?)";
+    const insertUserQuery = "INSERT INTO User_login (email, password) VALUES (?, ?)";
     await pool.query(insertUserQuery, [email, hashedPassword]);
 
     res.status(201).json({ message: "User registered successfully" });
@@ -60,7 +60,7 @@ app.post(`/user/generateToken`, async (req, res) => {
   const { email, password } = req.body;
   try {
     //query to db to find the user by email
-    const [rows] = await pool.query("SELECT * FROM users WHERE email = ?", [
+    const [rows] = await pool.query("SELECT * FROM User_login WHERE email = ?", [
       email,
     ]);
     if (rows.length > 0) {
@@ -130,20 +130,20 @@ app.get("/User_sign_up", async (req, res) => {
 
 // post request for user sign up page
 app.post("/User_sign_up", async (req, res) => {
-  const { full_name, email_address, password } = req.body;
+  const { fullName, email, password } = req.body;
 
 
 
-  if (!full_name || !email_address || !password) {
+  if (!fullName || !email || !password) {
     return res.status(400).json({ error: "Invalid Request" });
   }
-  if (!email_address.includes("@")) {
+  if (!email.includes("@")) {
     return res.status(400).json({ message: "Incorrect email address" });
   }
   try {
     const [results] = await pool.query(
-      "INSERT INTO User_sign_up (full_name, email_address, password) VALUES (?, ?, ?)",
-      [full_name, email_address, password]
+      "INSERT INTO User_sign_up (fullName, email, password) VALUES (?, ?, ?)",
+      [fullName, email, password]
     );
     console.log("New user sign up data:", results);
     res.status(200).json({ message: "New user created" });

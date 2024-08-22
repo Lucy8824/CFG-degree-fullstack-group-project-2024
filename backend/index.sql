@@ -5,8 +5,8 @@ USE Festival_Meetup;
 
 CREATE TABLE User_sign_up 
 (user_id INT AUTO_INCREMENT NOT NULL,
-full_name VARCHAR (50) NOT NULL,
-email_address VARCHAR (50) NOT NULL UNIQUE,
+fullName VARCHAR (50) NOT NULL,
+email VARCHAR (50) NOT NULL UNIQUE,
 password VARCHAR (50) NOT NULL UNIQUE,
 PRIMARY KEY (user_id));
 
@@ -15,7 +15,7 @@ CREATE TABLE User_login
 email_address VARCHAR (50) NOT NULL, 
 password VARCHAR (50) UNIQUE, 
 FOREIGN KEY (user_id) REFERENCES User_sign_up (user_id),
-FOREIGN KEY (email_address) REFERENCES User_sign_up (email_address),
+FOREIGN KEY (email_address) REFERENCES User_sign_up (email),
 FOREIGN KEY (password) REFERENCES User_sign_up (password));
 
 
@@ -82,7 +82,7 @@ INSERT INTO User_profile
 (first_name, age, location, profile_picture_url, about_me, favourite_artists, attended_festivals, plan_to_visit)
 VALUES
 ("Lydia", 29, "Cardiff", "/Users/lydiahague/Downloads/IMG_6205.HEIC", "lorem...	", "Fred Again, Cat Burns, Caity Baser", "Leeds Festival, Isle of Wight Festival, Glastonbury", "Reading Festival, Glastonbury"),
-("Sarah", 26, "London", "https://media.istockphoto.com/id/1457409025/photo/festival-moment.jpg?s=612x612&w=0&k=20&c=fC9ihV9iAr8M4PwqCbn428T1JLeFGOURxEkOFmg9Rvs=", "I am a festival goer from London, "lorem...	", "Beyonce, Raye, Dave", "Reading Festival", "Boomtown"),
+("Sarah", 26, "London", "https://media.istockphoto.com/id/1457409025/photo/festival-moment.jpg?s=612x612&w=0&k=20&c=fC9ihV9iAr8M4PwqCbn428T1JLeFGOURxEkOFmg9Rvs=", "I am a festival goer from London", "Beyonce, Raye, Dave", "Reading Festival", "Boomtown"),
 ("Josie", 22, "Sussex", "15 June 18-38-19 LYDIA.jpg", "lorem...", "Raye, Loyle Carner, Coldplay", "Glastonbury, Coachella", "Reading");
 
 INSERT INTO Feeds
