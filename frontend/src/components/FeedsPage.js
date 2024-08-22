@@ -3,19 +3,20 @@ import "./FeedsPage.css";
 
 
 
-
+// get request
 const FeedsPage = () => {
     const [input, setInput] = useState('');
     const [posts, setPosts] = useState([]);
 
     const fetchPosts = async () => {
         try {
-            const response = await fetch('/Feeds');
+            const response = await fetch('http://localhost:3006/Feeds');
             console.log('Full Response:', response);
 
             const contentType = response.headers.get("content-type");
         if (contentType && contentType.indexOf("application/json") !== -1) {
             const data = await response.json();
+            console.log(data);
             setPosts((data));
         } else {
         const textData = await response.text();
@@ -30,11 +31,14 @@ const FeedsPage = () => {
     useEffect(() => {
         fetchPosts();
     }, []);
+
+
    
     const [firstName, setFirstName] = useState('');
     const [profilePictureUrl, setProfilePictureUrl] = useState('');
     const [postMessage, setPostMessage] = useState('');
     
+    // post request
     const Post = async (event) => {
         event.preventDefault();
         console.log("It's working")
@@ -44,7 +48,7 @@ const FeedsPage = () => {
             post_message: postMessage,
           };
           try {
-            const secondResponse = await fetch('/Feeds', {
+            const secondResponse = await fetch('http://localhost:3006/Feeds', {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',
@@ -79,10 +83,12 @@ const FeedsPage = () => {
         </form>
 
         
+        {/* displaying the posts */}
         <div>
                 {posts.map((post, index) => (
                     <p key={index}>{post}</p>
                 ))}
+                {/* reply and message buttons with hidden input box */}
                 <button id="replyButton" onClick= {reply()} >Reply</button><button>Message</button>
                 <input type="text" id="replyBox" className="hide"/>
             </div>

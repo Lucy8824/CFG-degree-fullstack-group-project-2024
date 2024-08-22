@@ -68,7 +68,7 @@ INSERT INTO User_profile
 (first_name, age, location, profile_picture_url, about_me, favourite_artists, attended_festivals, plan_to_visit)
 VALUES
 ("Lydia", 29, "Cardiff", "/Users/lydiahague/Downloads/IMG_6205.HEIC", "lorem...	", "Fred Again, Cat Burns, Caity Baser", "Leeds Festival, Isle of Wight Festival, Glastonbury", "Reading Festival, Glastonbury"),
-("Sarah", 26, "London", "https://media.istockphoto.com/id/1457409025/photo/festival-moment.jpg?s=612x612&w=0&k=20&c=fC9ihV9iAr8M4PwqCbn428T1JLeFGOURxEkOFmg9Rvs=", "I am a festival goer from London, "lorem...	", "Beyonce, Raye, Dave", "Reading Festival", "Boomtown"),
+("Sarah", 26, "London", "https://img.freepik.com/premium-photo/beautiful-woman-enjoying-summer-music-festival-beach_855607-509.jpg?w=1060", "I am a fun and outgoing city gal who loves to dance. Love meeting new people and always up for an adventure. Looking forward to meeting some like-minded people!", "Beyonce, Raye, Dave", "Reading Festival", "Boomtown"),
 ("Josie", 22, "Sussex", "15 June 18-38-19 LYDIA.jpg", "lorem...", "Raye, Loyle Carner, Coldplay", "Glastonbury, Coachella", "Reading");
 
 -- INSERT INTO Private_messages
