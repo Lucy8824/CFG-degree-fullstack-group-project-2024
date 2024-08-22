@@ -29,10 +29,10 @@ app.get(`/`, (req, res) => {
 
 // endpoint to register new users
 app.post(`/register`, async (req, res) => {
-  const { email, password } = req.body;
+  const { fullName, email, password } = req.body;
   try {
     // checks if email already exists
-    const [rows] = await pool.query("SELECT * FROM User_login WHERE email = ?", [
+    const [rows] = await pool.query("SELECT * FROM User WHERE email = ?", [
       email,
     ]);
     if (rows.length > 0) {
@@ -42,8 +42,8 @@ app.post(`/register`, async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // insert new user into sql query
-    const insertUserQuery = "INSERT INTO User_login (email, password) VALUES (?, ?)";
-    await pool.query(insertUserQuery, [email, hashedPassword]);
+    const insertUserQuery = "INSERT INTO User (fullName, email, password) VALUES (?, ?, ?)";
+    await pool.query(insertUserQuery, [fullName, email, hashedPassword]);
 
     res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
@@ -60,7 +60,7 @@ app.post(`/user/generateToken`, async (req, res) => {
   const { email, password } = req.body;
   try {
     //query to db to find the user by email
-    const [rows] = await pool.query("SELECT * FROM User_login WHERE email = ?", [
+    const [rows] = await pool.query("SELECT * FROM User WHERE email = ?", [
       email,
     ]);
     if (rows.length > 0) {
@@ -73,14 +73,14 @@ app.post(`/user/generateToken`, async (req, res) => {
         const jwtSecretKey = process.env.JWT_SECRET_KEY;
         const data = {
           time: Date(),
-          userID: user.id,
+          userID: user_id,
         };
 
         // Sign the JWT token with the secret key
         const token = jwt.sign(data, jwtSecretKey, { expiresIn: "1h" });
 
         // Send the token as a response
-        res.status(200).json({ token });
+        res.status(200).json({ token, userID: user_id });
       } else {
         // If the password is incorrect
         res.status(401).json({ message: "Invalid credentials" });
@@ -119,39 +119,39 @@ app.listen(port, () => {
 
 
 // get request attempt
-app.get("/User_sign_up", async (req, res) => {
-  try {
-    const [result] = await pool.query("SELECT * FROM User_sign_up");
-    res.json(result);
-  } catch (err) {
-    res.status(500).json({ message: "Problem" });
-  }
-});
+// app.get("/User_sign_up", async (req, res) => {
+//   try {
+//     const [result] = await pool.query("SELECT * FROM User_sign_up");
+//     res.json(result);
+//   } catch (err) {
+//     res.status(500).json({ message: "Problem" });
+//   }
+// });
 
 // post request for user sign up page
-app.post("/User_sign_up", async (req, res) => {
-  const { fullName, email, password } = req.body;
+// app.post("/User_sign_up", async (req, res) => {
+//   const { fullName, email, password } = req.body;
 
 
 
-  if (!fullName || !email || !password) {
-    return res.status(400).json({ error: "Invalid Request" });
-  }
-  if (!email.includes("@")) {
-    return res.status(400).json({ message: "Incorrect email address" });
-  }
-  try {
-    const [results] = await pool.query(
-      "INSERT INTO User_sign_up (fullName, email, password) VALUES (?, ?, ?)",
-      [fullName, email, password]
-    );
-    console.log("New user sign up data:", results);
-    res.status(200).json({ message: "New user created" });
-  } catch (err) {
-    console.error("Data insertion failed", err);
-    res.status(500).json({ error: "Data insertion failed" });
-  }
-});
+//   if (!fullName || !email || !password) {
+//     return res.status(400).json({ error: "Invalid Request" });
+//   }
+//   if (!email.includes("@")) {
+//     return res.status(400).json({ message: "Incorrect email address" });
+//   }
+//   try {
+//     const [results] = await pool.query(
+//       "INSERT INTO User_sign_up (fullName, email, password) VALUES (?, ?, ?)",
+//       [fullName, email, password]
+//     );
+//     console.log("New user sign up data:", results);
+//     res.status(200).json({ message: "New user created" });
+//   } catch (err) {
+//     console.error("Data insertion failed", err);
+//     res.status(500).json({ error: "Data insertion failed" });
+//   }
+// });
 
 
 // get request for feeds page
