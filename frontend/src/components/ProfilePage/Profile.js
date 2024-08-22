@@ -5,6 +5,7 @@ import ProfileArray from "./ProfileArray.js";
 import CustomButton from "../CustomButton.js";
 import ProfileInfo from "./ProfileInfo.js";
 import ProfilePicture from "./ProfilePicture.js";
+import "./Profile.css";
 
 const Profile = ({ userId }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -93,16 +94,24 @@ const Profile = ({ userId }) => {
     <div>
       {profile && (
         <>
+          <ProfilePicture 
+          isEditing={isEditing} 
+          image={profile.profile_picture_url}
+          />
+
           <ProfileInfo
             isEditing={isEditing}
             profile={profile}
             handleInputChange={handleInputChange}
           />
-          <ProfilePicture
-            isEditing={isEditing}
-            image={profile.profile_picture_url}
+          <ProfilePicture 
+          isEditing={isEditing} 
+          image={profile.profile_picture_url}
           />
 
+          <div className="flexThree">
+          <div className="flexOne">
+          <div class="card mr-6">
           <ProfileArray
             title="Favourite Artists"
             items={profile.favourite_artists}
@@ -111,7 +120,11 @@ const Profile = ({ userId }) => {
             }
             isEditing={isEditing}
           />
+          </div>
+          </div>
 
+          <div className="flexOne">
+          <div class="card ml-8">
           <ProfileArray
             title="Festivals to attend"
             items={profile.plan_to_visit}
@@ -120,7 +133,12 @@ const Profile = ({ userId }) => {
             }
             isEditing={isEditing}
           />
+          </div>
+          </div>
+          
 
+          <div className="flexOne">
+          <div class="card mt-3">
           <ProfileArray
             title="Festivals attended"
             items={profile.attended_festivals}
@@ -129,6 +147,9 @@ const Profile = ({ userId }) => {
             }
             isEditing={isEditing}
           />
+          </div>
+          </div>
+          </div>
 
           <CustomButton
             type="button"

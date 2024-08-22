@@ -1,5 +1,7 @@
 import React from "react";
 import "./ForgotPassword";
+import "./FeedsPage";
+import FeedsPage from "./FeedsPage";
 
 const ForgotPassword = () => {
 
