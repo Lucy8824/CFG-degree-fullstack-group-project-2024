@@ -7,10 +7,8 @@ const pool = require(`./pool`);
 const bcrypt = require(`bcrypt`);
 const jwt = require(`jsonwebtoken`);
 
-const axios = require('axios');
-const bodyParser = require('body-parser');
-
-
+const axios = require("axios");
+const bodyParser = require("body-parser");
 
 const port = process.env.PORT || 3006;
 
@@ -42,8 +40,21 @@ app.post(`/register`, async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // insert new user into sql query
-    const insertUserQuery = "INSERT INTO User (fullName, email, password) VALUES (?, ?, ?)";
-    await pool.query(insertUserQuery, [fullName, email, hashedPassword]);
+    const insertUserQuery =
+      "INSERT INTO User (fullName, email, password) VALUES (?, ?, ?)";
+    const [userResult] = await pool.query(insertUserQuery, [
+      fullName,
+      email,
+      hashedPassword,
+    ]);
+
+    const userID = userResult.insertId;
+
+    const insertProfileQuery = `
+    INSERT INTO User_profile (user_id, first_name, age, location, profile_picture_url, about_me, favourite_artists, attended_festivals, plan_to_visit)
+    VALUES (?, ?, 01, 'location', 'n/a', 'about me', 'favourite_artists', 'attended_festivals', 'plan_to_visit')
+`;
+    await pool.query(insertProfileQuery, [userID, fullName]);
 
     res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
@@ -52,10 +63,8 @@ app.post(`/register`, async (req, res) => {
   }
 });
 
-
 //request to generate JWT with post
 app.post(`/user/generateToken`, async (req, res) => {
-
   // this validates user
   const { email, password } = req.body;
   try {
@@ -74,7 +83,7 @@ app.post(`/user/generateToken`, async (req, res) => {
         const jwtSecretKey = process.env.JWT_SECRET_KEY;
         const data = {
           time: Date(),
-          userID:user.user_id
+          userID: user.user_id,
         };
         console.log("data", data);
         // Sign the JWT token with the secret key
@@ -118,7 +127,6 @@ app.listen(port, () => {
   console.log(`listening on port ${port}`);
 });
 
-
 // get request attempt
 // app.get("/User_sign_up", async (req, res) => {
 //   try {
@@ -132,8 +140,6 @@ app.listen(port, () => {
 // post request for user sign up page
 // app.post("/User_sign_up", async (req, res) => {
 //   const { fullName, email, password } = req.body;
-
-
 
 //   if (!fullName || !email || !password) {
 //     return res.status(400).json({ error: "Invalid Request" });
@@ -153,7 +159,6 @@ app.listen(port, () => {
 //     res.status(500).json({ error: "Data insertion failed" });
 //   }
 // });
-
 
 // get request for feeds page
 app.get("/Feeds", async (req, res) => {
@@ -184,9 +189,8 @@ app.post("/Feeds", async (req, res) => {
   }
 });
 
-
 // get request for feeds page
-app.get('/Feeds', async (req, res) => {
+app.get("/Feeds", async (req, res) => {
   const query = `
     SELECT 
       Feeds.post_id,
@@ -210,50 +214,54 @@ app.get('/Feeds', async (req, res) => {
     // Send the results as a JSON response
     res.json(results);
   } catch (error) {
-    console.error('Error fetching posts:', error);
-    res.status(500).json({ error: 'Failed to fetch posts' });
+    console.error("Error fetching posts:", error);
+    res.status(500).json({ error: "Failed to fetch posts" });
   }
 });
 
-
-
-//post comments endpoint 
-app.post('/Comments', async (req, res) => {
+//post comments endpoint
+app.post("/Comments", async (req, res) => {
   const { post_id, user_id, comment } = req.body;
 
   try {
     // Insert comment into database
-    const [result] = await pool.query(`
+    const [result] = await pool.query(
+      `
         INSERT INTO Comments (post_id, user_id, comment)
         VALUES (?, ?, ?)
-    `, [post_id, user_id, comment]);
+    `,
+      [post_id, user_id, comment]
+    );
 
     // Respond with the new comment ID
-    res.status(201).json({ comment_id: result.insertId, post_id, user_id, comment });
+    res
+      .status(201)
+      .json({ comment_id: result.insertId, post_id, user_id, comment });
   } catch (error) {
-    console.error('Error adding comment:', error);
-    res.status(500).json({ error: 'Failed to add comment' });
+    console.error("Error adding comment:", error);
+    res.status(500).json({ error: "Failed to add comment" });
   }
 });
 
-
-app.post('/newpost', async (req, res) => {
+app.post("/newpost", async (req, res) => {
   const { user_id, post_message } = req.body;
 
   if (!user_id || !post_message) {
-      return res.status(400).json({ error: 'user_id and post_message are required' });
+    return res
+      .status(400)
+      .json({ error: "user_id and post_message are required" });
   }
 
   try {
-      
-      const [result] = await pool.query(
-          'INSERT INTO Feeds (user_id, post_message) VALUES (?, ?)',
-          [user_id, post_message]
-      );
+    const [result] = await pool.query(
+      "INSERT INTO Feeds (user_id, post_message) VALUES (?, ?)",
+      [user_id, post_message]
+    );
 
-      const post_id = result.insertId;
+    const post_id = result.insertId;
 
-      const [rows] = await pool.query(`
+    const [rows] = await pool.query(
+      `
           SELECT 
               f.post_id,
               f.post_message,
@@ -264,38 +272,40 @@ app.post('/newpost', async (req, res) => {
           FROM Feeds f
           JOIN User_profile u ON f.user_id = u.user_id
           WHERE f.post_id = ?
-      `, [post_id]);
+      `,
+      [post_id]
+    );
 
-      const newPost = rows[0];
+    const newPost = rows[0];
 
-      res.status(201).json(newPost);
+    res.status(201).json(newPost);
   } catch (error) {
-      console.error('Error creating post:', error);
-      res.status(500).json({ error: 'Failed to create post' });
+    console.error("Error creating post:", error);
+    res.status(500).json({ error: "Failed to create post" });
   }
 });
 
-
-
 // Get comments for a specific post
-app.get('/posts/:id/comments', async (req, res) => {
+app.get("/posts/:id/comments", async (req, res) => {
   const postId = req.params.id;
 
   try {
-    const [rows] = await pool.query(`
+    const [rows] = await pool.query(
+      `
       SELECT c.comment_id, c.comment, c.created_at, u.first_name AS user_name
       FROM Comments c
       JOIN User_profile u ON c.user_id = u.user_id
       WHERE c.post_id = ?
-    `, [postId]);
+    `,
+      [postId]
+    );
 
     res.json(rows);
   } catch (error) {
-    console.error('Error fetching comments:', error);
-    res.status(500).json({ error: 'Failed to fetch comments' });
+    console.error("Error fetching comments:", error);
+    res.status(500).json({ error: "Failed to fetch comments" });
   }
 });
-
 
 ///get user information for the profile page (working)
 app.get("/getProfile/:id", async (req, res) => {
@@ -363,9 +373,7 @@ app.get("/getProfile/:id", async (req, res) => {
 
 //endpoint for updating user information - put works, however will need to ensure user authentication
 
-
-app.put('/updateProfile/:id', async (req, res) => {
-
+app.put("/updateProfile/:id", async (req, res) => {
   const profileID = req.params.id; // the profile ID being edited
   const userid = req.params.id; // the logged-in user ID extracted from the JWT
 
@@ -421,11 +429,8 @@ app.put('/updateProfile/:id', async (req, res) => {
   updateValues.push(userid);
 
   try {
-
     // Use a Promise-based approach for the query
     const [result] = await pool.query(updateQuery, updateValues);
-
-
 
     // Check if the user was found and updated
     if (result.affectedRows === 0) {
@@ -565,43 +570,53 @@ app.post("/api/messages", (req, res) => {
 
 // Ticketmaster api routes for fetching festivals
 
-app.get('/api/festivals', async (req, res) => {
+app.get("/api/festivals", async (req, res) => {
   const API_KEY = process.env.TICKETMASTER_API_KEY;
   const page = req.query.page || 0; //Default to page 0 if not provided
 
-  console.log(`Fetching festivals from URL: https://app.ticketmaster.com/discovery/v2/events.json?classificationName=Festivals&size=200&page=${page}&apikey=${API_KEY}`);
+  console.log(
+    `Fetching festivals from URL: https://app.ticketmaster.com/discovery/v2/events.json?classificationName=Festivals&size=200&page=${page}&apikey=${API_KEY}`
+  );
 
   try {
-    const response = await axios.get(`https://app.ticketmaster.com/discovery/v2/events.json`, {
-      params: {
-        classificationName: 'Festival',
-        size: 200,
-        page: page,
-        apikey: API_KEY
+    const response = await axios.get(
+      `https://app.ticketmaster.com/discovery/v2/events.json`,
+      {
+        params: {
+          classificationName: "Festival",
+          size: 200,
+          page: page,
+          apikey: API_KEY,
+        },
       }
-    });
+    );
 
     //send API response data to the frontend
     res.json(response.data);
   } catch (error) {
     console.error("Error fetching festivals:", error);
-    res.status(500).json({message: "Error fetching festivals"});
+    res.status(500).json({ message: "Error fetching festivals" });
   }
 });
 
 // Requests to the festival api for each festival data
-app.get('/api/festival/:id', async (req, res) => {
+app.get("/api/festival/:id", async (req, res) => {
   const festivalId = req.params.id;
   const API_KEY = process.env.TICKETMASTER_API_KEY;
 
-  console.log(`Fetching festival with ID ${festivalId} from URL: https://app.ticketmaster.com/discovery/v2/events/${festivalId}.json?apikey=${API_KEY}`);
+  console.log(
+    `Fetching festival with ID ${festivalId} from URL: https://app.ticketmaster.com/discovery/v2/events/${festivalId}.json?apikey=${API_KEY}`
+  );
 
   try {
-    const response = await axios.get(`https://app.ticketmaster.com/discovery/v2/events/${festivalId}.json`, {
-      params: {
-        apikey: API_KEY
+    const response = await axios.get(
+      `https://app.ticketmaster.com/discovery/v2/events/${festivalId}.json`,
+      {
+        params: {
+          apikey: API_KEY,
+        },
       }
-    });
+    );
 
     //Extract relevant information from response
     const event = response.data;
@@ -613,16 +628,20 @@ app.get('/api/festival/:id', async (req, res) => {
       description: event.info || "No festival infromation available",
       website: event.url || "No website available",
       tickets: event.url || "No ticket link available",
-      lineup: event._embedded.attractions?.map(attraction => attraction.name) || [] 
+      lineup:
+        event._embedded.attractions?.map((attraction) => attraction.name) || [],
     };
 
     // Send festival data to the frontend
     res.json(festival);
   } catch (error) {
-    console.error("Error fetching festival by ID:", error.response?.data || error.message);
+    console.error(
+      "Error fetching festival by ID:",
+      error.response?.data || error.message
+    );
 
-    if (error.response?.status === 404){
-      res.status(404).json({message: "Festival not found"});
+    if (error.response?.status === 404) {
+      res.status(404).json({ message: "Festival not found" });
     } else {
       res.status(500).json({ message: "Error fetching festival by ID" });
     }
