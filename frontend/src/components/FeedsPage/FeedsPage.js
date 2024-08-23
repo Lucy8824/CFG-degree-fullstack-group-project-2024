@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import Post from './Post';
 import NewPost from './NewPost';
+import { useParams } from 'react-router-dom';
 
 
-const FeedsPage = ({userid}) => {
-   
-    const [posts, setPosts] = useState([]);
+const FeedsPage = () => {
+const { user_id: userId } = useParams()
+const [posts, setPosts] = useState([]);
+console.log('userId', userId);
+
   
     const fetchPosts = async () => {
         try {
             // Fetch data from the backend
-            const response = await fetch('http://localhost:3006/Feeds');
-    
+            const response = await fetch(`/Feeds/${userId}`);
+            console.log("response", userId);
 
             if (!response.ok) {
                 throw new Error(`Error: ${response.status} ${response.statusText}`);
@@ -21,6 +24,7 @@ const FeedsPage = ({userid}) => {
             if (contentType && contentType.includes("application/json")) {
                 const data = await response.json();
                 setPosts(data); // Set the state with the fetched data
+                console.log("feedspage",data);
                 
             } else {
                 // Handle non-JSON responses
@@ -47,10 +51,10 @@ const FeedsPage = ({userid}) => {
 
     <div>
        <h2>Festival Feed</h2>
-       <NewPost userId={userid} setPosts={updatePosts} />
+       <NewPost userId={userId} setPosts={updatePosts} />
         
        {posts.map((post, index) => (
-  <Post key={index} postId={post.post_id} post={post} userid={userid} />
+  <Post key={index} postId={post.post_id} post={post} userId={userId} />
 ))}
 
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import CommentSection from './CommentSection';
 
-const Post = ({ post }) => {
+const Post = ({ post, userId }) => {
     const { post_id, profile_picture_url, first_name, post_message, created_at } = post;
 
     return (
@@ -16,7 +16,7 @@ const Post = ({ post }) => {
             </div>
             <p>{post_message}</p>
             <small>Posted on: {new Date(created_at).toLocaleString()}</small>
-            <CommentSection postId={post_id} />
+            <CommentSection postId={post_id} userId={userId} />
         </div>
     );
 };

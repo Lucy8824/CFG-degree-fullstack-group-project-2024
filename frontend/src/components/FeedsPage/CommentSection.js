@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const CommentSection = ({ postId }) => {
+const CommentSection = ({ userId, postId }) => {
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
 
@@ -25,12 +25,12 @@ const CommentSection = ({ postId }) => {
         try {
             await axios.post('http://localhost:3006/comments', {
                 post_id: postId,
-                user_id: 1, // Replace with actual user ID
+                user_id: userId,
                 comment: newComment
             });
 
             // Refresh comments after adding a new one
-            const response = await axios.get(`http://localhost:3006/comments/${postId}`);
+            const response = await axios.get(`http://localhost:3006/post/${postId}/comments`);
             setComments(response.data);
 
             setNewComment('');
