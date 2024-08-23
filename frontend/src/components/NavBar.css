@@ -1,0 +1,107 @@
+.navbar-custom {
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+  padding: 0px;
+  background-color: #ffffff;
+  margin: 0;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  display:flex;
+  justify-content:space-between;
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
+.brandLogo {
+  display: flex;
+  align-items: center;
+  color: black;
+  font-size: 1.5em;
+  font-weight: bold;
+  text-decoration: none;
+  gap: 10px;
+}
+
+.navBarList {
+  color: black;
+  margin: 0 15px;
+  font-size: 1.1em;
+  font-weight: bold !important;
+  font-family: 'Roboto Condensed', sans-serif !important;
+  text-shadow: 0.3px 0.3px 0.8px rgba(0, 0, 0, 0.3);
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.navBarList:hover {
+  transform: scale(1.1);
+  color: rgb(73, 15, 8);
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.logOutButton {
+  align-items: center;
+  appearance: none;
+  background-color: black !important;
+  border-radius: 24px !important;
+  border-style: none !important;
+  box-shadow: rgba(0, 0, 0, .2)- 0 3px 5px -1, rgba(0, 0, 0, .14) 0 6px 10px 0, rgba(0, 0, 0, 0.12) 0 1px 18px 0 !important;
+  box-sizing: border-box;
+  color: white;
+  cursor: pointer !important;
+  display:inline-flex !important;
+  fill:currentColor !important;
+  font-family: 'Roboto Condensed', sans-serif !important;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1em;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  margin-right:10px;
+}
+
+
+.logOutButton:hover {
+  color: #ffffff;
+  background-color: black;
+  transform: scale(1.05);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 900px) {
+  .brandLogo {
+    font-size: 20px;
+  }
+  .logoImage{
+    width: 30px;
+  }
+  .navBarList{
+    font-size: 15px;
+  }
+  .logOutButton{
+    font-size: 15px;
+    padding: 5px 15px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+  }
+}
+
+
+/* 
+
+.navbar-logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+  cursor: default;
+  margin-left: 50px;
+  padding-left: 15px;
+  padding-right: 50px;
+  margin-right: 30px;
+}
+
+.custom-nav-links .nav-link {
+  margin-right: 20px;
+  font-size: 1.1rem;
+}
+
+.custom-nav-links .nav-link:last-child {
+  margin-right: 0;
+} */
+
