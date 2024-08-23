@@ -6,7 +6,7 @@ const NewPost = ({ setPosts, userId }) => {
 
     const handlePostSubmit = async (e) => {
         e.preventDefault();
-
+        (console.log("Posts:", userId));
         const postData = {
             user_id: userId,
             post_message: content

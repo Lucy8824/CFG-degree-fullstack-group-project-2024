@@ -161,9 +161,10 @@ app.listen(port, () => {
 // });
 
 // get request for feeds page
-app.get("/Feeds", async (req, res) => {
+app.get("/Feeds/:id", async (req, res) => {
   try {
-    const [posts] = await pool.query("SELECT * FROM Feeds");
+    const [posts] = await pool.query(`
+    SELECT * FROM Feeds INNER JOIN User_profile ON Feeds.user_id = User_profile.user_id`);
     res.json(posts);
   } catch (err) {
     res.status(500).json({ message: "Problem" });
@@ -171,7 +172,7 @@ app.get("/Feeds", async (req, res) => {
 });
 
 // post request for feeds page
-app.post("/Feeds", async (req, res) => {
+app.post("/Feeds/:id", async (req, res) => {
   const { first_name, profile_picture_url, post_message } = req.body;
   if (!first_name || !profile_picture_url || !post_message) {
     return res.status(400).json({ error: "Invalid Request" });
@@ -190,34 +191,32 @@ app.post("/Feeds", async (req, res) => {
 });
 
 // get request for feeds page
-app.get("/Feeds", async (req, res) => {
-  const query = `
-    SELECT 
-      Feeds.post_id,
-      Feeds.post_message,
-      Feeds.created_at,
-      User_profile.first_name,
-      User_profile.profile_picture_url,
-      User_profile.location
-    FROM 
-      Feeds
-    INNER JOIN 
-      User_profile 
-    ON 
-      Feeds.user_id = User_profile.user_id
-  `;
+// app.get("/Feeds/:id", async (req, res) => {
+//   const query = `
+//     SELECT 
+//       Feeds.post_id,
+//       Feeds.post_message,
+//       User_profile.first_name,
+//       User_profile.profile_picture_url,
+//     FROM 
+//       Feeds
+//     INNER JOIN 
+//       User_profile 
+//     ON 
+//       Feeds.user_id = User_profile.user_id
+//   `;
 
-  try {
-    // Await the execution of the query and store the results
-    const [results] = await pool.query(query);
+//   try {
+//     // Await the execution of the query and store the results
+//     const [results] = await pool.query(query);
 
-    // Send the results as a JSON response
-    res.json(results);
-  } catch (error) {
-    console.error("Error fetching posts:", error);
-    res.status(500).json({ error: "Failed to fetch posts" });
-  }
-});
+//     // Send the results as a JSON response
+//     res.json(results);
+//   } catch (error) {
+//     console.error("Error fetching posts:", error);
+//     res.status(500).json({ error: "Failed to fetch posts" });
+//   }
+// });
 
 //post comments endpoint
 app.post("/Comments", async (req, res) => {
@@ -265,7 +264,6 @@ app.post("/newpost", async (req, res) => {
           SELECT 
               f.post_id,
               f.post_message,
-              f.created_at,
               u.user_id,
               u.first_name,
               u.profile_picture_url
