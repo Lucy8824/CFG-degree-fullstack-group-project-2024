@@ -48,7 +48,7 @@ FOREIGN KEY (user_id) REFERENCES User (user_id));
 
 CREATE TABLE conversations (
     conversation_id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(250)
+    name VARCHAR(250),
     type ENUM('private', 'group') NOT NULL
 );
 
@@ -57,7 +57,7 @@ CREATE TABLE messages (
     conversation_id INT,
     user_id INT,
     content TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TiMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (conversation_id) REFERENCES conversations(conversation_id),
     FOREIGN KEY (user_id) REFERENCES User (user_id)
 );
@@ -109,7 +109,7 @@ VALUES
 INSERT INTO conversations (name) 
 VALUES ("Glasto!!"), ("Festival gals");
 
-INSERT INTO messages (conversation_id, sender_id, content) 
+INSERT INTO messages (conversation_id, user_id, content) 
 VALUES 
 (1, 1, "Hey, I saw youre attending Glasto on the feeds page, I am too!"),
 (2,2 "Hiya!! I LOVE dance music!!");
