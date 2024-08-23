@@ -93,7 +93,6 @@ comment_id INT AUTO_INCREMENT PRIMARY KEY,
 post_id INT NOT NULL,
 user_id INT NOT NULL,
 comment VARCHAR (500) NOT NULL,
-created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 FOREIGN KEY (post_id) REFERENCES Feeds (post_id),
 FOREIGN KEY (user_id) REFERENCES User (user_id));
 
