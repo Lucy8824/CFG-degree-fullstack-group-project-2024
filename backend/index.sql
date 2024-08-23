@@ -109,7 +109,7 @@ VALUES
 INSERT INTO conversations (name) 
 VALUES ("Glasto!!"), ("Festival gals");
 
-INSERT INTO messages (conversation_id, user_id, content) 
+INSERT INTO messages (conversation_id, user_id, content)
 VALUES 
 (1, 1, "Hey, I saw youre attending Glasto on the feeds page, I am too!"),
-(2,2 "Hiya!! I LOVE dance music!!");
+(2,2, "Hiya!! I LOVE dance music!!");
