@@ -24,7 +24,7 @@ const SignUp = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:3006/register", {
+      const response = await fetch("/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -41,11 +41,10 @@ const SignUp = () => {
       console.log("Registration successful", data);
 
       // Navigate to profile or login page on success
-      navigate("/Profile");
+      navigate("/");
     } catch (error) {
       console.error("Error during registration:", error);
       setError(error.message);
-
     }
   };
 
