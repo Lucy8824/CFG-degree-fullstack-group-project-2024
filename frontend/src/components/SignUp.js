@@ -41,7 +41,7 @@ const SignUp = () => {
       console.log("Registration successful", data);
 
       // Navigate to profile or login page on success
-      navigate("/Profile");
+      navigate("/Profile/:user_id");
     } catch (error) {
       console.error("Error during registration:", error);
       setError(error.message);

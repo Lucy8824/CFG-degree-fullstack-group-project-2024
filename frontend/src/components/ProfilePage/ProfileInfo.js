@@ -1,5 +1,6 @@
 import React from "react";
 import ProfileView from "./ProfileView";
+import "./Profile.css"
 
 const ProfileInfo = ({ isEditing, profile, handleInputChange }) => (
     <div>

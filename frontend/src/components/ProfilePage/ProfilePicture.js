@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "./Profile.css";
 
 function ProfilePicture({ isEditing, image }) { // Receive isEditing as a prop
     const [file, setFile] = useState(image);
@@ -13,19 +14,34 @@ function ProfilePicture({ isEditing, image }) { // Receive isEditing as a prop
     }, [image]);
 
     return (
-        <div className="profilePicture">
-            <img
-                src={file || "https://cdn.vectorstock.com/i/500p/82/33/person-gray-photo-placeholder-woman-vector-24138233.avif"} // Display a default image if none is uploaded
-                alt="Profile"
-                style={{
-                    height: 300,
-                    width: 300,
-                }}
+    <div className="profilePicture">
+        <div className="main-body">
+        <h1>Profile</h1>
+            <div className="flexOne">
+                <div className="row gutters-sm">
+                    <div className="col-md-4 mb-3">
+                        <div className="card">
+                            <div className="card-body">
+                                <div className="align-items-center text-center"></div>
+                                   <img className="" 
+                                   src={file || "https://img.freepik.com/premium-photo/beautiful-woman-enjoying-summer-music-festival-beach_855607-509.jpg?w=1060"} // Display a default image if none is uploaded
+                                    alt="Profile"
+                                    class="rounded-circle"
+                                    style={{
+                                    height: 300,
+                                    width: 150,
+                                    }}
             />
             <br />
             {isEditing && ( // Only show upload button when in editing mode
                 <input type="file" onChange={handleChange} />
             )}
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
         </div>
     );
 }

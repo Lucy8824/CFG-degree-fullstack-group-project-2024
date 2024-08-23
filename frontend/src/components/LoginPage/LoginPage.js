@@ -37,7 +37,7 @@ const LoginPage = () => {
       if (token) {
         login(token);
         console.log("Navigating to Profile...");
-        navigate("/Profile"); // redirect to protected route
+        navigate("/Profile/:user_id"); // redirect to protected route
       }
     } catch (error) {
       setError(error.message);

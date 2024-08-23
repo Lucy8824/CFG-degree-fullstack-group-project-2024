@@ -5,41 +5,40 @@ import ProfileArray from "./ProfileArray.js";
 import CustomButton from "../CustomButton.js";
 import ProfileInfo from "./ProfileInfo.js";
 import ProfilePicture from "./ProfilePicture.js";
+import "./Profile.css";
 
-const Profile = ({userId}) => {
+const Profile = ({ userId }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [profile, setProfile] = useState(null);
   const [error, setError] = useState(null);
 
   const fetchProfile = async () => {
     try {
-      const response = await fetch(`http://localhost:3006/getProfile/${userId}`);
+      const response = await fetch(`http://localhost:3006/getProfile`);
       console.log(response);
       if (!response.ok) {
-        throw new Error('Profile not found');
+        throw new Error("Profile not found");
       }
 
-      const data = await response.json();  // Parse the JSON data from the response
+      const data = await response.json(); // Parse the JSON data from the response
       console.log(data);
-      setProfile(data);  // Set the profile data into state
+      setProfile(data); // Set the profile data into state
     } catch (error) {
-      setError(error.message);  // Set any error messages
+      setError(error.message); // Set any error messages
     }
-    
   };
 
   useEffect(() => {
-    fetchProfile(); 
-  }, [userId]);  // The dependency array ensures the fetch is triggered when the userId changes
+    fetchProfile();
+  }, [userId]); // The dependency array ensures the fetch is triggered when the userId changes
 
   if (error) {
-    return <div>{error}</div>; 
+    return <div>{error}</div>;
   }
 
   if (!profile) {
-    return <div>Loading...</div>;  // Display a loading message while data is being fetched
+    return <div>Loading...</div>; // Display a loading message while data is being fetched
   }
-
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -54,34 +53,35 @@ const Profile = ({userId}) => {
   };
 
   const handleSaveClick = async () => {
-
     try {
-      const response = await fetch(`http://localhost:3006/updateProfile/${userId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...profile,
-          favourite_artists: profile.favourite_artists,
-          attended_festivals: profile.attended_festivals,
-          plan_to_visit: profile.plan_to_visit
-        }),
-      });
-  
+      const response = await fetch(
+        `http://localhost:3006/updateProfile/${userId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...profile,
+            favourite_artists: profile.favourite_artists,
+            attended_festivals: profile.attended_festivals,
+            plan_to_visit: profile.plan_to_visit,
+          }),
+        }
+      );
+
       if (!response.ok) {
-        throw new Error('Failed to update profile');
+        throw new Error("Failed to update profile");
       }
-  
+
       const result = await response.json();
-      console.log('Update result:', result);
-      setIsEditing(false);  // Exit editing mode after successful update
+      console.log("Update result:", result);
+      setIsEditing(false); // Exit editing mode after successful update
     } catch (error) {
-      console.error('Error saving profile:', error);
+      console.error("Error saving profile:", error);
       setError(error.message);
     }
   };
-
 
   const handleArrayChange = (key, newItems) => {
     setProfile((prevProfile) => ({
@@ -94,6 +94,11 @@ const Profile = ({userId}) => {
     <div>
       {profile && (
         <>
+          <ProfilePicture 
+          isEditing={isEditing} 
+          image={profile.profile_picture_url}
+          />
+
           <ProfileInfo
             isEditing={isEditing}
             profile={profile}
@@ -104,26 +109,47 @@ const Profile = ({userId}) => {
           image={profile.profile_picture_url}
           />
 
+          <div className="flexThree">
+          <div className="flexOne">
+          <div class="card mr-6">
           <ProfileArray
             title="Favourite Artists"
             items={profile.favourite_artists}
-            onItemsChange={(newItems) => handleArrayChange('favourite_artists', newItems)}
+            onItemsChange={(newItems) =>
+              handleArrayChange("favourite_artists", newItems)
+            }
             isEditing={isEditing}
           />
+          </div>
+          </div>
 
+          <div className="flexOne">
+          <div class="card ml-8">
           <ProfileArray
             title="Festivals to attend"
             items={profile.plan_to_visit}
-            onItemsChange={(newItems) => handleArrayChange('plan_to_visit', newItems)}
+            onItemsChange={(newItems) =>
+              handleArrayChange("plan_to_visit", newItems)
+            }
             isEditing={isEditing}
           />
+          </div>
+          </div>
+          
 
+          <div className="flexOne">
+          <div class="card mt-3">
           <ProfileArray
             title="Festivals attended"
             items={profile.attended_festivals}
-            onItemsChange={(newItems) => handleArrayChange('attended_festivals', newItems)}
+            onItemsChange={(newItems) =>
+              handleArrayChange("attended_festivals", newItems)
+            }
             isEditing={isEditing}
           />
+          </div>
+          </div>
+          </div>
 
           <CustomButton
             type="button"

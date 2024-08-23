@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import "./FeedsPage.css";
 import Post from './Post';
 import NewPost from './NewPost';
 

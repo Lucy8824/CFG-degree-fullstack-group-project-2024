@@ -12,7 +12,7 @@ const bodyParser = require('body-parser');
 
 
 
-const port = process.env.PORT || 3003;
+const port = process.env.PORT || 3006;
 
 const app = express();
 module.exports = app; // Export the app for testing
@@ -29,10 +29,10 @@ app.get(`/`, (req, res) => {
 
 // endpoint to register new users
 app.post(`/register`, async (req, res) => {
-  const { email, password } = req.body;
+  const { fullName, email, password } = req.body;
   try {
     // checks if email already exists
-    const [rows] = await pool.query("SELECT * FROM users WHERE email = ?", [
+    const [rows] = await pool.query("SELECT * FROM User WHERE email = ?", [
       email,
     ]);
     if (rows.length > 0) {
@@ -42,8 +42,8 @@ app.post(`/register`, async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // insert new user into sql query
-    const insertUserQuery = "INSERT INTO USERS (email, password) VALUES (?, ?)";
-    await pool.query(insertUserQuery, [email, hashedPassword]);
+    const insertUserQuery = "INSERT INTO User (fullName, email, password) VALUES (?, ?, ?)";
+    await pool.query(insertUserQuery, [fullName, email, hashedPassword]);
 
     res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
@@ -60,7 +60,7 @@ app.post(`/user/generateToken`, async (req, res) => {
   const { email, password } = req.body;
   try {
     //query to db to find the user by email
-    const [rows] = await pool.query("SELECT * FROM users WHERE email = ?", [
+    const [rows] = await pool.query("SELECT * FROM User WHERE email = ?", [
       email,
     ]);
     if (rows.length > 0) {
@@ -73,14 +73,14 @@ app.post(`/user/generateToken`, async (req, res) => {
         const jwtSecretKey = process.env.JWT_SECRET_KEY;
         const data = {
           time: Date(),
-          userID: user.id,
+          userID: user_id,
         };
 
         // Sign the JWT token with the secret key
         const token = jwt.sign(data, jwtSecretKey, { expiresIn: "1h" });
 
         // Send the token as a response
-        res.status(200).json({ token });
+        res.status(200).json({ token, userID: user_id });
       } else {
         // If the password is incorrect
         res.status(401).json({ message: "Invalid credentials" });
@@ -119,39 +119,39 @@ app.listen(port, () => {
 
 
 // get request attempt
-app.get("/User_sign_up", async (req, res) => {
-  try {
-    const [result] = await pool.query("SELECT * FROM User_sign_up");
-    res.json(result);
-  } catch (err) {
-    res.status(500).json({ message: "Problem" });
-  }
-});
+// app.get("/User_sign_up", async (req, res) => {
+//   try {
+//     const [result] = await pool.query("SELECT * FROM User_sign_up");
+//     res.json(result);
+//   } catch (err) {
+//     res.status(500).json({ message: "Problem" });
+//   }
+// });
 
 // post request for user sign up page
-app.post("/User_sign_up", async (req, res) => {
-  const { full_name, email_address, password } = req.body;
+// app.post("/User_sign_up", async (req, res) => {
+//   const { fullName, email, password } = req.body;
 
 
 
-  if (!full_name || !email_address || !password) {
-    return res.status(400).json({ error: "Invalid Request" });
-  }
-  if (!email_address.includes("@")) {
-    return res.status(400).json({ message: "Incorrect email address" });
-  }
-  try {
-    const [results] = await pool.query(
-      "INSERT INTO User_sign_up (full_name, email_address, password) VALUES (?, ?, ?)",
-      [full_name, email_address, password]
-    );
-    console.log("New user sign up data:", results);
-    res.status(200).json({ message: "New user created" });
-  } catch (err) {
-    console.error("Data insertion failed", err);
-    res.status(500).json({ error: "Data insertion failed" });
-  }
-});
+//   if (!fullName || !email || !password) {
+//     return res.status(400).json({ error: "Invalid Request" });
+//   }
+//   if (!email.includes("@")) {
+//     return res.status(400).json({ message: "Incorrect email address" });
+//   }
+//   try {
+//     const [results] = await pool.query(
+//       "INSERT INTO User_sign_up (fullName, email, password) VALUES (?, ?, ?)",
+//       [fullName, email, password]
+//     );
+//     console.log("New user sign up data:", results);
+//     res.status(200).json({ message: "New user created" });
+//   } catch (err) {
+//     console.error("Data insertion failed", err);
+//     res.status(500).json({ error: "Data insertion failed" });
+//   }
+// });
 
 
 // get request for feeds page
@@ -180,32 +180,6 @@ app.post("/Feeds", async (req, res) => {
   } catch (err) {
     console.error("Data insertion failed", err);
     res.status(500).json({ error: "Data insertion failed" });
-  }
-});
-
-
-
-// Ticketmaster api routes for fetching festivals
-
-app.get('/api/festivals', async (req, res) => {
-  const API_KEY = process.env.TICKETMASTER_API_KEY;
-  const page = req.query.page || 0; //Default to page 0 if not provided
-
-  try {
-    const response = await axios.get(`https://app.ticketmaster.com/discovery/v2/events.json`, {
-      params: {
-        classificationName: 'Festival',
-        size: 200,
-        page: page,
-        apikey: API_KEY
-      }
-    });
-
-    //send API response data to the frontend
-    res.json(response.data);
-  } catch (error) {
-    console.error("Error fetching festivals:", error);
-    res.status(500).json({message: "Error fetching festivals"});
   }
 });
 
@@ -587,3 +561,78 @@ app.post("/api/messages", (req, res) => {
     return res.status(401).json({ error: "Invalid token" });
   }
 });
+
+// Ticketmaster api routes for fetching festivals
+
+app.get('/api/festivals', async (req, res) => {
+  const API_KEY = process.env.TICKETMASTER_API_KEY;
+  const page = req.query.page || 0; //Default to page 0 if not provided
+
+  console.log(`Fetching festivals from URL: https://app.ticketmaster.com/discovery/v2/events.json?classificationName=Festivals&size=200&page=${page}&apikey=${API_KEY}`);
+
+  try {
+    const response = await axios.get(`https://app.ticketmaster.com/discovery/v2/events.json`, {
+      params: {
+        classificationName: 'Festival',
+        size: 200,
+        page: page,
+        apikey: API_KEY
+      }
+    });
+
+    //send API response data to the frontend
+    res.json(response.data);
+  } catch (error) {
+    console.error("Error fetching festivals:", error);
+    res.status(500).json({message: "Error fetching festivals"});
+  }
+});
+
+// Requests to the festival api for each festival data
+app.get('/api/festival/:id', async (req, res) => {
+  const festivalId = req.params.id;
+  const API_KEY = process.env.TICKETMASTER_API_KEY;
+
+  console.log(`Fetching festival with ID ${festivalId} from URL: https://app.ticketmaster.com/discovery/v2/events/${festivalId}.json?apikey=${API_KEY}`);
+
+  try {
+    const response = await axios.get(`https://app.ticketmaster.com/discovery/v2/events/${festivalId}.json`, {
+      params: {
+        apikey: API_KEY
+      }
+    });
+
+    //Extract relevant information from response
+    const event = response.data;
+    const festival = {
+      id: event.id,
+      name: event.name,
+      dates: event.dates.start.localDate,
+      location: event._embedded.venues[0]?.city.name || "Unknown",
+      description: event.info || "No festival infromation available",
+      website: event.url || "No website available",
+      tickets: event.url || "No ticket link available",
+      lineup: event._embedded.attractions?.map(attraction => attraction.name) || [] 
+    };
+
+    // Send festival data to the frontend
+    res.json(festival);
+  } catch (error) {
+    console.error("Error fetching festival by ID:", error.response?.data || error.message);
+
+    if (error.response?.status === 404){
+      res.status(404).json({message: "Festival not found"});
+    } else {
+      res.status(500).json({ message: "Error fetching festival by ID" });
+    }
+  }
+});
+
+// Only start the server if this file is executed directly (not needed by tests)
+// if (require.main === module) {
+//   app.listen(port, () => {
+//     console.log(`listening on port ${port}`)
+//   });
+// }
+
+module.exports = app; // Export the app for testing purposes
