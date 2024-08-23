@@ -68,9 +68,9 @@ VALUES
 INSERT INTO User_profile
 (first_name, age, location, profile_picture_url, about_me, favourite_artists, attended_festivals, plan_to_visit)
 VALUES
-("Lydia", 29, "Cardiff", "", "lorem...	", "Fred Again, Cat Burns, Caity Baser", "Leeds Festival, Isle of Wight Festival, Glastonbury", "Reading Festival, Glastonbury"),
+("Lydia", 29, "Cardiff", "https://i.pinimg.com/originals/9b/20/4c/9b204c0801c9cc705ee129b61af3b6dc.jpg", "lorem...	", "Fred Again, Cat Burns, Caity Baser", "Leeds Festival, Isle of Wight Festival, Glastonbury", "Reading Festival, Glastonbury"),
 ("Sarah", 26, "London", "https://media.istockphoto.com/id/1457409025/photo/festival-moment.jpg?s=612x612&w=0&k=20&c=fC9ihV9iAr8M4PwqCbn428T1JLeFGOURxEkOFmg9Rvs=", "I am a festival goer from London", "Beyonce, Raye, Dave", "Reading Festival", "Boomtown"),
-("Josie", 22, "Sussex", "", "lorem...", "Raye, Loyle Carner, Coldplay", "Glastonbury, Coachella", "Reading");
+("Josie", 22, "Sussex", "https://img.freepik.com/free-photo/young-people-bonding-spending-time-together-youth-activities_23-2151664337.jpg", "lorem...", "Raye, Loyle Carner, Coldplay", "Glastonbury, Coachella", "Reading");
 
 INSERT INTO Feeds
 (user_id, post_message)
