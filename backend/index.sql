@@ -31,7 +31,7 @@ CREATE TABLE User_profile
 first_name VARCHAR (50) NOT NULL,
 age INT NOT NULL,
 location VARCHAR (50),
-profile_picture_url VARCHAR (200),
+profile_picture_url VARCHAR (500),
 about_me VARCHAR (200), 
 favourite_artists VARCHAR (100),
 attended_festivals VARCHAR (100),
@@ -113,3 +113,8 @@ INSERT INTO messages (conversation_id, sender_id, content)
 VALUES 
 (1, 1, "Hey, I saw youre attending Glasto on the feeds page, I am too!"),
 (2,2 "Hiya!! I LOVE dance music!!");
+
+INSERT INTO User_profile
+(first_name, age, location, profile_picture_url, about_me, favourite_artists, attended_festivals, plan_to_visit)
+VALUES
+("megan", 27, "London", "https://img.freepik.com/free-photo/retro-summer-activities-with-80-s-inspired-aesthetic_23-2151425831.jpg?size=626&ext=jpg&ga=GA1.1.2008272138.1722816000&semt=ais_hybrid", "I'm a 27 year old fun, outgoing gal, love music and dancing the night away!", "Beyonce, Raye", "Glastonbury, Reading Festival", "Coachella, Tomorrowland");
