@@ -107,10 +107,6 @@ const Profile = () => {
             profile={profile}
             handleInputChange={handleInputChange}
           />
-          <ProfilePicture 
-          isEditing={isEditing} 
-          image={profile.profile_picture_url}
-          />
 
           <div className="flexThree">
           <div className="flexOne">

@@ -52,7 +52,7 @@ app.post(`/register`, async (req, res) => {
 
     const insertProfileQuery = `
     INSERT INTO User_profile (user_id, first_name, age, location, profile_picture_url, about_me, favourite_artists, attended_festivals, plan_to_visit)
-    VALUES (?, ?, 01, 'location', 'n/a', 'about me', 'favourite_artists', 'attended_festivals', 'plan_to_visit')
+    VALUES (?, ?, 01, 'Location', 'https://i.pinimg.com/originals/46/72/f8/4672f876389036583190d93a71aa6cb2.jpg', 'Tell me about yourself...', 'add your favourite artists here', 'what festivals have you been to?', 'what festivals do you plan to visit?')
 `;
     await pool.query(insertProfileQuery, [userID, fullName]);
 

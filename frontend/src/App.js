@@ -11,6 +11,7 @@ import FeedsPage from "./components/FeedsPage/FeedsPage.js";
 // import CustomButton from "./components/CustomButton.js";
 import FestivalDetailsPage from "./Pages/FestivalDetailsPage";
 import FestivalButton from "./component/FestivalButton";
+import ChatsPage from "./components/MessagesPage/ChatsPage.js";
 
 const App = () => {
   return (
@@ -36,6 +37,8 @@ const App = () => {
                     path="/festival/:id"
                     element={<FestivalDetailsPage />}
                   />
+                  <Route path="/Feeds" element={<FeedsPage />} />
+                  <Route path="/Messages" element={<ChatsPage />} />
                 </Route>
               </Routes>
             </div>
