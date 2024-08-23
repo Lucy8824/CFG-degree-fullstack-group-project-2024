@@ -16,7 +16,7 @@ const NavBar = () => {
                     <Nav className="mr-auto custom-nav-links">
                         <Nav.Link className="navBarList" as={Link} to="/Profile/:user_id">My Profile</Nav.Link>
                         <Nav.Link className="navBarList"as={Link} to="/chats">My Chats</Nav.Link>
-                        <Nav.Link className="navBarList"as={Link} to="/feeds">Feeds</Nav.Link>
+                        <Nav.Link className="navBarList"as={Link} to="/feeds/:user_id">Feeds</Nav.Link>
                         <Nav.Link className="navBarList"as={Link} to="/festivals">Festivals</Nav.Link>
                     </Nav>
                     <Button className="logOutButton">Log Out</Button>
