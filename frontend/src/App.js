@@ -37,7 +37,7 @@ const App = () => {
                     path="/festival/:id"
                     element={<FestivalDetailsPage />}
                   />
-                  <Route path="/Feeds" element={<FeedsPage />} />
+                  <Route path="/Feeds/:user_id" element={<FeedsPage />} />
                   <Route path="/Messages" element={<ChatsPage />} />
                 </Route>
               </Routes>
