@@ -6,16 +6,19 @@ import CustomButton from "../CustomButton.js";
 import ProfileInfo from "./ProfileInfo.js";
 import ProfilePicture from "./ProfilePicture.js";
 import "./Profile.css";
+import { useParams } from "react-router-dom";
 
-const Profile = ({ userId }) => {
+const Profile = () => {
+  const { user_id: userId} = useParams()
   const [isEditing, setIsEditing] = useState(false);
   const [profile, setProfile] = useState(null);
   const [error, setError] = useState(null);
+  console.log('userId', userId)
 
   const fetchProfile = async () => {
     try {
-      const response = await fetch(`http://localhost:3006/getProfile`);
-      console.log(response);
+      const response = await fetch(`/getProfile/${userId}`);
+      console.log('response: ', response);
       if (!response.ok) {
         throw new Error("Profile not found");
       }
