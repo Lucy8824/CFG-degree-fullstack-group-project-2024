@@ -24,6 +24,7 @@ console.log('userId', userId);
             if (contentType && contentType.includes("application/json")) {
                 const data = await response.json();
                 setPosts(data); // Set the state with the fetched data
+                console.log("feedspage",data);
                 
             } else {
                 // Handle non-JSON responses
@@ -53,7 +54,7 @@ console.log('userId', userId);
        <NewPost userId={userId} setPosts={updatePosts} />
         
        {posts.map((post, index) => (
-  <Post key={index} postId={post.post_id} post={post} userID={userId} />
+  <Post key={index} postId={post.post_id} post={post} userId={userId} />
 ))}
 
 
