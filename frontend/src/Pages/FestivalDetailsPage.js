@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Container, Row, Col, ListGroup, Button } from 'react-bootstrap';
 import './FestivalDetailsPage.css';
+import NavBar from '../components/NavBar/NavBar';
 
 function FestivalDetailsPage() {
     const { id } = useParams(); //Extract festival ID from the URL params
@@ -46,6 +47,8 @@ function FestivalDetailsPage() {
     const bannerImage = 'https://images.unsplash.com/photo-1672841821756-fc04525771c2?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NzJ8fG11c2ljJTIwZmVzdGl2YWx8ZW58MHwwfDB8fHwy';
 
     return (
+        <>
+        <NavBar />
         <div className="festival-details-page">
                 <div className="banner-page" style={{ backgroundImage: `url(${bannerImage})` }}>
                     <div className="banner-content">
@@ -110,6 +113,8 @@ function FestivalDetailsPage() {
                 </Row>
             </Container>
         </div>
+    </>
+
     );
 }
 

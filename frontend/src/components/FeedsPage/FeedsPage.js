@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Post from './Post';
 import NewPost from './NewPost';
+import NavBar from '../NavBar/NavBar';
 
 
 const FeedsPage = ({userid}) => {
@@ -44,6 +45,9 @@ const FeedsPage = ({userid}) => {
     }, []);
 
     return (
+    
+    <>
+    <NavBar />
 
     <div>
        <h2>Festival Feed</h2>
@@ -55,6 +59,7 @@ const FeedsPage = ({userid}) => {
 
 
 </div>
+</>
     );
 }
     export default FeedsPage;

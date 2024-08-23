@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import FestivalCard from "../component/FestivalCard";
 import { Container, Row, Col, Card, Form } from "react-bootstrap";
 import "../App.css";
-import NavBar from "../components/NavBar";
+import NavBar from "../components/NavBar/NavBar";
 import "../components/SearchBox.css";
 import "../components/Banner.css";
 // import { fetchFestivals } from "../services/ticketmaster"; Not deleting in case I need it again later

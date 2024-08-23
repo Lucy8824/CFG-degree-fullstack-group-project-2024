@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navbar, Nav, Container, Button } from 'react-bootstrap';
 import './NavBar.css';
-import logo from './img/logo.png';
+import logo from '../img/logo.png';
 import { Link } from 'react-router-dom';
 
 const NavBar = () => {
@@ -27,7 +27,3 @@ const NavBar = () => {
 }
 
 export default NavBar;
-
-
-
-
