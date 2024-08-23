@@ -1,45 +1,68 @@
+html, body {
+  height:100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
 .loginContainer {
-  background-image: url("./img/festival.jpeg");
+  background-image: url("https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8ZmVzdGl2YWx8ZW58MHwwfDB8fHwy");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   min-height: 100vh;
-  width: 100%;
+  width: 100vw;
   overflow: hidden;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
+  margin-top: calc(-50vw + 50%);
 }
 
 .title {
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-  color: black;
-  font-weight: 600;
+  font-family: "Roboto Condensed", sans-serif;
+  color: rgb(20, 16, 16);
+  font-weight: 700;
   font-size: 75px;
   line-height: 85px;
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(241, 231, 231, 0.6);
+}
+
+.form {
+  position: relative;
+  background: #FFFFFF;
+  padding: 45px;
+  text-align: center;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
 
 .emailBox {
-  border-radius: 25px;
-  border-style: ridge;
-  border-width: 1px;
-  border-color: lightgray;
-  padding: 20px;
-  width: 250px;
+  font-family: 'Roboto Condensed' sans-serif;
+  outline:0;
+  background: #f2f2f2;
+  width: 100%;
+  border: 0;
+  margin: 0 0 15px;
+  padding: 15px;
+  box-sizing: border-box;
   height: 10px;
-  margin-bottom: 15px;
-  line-height: 5px;
   font-size: 15px;
 }
 
 .passwordBox {
-  border-radius: 25px;
-  border-style: ridge;
-  border-width: 1px;
-  border-color: lightgray;
-  padding: 20px;
-  width: 250px;
+  font-family: 'Roboto Condensed' sans-serif;
+  outline:0;
+  background: #f2f2f2;
+  width: 100%;
+  border: 0;
+  margin: 0 0 15px;
+  padding: 15px;
+  box-sizing: border-box;
   height: 10px;
-  margin-bottom: 15px;
-  line-height: 5px;
   font-size: 15px;
 }
 
