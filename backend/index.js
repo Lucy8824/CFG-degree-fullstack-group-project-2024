@@ -161,7 +161,7 @@ app.listen(port, () => {
 // });
 
 // get request for feeds page
-app.get("/Feeds", async (req, res) => {
+app.get("/Feeds/:id", async (req, res) => {
   try {
     const [posts] = await pool.query("SELECT * FROM Feeds");
     res.json(posts);
@@ -171,7 +171,7 @@ app.get("/Feeds", async (req, res) => {
 });
 
 // post request for feeds page
-app.post("/Feeds", async (req, res) => {
+app.post("/Feeds/:id", async (req, res) => {
   const { first_name, profile_picture_url, post_message } = req.body;
   if (!first_name || !profile_picture_url || !post_message) {
     return res.status(400).json({ error: "Invalid Request" });
@@ -265,7 +265,6 @@ app.post("/newpost", async (req, res) => {
           SELECT 
               f.post_id,
               f.post_message,
-              f.created_at,
               u.user_id,
               u.first_name,
               u.profile_picture_url
