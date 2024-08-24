@@ -27,16 +27,14 @@ const App = () => {
 
                 {/* Protected Routes */}
                 <Route element={<PrivateRoutes />}>
-                  {/* <Route path="/Profile" element={<Profile />}></Route> */}{" "}
-                  {/* Uncomment if we need this one */}
                   <Route path="/Profile/:user_id" element={<Profile />}></Route>
-                  <Route path="/festivals" element={<Festivals />} />
+                  <Route path="/festivals/:user_id" element={<Festivals />} />
                   <Route
                     path="/festival/:id"
                     element={<FestivalDetailsPage />}
                   />
                   <Route path="/Feeds/:user_id" element={<FeedsPage />} />
-                  <Route path="/Messages" element={<ChatsPage />} />
+                  <Route path="/Messages/:user_id" element={<ChatsPage />} />
                 </Route>
               </Routes>
             </div>

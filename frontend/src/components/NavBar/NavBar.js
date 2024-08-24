@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 
 const NavBar = ({userId}) => {
 
-    console.log("Nav:", userId);
+   
     return (
         <Navbar className="navbar-custom" expand="lg" fixed="top">
             <Container fluid> {/* Using Fluid to allow more flexibility in alignment - I want the logo more to the left */}
@@ -19,9 +19,9 @@ const NavBar = ({userId}) => {
                 <Navbar.Collapse id="basic-navbar-nav" className="justify-content-between" >
                     <Nav className="mr-auto custom-nav-links">
                         <Nav.Link className="navBarList" as={Link} to={`/Profile/${userId}`}>My Profile</Nav.Link>
-                        <Nav.Link className="navBarList"as={Link} to="/chats">My Chats</Nav.Link>
+                        <Nav.Link className="navBarList"as={Link} to={`/Messages/${userId}`}>My Chats</Nav.Link>
                         <Nav.Link className="navBarList"as={Link} to={`/feeds/${userId}`}>Feeds</Nav.Link>
-                        <Nav.Link className="navBarList"as={Link} to="/festivals">Festivals</Nav.Link>
+                        <Nav.Link className="navBarList"as={Link} to={`/festivals/${userId}`}>Festivals</Nav.Link>
                     </Nav>
                     <Button className="logOutButton">Log Out</Button>
                 </Navbar.Collapse>

@@ -5,7 +5,7 @@ import './FestivalDetailsPage.css';
 import NavBar from '../components/NavBar/NavBar';
 
 function FestivalDetailsPage() {
-    const { id } = useParams(); //Extract festival ID from the URL params
+    const { id } = useParams(); //Extract festival ID from the URL params#
     const [festival, setFestival] = useState(null);
     const [error, setError] = useState(null);
 

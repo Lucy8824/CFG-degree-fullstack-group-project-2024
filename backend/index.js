@@ -290,7 +290,7 @@ app.get("/posts/:id/comments", async (req, res) => {
   try {
     const [rows] = await pool.query(
       `
-      SELECT c.comment_id, c.comment, u.first_name AS user_name
+      SELECT c.comment_id, c.comment, u.first_name, u.profile_picture_url
       FROM Comments c
       JOIN User_profile u ON c.user_id = u.user_id
       WHERE c.post_id = ?
@@ -568,7 +568,7 @@ app.post("/api/messages", (req, res) => {
 
 // Ticketmaster api routes for fetching festivals
 
-app.get("/api/festivals", async (req, res) => {
+app.get("/api/festivals/user/:id", async (req, res) => {
   const API_KEY = process.env.TICKETMASTER_API_KEY;
   const page = req.query.page || 0; //Default to page 0 if not provided
 
@@ -598,7 +598,7 @@ app.get("/api/festivals", async (req, res) => {
 });
 
 // Requests to the festival api for each festival data
-app.get("/api/festival/:id", async (req, res) => {
+app.get("user/:id/api/festival/:id", async (req, res) => {
   const festivalId = req.params.id;
   const API_KEY = process.env.TICKETMASTER_API_KEY;
 

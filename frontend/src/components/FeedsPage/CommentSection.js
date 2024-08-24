@@ -32,7 +32,7 @@ const CommentSection = ({ userId, postId }) => {
             // Refresh comments after adding a new one
             const response = await axios.get(`http://localhost:3006/post/${postId}/comments`);
             setComments(response.data);
-
+            console.log("Comment:", response.data);
             setNewComment('');
         } catch (error) {
             console.error('Error adding comment:', error);
