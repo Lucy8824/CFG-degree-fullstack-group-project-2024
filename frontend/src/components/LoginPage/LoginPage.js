@@ -4,6 +4,8 @@ import "./LoginPage.css";
 import CustomButton from "../CustomButton.js";
 import AuthProvider from "../AuthProvider.js";
 import { useAuth } from "../AuthProvider.js";
+import ModalForgotPassword from "./ModalForgotPassword";
+import ModalResetPassword from "./ModalResetPassword";
 
 const LoginPage = () => {
   const { login } = useAuth();
@@ -104,6 +106,15 @@ const LoginPage = () => {
           />
         </div>
       </form>
+
+      <ModalForgotPassword
+        show={showForgotPasswordModal}
+        onHide={() => setShowForgotPasswordModal(false)}
+      />
+      <ModalResetPassword
+        show={showResetPasswordModal}
+        onHide={() => setShowResetPasswordModal(false)}
+      />
     </div>
   );
 };

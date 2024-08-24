@@ -12,6 +12,7 @@ import FeedsPage from "./components/FeedsPage/FeedsPage.js";
 import FestivalDetailsPage from "./Pages/FestivalDetailsPage";
 import FestivalButton from "./component/FestivalButton";
 import ChatsPage from "./components/MessagesPage/ChatsPage.js";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const App = () => {
   return (
