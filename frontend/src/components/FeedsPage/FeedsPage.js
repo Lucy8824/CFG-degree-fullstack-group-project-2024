@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Post from './Post';
 import NewPost from './NewPost';
+import NavBar from '../NavBar/NavBar';
 import { useParams } from 'react-router-dom';
 
 
@@ -48,6 +49,9 @@ console.log('userId', userId);
     }, []);
 
     return (
+    
+    <>
+    <NavBar />
 
     <div>
        <h2>Festival Feed</h2>
@@ -59,6 +63,7 @@ console.log('userId', userId);
 
 
 </div>
+</>
     );
 }
     export default FeedsPage;

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import FestivalCard from "../component/FestivalCard";
 import { Container, Row, Col, Card, Form } from "react-bootstrap";
 import "../App.css";
-import MenuNavbar from "../component/Navbar";
+import NavBar from "../components/NavBar/NavBar";
 import "../components/SearchBox.css";
 import "../components/Banner.css";
 // import { fetchFestivals } from "../services/ticketmaster"; Not deleting in case I need it again later
@@ -49,7 +49,7 @@ function Festivals() {
     return (
 
         <>
-            <MenuNavbar />
+            <NavBar />
             <div className="overlay"></div>
             <div className="banner">
                 <h1>Where will you dance next?</h1>

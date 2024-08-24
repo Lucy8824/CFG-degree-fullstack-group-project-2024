@@ -7,6 +7,7 @@ import ProfileInfo from "./ProfileInfo.js";
 import ProfilePicture from "./ProfilePicture.js";
 import "./Profile.css";
 import { useParams } from "react-router-dom";
+import NavBar from '../NavBar/NavBar';
 
 const Profile = () => {
   const { user_id: userId} = useParams()
@@ -94,6 +95,8 @@ const Profile = () => {
   };
 
   return (
+    <>
+    <NavBar />
     <div>
       {profile && (
         <>
@@ -158,6 +161,7 @@ const Profile = () => {
         </>
       )}
     </div>
+    </>
   );
 };
 

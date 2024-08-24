@@ -10,8 +10,8 @@
     background-repeat: no-repeat;
     display:flex;
     flex-direction: column;
-    padding: 60px 0;
     box-sizing: border-box;
+    margin-top: 0;
 }
 
 .overlay {
@@ -41,3 +41,7 @@
     margin:0;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
   }
+
+body {
+    padding: 65px;
+}
