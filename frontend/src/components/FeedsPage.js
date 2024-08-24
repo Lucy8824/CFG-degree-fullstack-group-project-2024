@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import NavBar from '../components/NavBar/NavBar';
 
 
 
@@ -68,6 +69,8 @@ const FeedsPage = () => {
           };
     
     return (
+      <>
+      <NavBar />
 
     <div>
        <h1>Festival Meetup</h1>
@@ -92,6 +95,7 @@ const FeedsPage = () => {
                 <input type="text" id="replyBox" className="hide"/>
             </div>
 </div>
+</>
     );
     function reply() {
         const text = document.getElementById("replyBox")

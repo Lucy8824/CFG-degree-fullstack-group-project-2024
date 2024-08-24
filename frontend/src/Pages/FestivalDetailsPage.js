@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Container, Row, Col, Card, ListGroup } from 'react-bootstrap';
-// import '../Pages/FestivalDetailsPage.css';
+import { Container, Row, Col, ListGroup, Button } from 'react-bootstrap';
+import './FestivalDetailsPage.css';
+import NavBar from '../components/NavBar/NavBar';
 
 function FestivalDetailsPage() {
     const { id } = useParams(); //Extract festival ID from the URL params
@@ -43,37 +44,77 @@ function FestivalDetailsPage() {
         return <p>Loading...</p>;
     }
 
+    const bannerImage = 'https://images.unsplash.com/photo-1672841821756-fc04525771c2?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NzJ8fG11c2ljJTIwZmVzdGl2YWx8ZW58MHwwfDB8fHwy';
+
     return (
-        <Container>
-            <Row>
-                <Col md={8}>
-                    <Card className="mb-4">
-                        <Card.Body>
-                            <Card.Title>{festival.name}</Card.Title>
-                            <Card.Subtitle className="mb-2 text-muted">Date: {festival.dates}</Card.Subtitle>
-                            <Card.Subtitle className="mb-2 text-muted">Location: {festival.location}</Card.Subtitle>
-                            <Card.Text>{festival.description}</Card.Text>
+        <>
+        <NavBar />
+        <div className="festival-details-page">
+                <div className="banner-page" style={{ backgroundImage: `url(${bannerImage})` }}>
+                    <div className="banner-content">
+                        <h1>{festival.name}</h1>
+                        <p>{festival.dates}</p>
+                        <p>{festival.location}</p>
+                    </div>
+                </div>
+            <Container className="mt-4">
+                <Row>
+                    <Col md={6}>
+                        <div className="section-header">
+                            <h2>Event Information</h2>
+                        </div>
+                        <div className="event-info">
                             {festival.website && (
-                                <Card.Link href={festival.website} target="_blank">Event Website</Card.Link>
+                                <Button
+                                    href={festival.website}
+                                    target="_blank"
+                                    variant="primary"
+                                
+                                >
+                                    Event Website
+                                </Button>
                             )}
                             {festival.tickets && (
-                                <Card.Link href={festival.tickets} target="_blank">Buy Tickets</Card.Link>
+                                <Button className="button"
+                                    href={festival.tickets}
+                                    target="_blank"
+                                    variant="primary"
+                                    
+                                >
+                                    Buy Tickets
+                                </Button>
                             )}
-                        </Card.Body>
-                    </Card>
-                    {festival.lineup.length > 0 && (
-                        <Card>
-                            <Card.Header>Lineup</Card.Header>
-                            <ListGroup variant="flush">
-                                {festival.lineup.map((artist, index) => (
-                                    <ListGroup.Item key={index}>{artist}</ListGroup.Item>
-                                ))}
-                            </ListGroup>
-                        </Card>
-                    )}
-                </Col>
-            </Row>
-        </Container>
+                            <p><strong>Venue: </strong>{festival.location}</p>
+                        </div>
+                    </Col>
+                    <Col md={6}>
+                        <div className="section-header">
+                            <h2>Lineup</h2>
+                           </div>
+                           <div className="lineup">
+                                <Row>
+                                    <Col xs={6}>
+                                        <ListGroup variant="flush">
+                                            {festival.lineup.slice(0, Math.ceil(festival.lineup.length /2)).map((artist, index) => (
+                                                <ListGroup.Item key={index}>{artist}</ListGroup.Item>
+                                            ))}
+                                        </ListGroup>
+                                    </Col>  
+                                    <Col xs={6}>
+                                        <ListGroup variant="flush">
+                                            {festival.lineup.slice(Math.ceil(festival.lineup.length /2)).map((artist, index) => (
+                                                <ListGroup.Item key={index}>{artist}</ListGroup.Item>
+                                            ))}
+                                        </ListGroup>   
+                                    </Col>  
+                                </Row> 
+                        </div>
+                    </Col>
+                </Row>
+            </Container>
+        </div>
+    </>
+
     );
 }
 

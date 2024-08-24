@@ -1,0 +1,70 @@
+.festival-details-page {
+    font-family: 'Roboto Condensed', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.banner-page {
+    position: relative;
+    height: 400px;
+    width: 100vw;
+    color: white;
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+}
+
+.banner-content {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.banner-content h1, .banner-content p {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 100%;
+    padding: 0 15px;
+}
+
+.section-header {
+    background-color: black;
+    color: white;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.section-header h2 {
+    margin:0;
+    text-align: center;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+
+.event-info, .lineup {
+    padding: 15px;
+}
+
+.lineup {
+
+    padding-left: 15px;
+}
+
+.lineup .list-group-item{
+    border: none;
+    padding: 5px 0;
+    text-align: center;
+}
+
+.button {
+    padding: 10px;
+    margin: 10px;
+}

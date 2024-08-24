@@ -9,7 +9,7 @@ const ProfileView = ({ name, age, location, aboutme }) => {
               <div className="card">
                 <div class="card-body">
                     <h2>
-                    <span>{name},</span>
+                    <span>{name}, </span>
                     <span>{age}</span>
                     </h2>
                     <h3>{location}</h3>

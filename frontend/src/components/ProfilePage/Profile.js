@@ -7,6 +7,7 @@ import ProfileInfo from "./ProfileInfo.js";
 import ProfilePicture from "./ProfilePicture.js";
 import "./Profile.css";
 import { useParams } from "react-router-dom";
+import NavBar from '../NavBar/NavBar';
 
 const Profile = () => {
   const { user_id: userId} = useParams()
@@ -94,6 +95,8 @@ const Profile = () => {
   };
 
   return (
+    <>
+    <NavBar />
     <div>
       {profile && (
         <>
@@ -137,7 +140,7 @@ const Profile = () => {
           
 
           <div className="flexOne">
-          <div class="card mt-3">
+          <div class="card ml-8">
           <ProfileArray
             title="Festivals attended"
             items={profile.attended_festivals}
@@ -158,6 +161,7 @@ const Profile = () => {
         </>
       )}
     </div>
+    </>
   );
 };
 

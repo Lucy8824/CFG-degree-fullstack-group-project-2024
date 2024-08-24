@@ -3,6 +3,20 @@ CREATE DATABASE Festival_Meetup;
 
 USE Festival_Meetup;
 
+-- CREATE TABLE User_sign_up
+-- (user_id INT AUTO_INCREMENT NOT NULL,
+-- fullName VARCHAR (50) NOT NULL,
+-- email VARCHAR (50) NOT NULL UNIQUE,
+-- password VARCHAR (50) NOT NULL UNIQUE,
+-- PRIMARY KEY (user_id));
+
+-- CREATE TABLE User_login
+-- (user_id INT AUTO_INCREMENT NOT NULL, 
+-- email VARCHAR (50) NOT NULL, 
+-- password VARCHAR (50) UNIQUE, 
+-- FOREIGN KEY (user_id) REFERENCES User_sign_up (user_id),
+-- FOREIGN KEY (email) REFERENCES User_sign_up (email),
+-- FOREIGN KEY (password) REFERENCES User_sign_up (password));
 
 CREATE TABLE User
 (user_id INT AUTO_INCREMENT NOT NULL,

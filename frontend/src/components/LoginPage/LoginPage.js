@@ -4,6 +4,8 @@ import "./LoginPage.css";
 import CustomButton from "../CustomButton.js";
 import AuthProvider from "../AuthProvider.js";
 import { useAuth } from "../AuthProvider.js";
+import ModalForgotPassword from "./ModalForgotPassword";
+import ModalResetPassword from "./ModalResetPassword";
 
 const LoginPage = () => {
   const { login } = useAuth();
@@ -11,6 +13,9 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+
+  const [showForgotPasswordModal, setShowForgotPasswordModal] = useState(false);
+  const [showResetPasswordModal, setShowResetPasswordModal] = useState(false);
 
   const handleSignupClick = () => {
     console.log("sign up is clicked");
@@ -47,7 +52,12 @@ const LoginPage = () => {
 
   const handleForgotPasswordClick = () => {
     console.log("forgot password is clicked");
-    navigate("/ForgotPassword");
+    setShowForgotPasswordModal(true);
+  };
+
+  const handleResetPasswordClick = () => {
+    console.log("reset password is clicked");
+    setShowResetPasswordModal(true);
   };
 
   const handleSubmit = (event) => {
@@ -59,7 +69,7 @@ const LoginPage = () => {
   return (
     <div className="loginContainer">
       <h1 className="title">Welcome to your Festival Meetup</h1>
-      <form onSubmit={handleSubmit}>
+      <form className="form" onSubmit={handleSubmit}>
         <div>
           <input
             className="emailBox"
@@ -90,20 +100,27 @@ const LoginPage = () => {
             buttonText="Login"
             className="customButtonLogin"
           />
-          <CustomButton
-            type="forgotPassword"
-            onClick={handleForgotPasswordClick}
-            buttonText="Forgot password?"
-            className="customButtonForgotPassword"
-          />
+
           <CustomButton
             type="submit"
             onClick={handleSignupClick}
-            buttonText="Don't have an account? Sign up"
             className="customButtonSignUp"
+            buttonText=""
           />
         </div>
       </form>
+      <div>
+        <ModalForgotPassword
+          show={showForgotPasswordModal}
+          onHide={() => setShowForgotPasswordModal(false)}
+        />
+      </div>
+      <div>
+        <ModalResetPassword
+          show={showResetPasswordModal}
+          onHide={() => setShowResetPasswordModal(false)}
+        />
+      </div>
     </div>
   );
 };
