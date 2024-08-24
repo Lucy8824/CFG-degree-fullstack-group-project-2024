@@ -14,7 +14,6 @@ const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [profile, setProfile] = useState(null);
   const [error, setError] = useState(null);
-  console.log('userId', userId)
 
   const fetchProfile = async () => {
     try {

@@ -598,7 +598,7 @@ app.get("/api/festivals/user/:id", async (req, res) => {
 });
 
 // Requests to the festival api for each festival data
-app.get("user/:id/api/festival/:id", async (req, res) => {
+app.get("/api/festival/:id", async (req, res) => {
   const festivalId = req.params.id;
   const API_KEY = process.env.TICKETMASTER_API_KEY;
 
