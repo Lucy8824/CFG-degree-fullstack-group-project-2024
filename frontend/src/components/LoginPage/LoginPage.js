@@ -112,24 +112,20 @@ const LoginPage = () => {
             buttonText="Don't have an account? Sign up"
             className="customButtonSignUp"
           />
-
-          <CustomButton
-            type="resetPassword"
-            onClick={handleResetPasswordClick}
-            buttonText="Reset password?"
-            className="customButtonResetPassword"
-          />
         </div>
       </form>
-
-      <ModalForgotPassword
-        show={showForgotPasswordModal}
-        onHide={() => setShowForgotPasswordModal(false)}
-      />
-      <ModalResetPassword
-        show={showResetPasswordModal}
-        onHide={() => setShowResetPasswordModal(false)}
-      />
+      <div>
+        <ModalForgotPassword
+          show={showForgotPasswordModal}
+          onHide={() => setShowForgotPasswordModal(false)}
+        />
+      </div>
+      <div>
+        <ModalResetPassword
+          show={showResetPasswordModal}
+          onHide={() => setShowResetPasswordModal(false)}
+        />
+      </div>
     </div>
   );
 };
