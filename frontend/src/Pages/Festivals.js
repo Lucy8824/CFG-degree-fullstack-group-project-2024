@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import FestivalCard from "../component/FestivalCard";
 import { Container, Row, Col, Card, Form } from "react-bootstrap";
+import { useParams } from "react-router-dom";
 import "../App.css";
 import NavBar from "../components/NavBar/NavBar";
 import "../components/SearchBox.css";
@@ -9,6 +10,7 @@ import "../components/Banner.css";
 // Would also need to import Profile, Chats and Logout?
 
 async function fetchFestivals() {
+
     try {
         const response = await fetch('http://localhost:3006/api/festivals?page=0');
         const data = await response.json();
@@ -19,8 +21,9 @@ async function fetchFestivals() {
     }
 };
 
-function Festivals() {
-
+const Festivals = () => {
+    const { user_id: userId} = useParams()
+    console.log("festivals:", userId);
     const [festivals, setFestivals] = useState([]);
     const [searchQuery, setSearchQuery] = useState(''); // state to handle search input
 
@@ -49,7 +52,7 @@ function Festivals() {
     return (
 
         <>
-            <NavBar />
+            <NavBar userId={userId} />
             <div className="overlay"></div>
             <div className="banner">
                 <h1>Where will you dance next?</h1>

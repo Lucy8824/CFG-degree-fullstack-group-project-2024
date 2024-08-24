@@ -290,7 +290,7 @@ app.get("/posts/:id/comments", async (req, res) => {
   try {
     const [rows] = await pool.query(
       `
-      SELECT c.comment_id, c.comment, u.first_name AS user_name
+      SELECT c.comment_id, c.comment, u.first_name, u.profile_picture_url
       FROM Comments c
       JOIN User_profile u ON c.user_id = u.user_id
       WHERE c.post_id = ?

@@ -19,7 +19,7 @@ const NavBar = ({userId}) => {
                 <Navbar.Collapse id="basic-navbar-nav" className="justify-content-between" >
                     <Nav className="mr-auto custom-nav-links">
                         <Nav.Link className="navBarList" as={Link} to={`/Profile/${userId}`}>My Profile</Nav.Link>
-                        <Nav.Link className="navBarList"as={Link} to="/chats">My Chats</Nav.Link>
+                        <Nav.Link className="navBarList"as={Link} to={`/Messages/${userId}`}>My Chats</Nav.Link>
                         <Nav.Link className="navBarList"as={Link} to={`/feeds/${userId}`}>Feeds</Nav.Link>
                         <Nav.Link className="navBarList"as={Link} to="/festivals">Festivals</Nav.Link>
                     </Nav>

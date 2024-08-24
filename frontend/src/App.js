@@ -36,7 +36,7 @@ const App = () => {
                     element={<FestivalDetailsPage />}
                   />
                   <Route path="/Feeds/:user_id" element={<FeedsPage />} />
-                  <Route path="/Messages" element={<ChatsPage />} />
+                  <Route path="/Messages/:user_id" element={<ChatsPage />} />
                 </Route>
               </Routes>
             </div>
