@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import LoginPage from "./components/LoginPage/LoginPage.js";
 import SignUp from "./components/SignUp.js";
 import Profile from "./components/ProfilePage/Profile.js";
-import ForgotPassword from "./components/ForgotPassword.js";
+
 import Festivals from "./Pages/Festivals";
 import PrivateRoutes from "./components/LoginPage/PrivateRoutes.js";
 import AuthProvider from "./components/AuthProvider.js";
@@ -24,10 +24,7 @@ const App = () => {
               <Routes>
                 <Route path="/" element={<LoginPage />}></Route>
                 <Route path="/SignUp" element={<SignUp />}></Route>
-                <Route
-                  path="/ForgotPassword"
-                  element={<ForgotPassword />}
-                ></Route>
+
                 {/* Protected Routes */}
                 <Route element={<PrivateRoutes />}>
                   {/* <Route path="/Profile" element={<Profile />}></Route> */}{" "}

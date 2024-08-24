@@ -100,6 +100,7 @@ const LoginPage = () => {
             buttonText="Login"
             className="customButtonLogin"
           />
+
           <CustomButton
             type="submit"
             onClick={handleSignupClick}
