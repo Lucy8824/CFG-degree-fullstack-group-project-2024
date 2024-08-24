@@ -49,7 +49,12 @@ const LoginPage = () => {
 
   const handleForgotPasswordClick = () => {
     console.log("forgot password is clicked");
-    navigate("/ForgotPassword");
+    setShowForgotPasswordModal(true);
+  };
+
+  const handleResetPasswordClick = () => {
+    console.log("reset password is clicked");
+    setShowResetPasswordModal(true);
   };
 
   const handleSubmit = (event) => {
