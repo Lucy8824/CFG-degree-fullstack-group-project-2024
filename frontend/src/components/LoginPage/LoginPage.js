@@ -109,6 +109,13 @@ const LoginPage = () => {
             buttonText="Don't have an account? Sign up"
             className="customButtonSignUp"
           />
+
+          <CustomButton
+            type="resetPassword"
+            onClick={handleResetPasswordClick}
+            buttonText="Reset password?"
+            className="customButtonResetPassword"
+          />
         </div>
       </form>
 
