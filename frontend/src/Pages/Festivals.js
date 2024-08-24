@@ -9,10 +9,11 @@ import "../components/Banner.css";
 // import { fetchFestivals } from "../services/ticketmaster"; Not deleting in case I need it again later
 // Would also need to import Profile, Chats and Logout?
 
-async function fetchFestivals() {
 
+async function fetchFestivals(userId) {
+   
     try {
-        const response = await fetch('http://localhost:3006/api/festivals?page=0');
+        const response = await fetch(`http://localhost:3006/api/festivals/user/${userId}?page=0`);
         const data = await response.json();
         return data._embedded?.events || [];
     } catch (error) {
@@ -22,27 +23,28 @@ async function fetchFestivals() {
 };
 
 const Festivals = () => {
-    const { user_id: userId} = useParams()
-    console.log("festivals:", userId);
+    const { user_id: userId } = useParams();
     const [festivals, setFestivals] = useState([]);
     const [searchQuery, setSearchQuery] = useState(''); // state to handle search input
 
     useEffect (() => {
-        const getFestivals = async () => {
-            const fetchedFestivals = await fetchFestivals();
-            console.log(fetchedFestivals);
-            // Filter only music events
-            const musicFestivals = fetchedFestivals.filter(event => 
-                event.classifications.some(classification => 
-                    classification.segment.name === 'Music'
-                )
-            );
-            setFestivals(musicFestivals);
-        };
+        if (userId) {
+            const getFestivals = async () => {
+                const fetchedFestivals = await fetchFestivals(userId);
+                console.log(fetchedFestivals);
+                // Filter only music events
+                const musicFestivals = fetchedFestivals.filter(event =>
+                    event.classifications.some(classification =>
+                        classification.segment.name === 'Music'
+                    )
+                );
+                setFestivals(musicFestivals);
+            };
 
-        getFestivals();
-    }, []);
-
+            getFestivals();
+        }
+    }, [userId]); // Dependency array includes userId
+    
     // Filter festivals based on search query
     const filteredFestivals = festivals.filter(festival => 
         festival.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -52,7 +54,7 @@ const Festivals = () => {
     return (
 
         <>
-            <NavBar userId={userId} />
+           <NavBar userId={userId} />
             <div className="overlay"></div>
             <div className="banner">
                 <h1>Where will you dance next?</h1>
