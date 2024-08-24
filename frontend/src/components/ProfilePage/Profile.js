@@ -140,7 +140,7 @@ const Profile = () => {
           
 
           <div className="flexOne">
-          <div class="card mt-3">
+          <div class="card ml-8">
           <ProfileArray
             title="Festivals attended"
             items={profile.attended_festivals}

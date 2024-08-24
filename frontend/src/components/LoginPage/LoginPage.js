@@ -69,7 +69,7 @@ const LoginPage = () => {
   return (
     <div className="loginContainer">
       <h1 className="title">Welcome to your Festival Meetup</h1>
-      <form onSubmit={handleSubmit}>
+      <form className="form" onSubmit={handleSubmit}>
         <div>
           <input
             className="emailBox"
@@ -104,8 +104,8 @@ const LoginPage = () => {
           <CustomButton
             type="submit"
             onClick={handleSignupClick}
-            buttonText="Don't have an account? Sign up"
             className="customButtonSignUp"
+            buttonText=""
           />
         </div>
       </form>
