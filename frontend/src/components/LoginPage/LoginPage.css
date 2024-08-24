@@ -34,10 +34,12 @@ html, body {
 
 .form {
   position: relative;
-  background: #FFFFFF;
+  background: rgba(255, 255, 255, 0.8);
   padding: 45px;
   text-align: center;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  margin-top: 20px;
+  border-radius: 5px;
 }
 
 .emailBox {
@@ -67,34 +69,47 @@ html, body {
 }
 
 .customButtonLogin {
-  border-radius: 25px;
+  font-family: 'Roboto Condensed', sans-serif;
+  outline: 0;
+  background: black;
+  width: 100%;
+  border: 0;
+  padding: 10px;
+  margin-top: 15px;;
+  color: whitesmoke;
+  font-size: 15px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+  border-radius: 5px;
+  /* 
   border-style: ridge;
   border-width: 1px;
   border-color: lightgray;
-  padding: 20px;
-  width: 250px;
   height: 10px;
-  margin-bottom: 15px;
-  background-color: rgb(174, 109, 236);
-  color: whitesmoke;
-  line-height: 5px;
-  font-size: 15px;
-  display: block;
+  margin-bottom: 15px; */
+  /* background-color: rgb(174, 109, 236); */
+  /* line-height: 5px;
+  display: block; */
   /* box-sizing: border-box; */
 }
 
+.customButtonLogin:hover, .customButtonLogin:active, .customButtonLogin:focus {
+  background: #CC5500;
+}
+
 .customButtonForgotPassword {
-  border-radius: 25px;
+  /* border-radius: 25px; */
   border-style: none;
   /* border-width: 1px; */
-  border-color: lightgray;
+  /* border-color: lightgray; */
   background: rgba(105, 100, 100, 0);
   padding: 20px;
   width: 250px;
   height: 10px;
-  margin-bottom: 15px;
+  /* margin-bottom: 15px; */
   line-height: 5px;
-  font-size: 15px;
+  font-size: 12px;
   display: block;
 }
 
@@ -102,15 +117,40 @@ html, body {
   border-radius: 25px;
   border-style: none;
   /* border-width: 1px; */
-  border-color: lightgray;
   background: rgba(105, 100, 100, 0);
-  padding: 10px;
+  /* padding: 10px; */
   width: 255px;
-  height: 10px;
+  height: 20px;
   margin-bottom: 15px;
-  line-height: 5px;
+  line-height: normal;
   font-size: 15px;
   display: block;
+  text-align: center;
+  color: black;
+}
+
+.customButtonSignUp:hover {
+  color: black;
+}
+
+.customButtonSignUp::before {
+  content: "Don't have an account?";
+  font-size: 13px;
+  color: black;
+  margin-right:5px;
+}
+
+.customButtonSignUp::after {
+  content: "Sign Up";
+  color: #CC5500;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.customButtonSignUp:hover::after {
+  text-decoration: underline;
 }
 
 .inputContainer {

@@ -99,8 +99,8 @@ const LoginPage = () => {
           <CustomButton
             type="submit"
             onClick={handleSignupClick}
-            buttonText="Don't have an account? Sign up"
             className="customButtonSignUp"
+            buttonText=""
           />
         </div>
       </form>
