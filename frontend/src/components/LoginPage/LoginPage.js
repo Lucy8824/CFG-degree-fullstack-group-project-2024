@@ -14,6 +14,9 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
 
+  const [showForgotPasswordModal, setShowForgotPasswordModal] = useState(false);
+  const [showResetPasswordModal, setShowResetPasswordModal] = useState(false);
+
   const handleSignupClick = () => {
     console.log("sign up is clicked");
     navigate("/SignUp");
