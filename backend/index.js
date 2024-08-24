@@ -127,38 +127,6 @@ app.listen(port, () => {
   console.log(`listening on port ${port}`);
 });
 
-// get request attempt
-// app.get("/User_sign_up", async (req, res) => {
-//   try {
-//     const [result] = await pool.query("SELECT * FROM User_sign_up");
-//     res.json(result);
-//   } catch (err) {
-//     res.status(500).json({ message: "Problem" });
-//   }
-// });
-
-// post request for user sign up page
-// app.post("/User_sign_up", async (req, res) => {
-//   const { fullName, email, password } = req.body;
-
-//   if (!fullName || !email || !password) {
-//     return res.status(400).json({ error: "Invalid Request" });
-//   }
-//   if (!email.includes("@")) {
-//     return res.status(400).json({ message: "Incorrect email address" });
-//   }
-//   try {
-//     const [results] = await pool.query(
-//       "INSERT INTO User_sign_up (fullName, email, password) VALUES (?, ?, ?)",
-//       [fullName, email, password]
-//     );
-//     console.log("New user sign up data:", results);
-//     res.status(200).json({ message: "New user created" });
-//   } catch (err) {
-//     console.error("Data insertion failed", err);
-//     res.status(500).json({ error: "Data insertion failed" });
-//   }
-// });
 
 // get request for feeds page
 app.get("/Feeds/:id", async (req, res) => {
