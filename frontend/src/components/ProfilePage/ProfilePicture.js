@@ -23,14 +23,10 @@ function ProfilePicture({ isEditing, image }) { // Receive isEditing as a prop
                         <div className="card">
                             <div className="card-body">
                                 <div className="align-items-center text-center"></div>
-                                   <img className="" 
+                                   <img
                                    src={file || "https://img.freepik.com/premium-photo/beautiful-woman-enjoying-summer-music-festival-beach_855607-509.jpg?w=1060"} // Display a default image if none is uploaded
                                     alt="Profile"
-                                    class="rounded-circle"
-                                    style={{
-                                    height: 300,
-                                    width: 150,
-                                    }}
+                                    className="profile-img" // To apply the CSS class
             />
             <br />
             {isEditing && ( // Only show upload button when in editing mode
