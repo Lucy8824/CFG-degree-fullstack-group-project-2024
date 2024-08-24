@@ -101,12 +101,6 @@ const LoginPage = () => {
             className="customButtonLogin"
           />
           <CustomButton
-            type="forgotPassword"
-            onClick={handleForgotPasswordClick}
-            buttonText="Forgot password?"
-            className="customButtonForgotPassword"
-          />
-          <CustomButton
             type="submit"
             onClick={handleSignupClick}
             buttonText="Don't have an account? Sign up"
