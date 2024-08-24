@@ -51,7 +51,7 @@ console.log('userId', userId);
     return (
     
     <>
-    <NavBar />
+    <NavBar userId={userId} />
 
     <div>
        <h2>Festival Feed</h2>

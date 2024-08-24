@@ -96,7 +96,7 @@ const Profile = () => {
 
   return (
     <>
-    <NavBar />
+    <NavBar userId={userId} />
     <div>
       {profile && (
         <>
