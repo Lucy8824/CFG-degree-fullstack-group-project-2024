@@ -19,6 +19,8 @@ const CommentSection = ({ userId, postId }) => {
         fetchComments();
     }, [postId]);
 
+// gets the comments, but requires refreshing to display  
+
     const handleCommentSubmit = async (e) => {
         e.preventDefault();
 
