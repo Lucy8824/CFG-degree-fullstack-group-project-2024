@@ -11,7 +11,8 @@ const { user_id: userId } = useParams()
 const [posts, setPosts] = useState([]);
 console.log('userId', userId);
 
-  
+// gets the feeds, but requires refreshing to display  
+
     const fetchPosts = async () => {
         try {
             // Fetch data from the backend
