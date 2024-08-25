@@ -129,48 +129,7 @@ if (require.main === module) {
   });
 }
 
-// Only start the server if this file is executed directly (not needed by tests)
-// if (require.main === module) {
-//   app.listen(port, () => {
-//     console.log(`listening on port ${port}`)
-//   });
-// }
 
-
-// get request attempt
-// app.get("/User_sign_up", async (req, res) => {
-//   try {
-//     const [result] = await pool.query("SELECT * FROM User_sign_up");
-//     res.json(result);
-//   } catch (err) {
-//     res.status(500).json({ message: "Problem" });
-//   }
-// });
-
-// post request for user sign up page
-// app.post("/User_sign_up", async (req, res) => {
-//   const { fullName, email, password } = req.body;
-
-//   if (!fullName || !email || !password) {
-//     return res.status(400).json({ error: "Invalid Request" });
-//   }
-//   if (!email.includes("@")) {
-//     return res.status(400).json({ message: "Incorrect email address" });
-//   }
-//   try {
-//     const [results] = await pool.query(
-//       "INSERT INTO User_sign_up (fullName, email, password) VALUES (?, ?, ?)",
-//       [fullName, email, password]
-//     );
-//     console.log("New user sign up data:", results);
-//     res.status(200).json({ message: "New user created" });
-//   } catch (err) {
-//     console.error("Data insertion failed", err);
-//     res.status(500).json({ error: "Data insertion failed" });
-//   }
-// });
-
-// get request for feeds page
 app.get("/Feeds/:id", async (req, res) => {
   try {
     const [posts] = await pool.query(`
@@ -199,34 +158,6 @@ app.post("/Feeds/:id", async (req, res) => {
     res.status(500).json({ error: "Data insertion failed" });
   }
 });
-
-// get request for feeds page
-// app.get("/Feeds/:id", async (req, res) => {
-//   const query = `
-//     SELECT 
-//       Feeds.post_id,
-//       Feeds.post_message,
-//       User_profile.first_name,
-//       User_profile.profile_picture_url,
-//     FROM 
-//       Feeds
-//     INNER JOIN 
-//       User_profile 
-//     ON 
-//       Feeds.user_id = User_profile.user_id
-//   `;
-
-//   try {
-//     // Await the execution of the query and store the results
-//     const [results] = await pool.query(query);
-
-//     // Send the results as a JSON response
-//     res.json(results);
-//   } catch (error) {
-//     console.error("Error fetching posts:", error);
-//     res.status(500).json({ error: "Failed to fetch posts" });
-//   }
-// });
 
 //post comments endpoint
 app.post("/Comments", async (req, res) => {
@@ -577,6 +508,8 @@ app.post("/api/messages", (req, res) => {
 });
 
 // Ticketmaster api routes for fetching festivals
+
+// Deleting this to see if it fixes the test: app.get("/api/festivals/user/:id", async (req, res) => {
 
 app.get("/api/festivals/user/:id", async (req, res) => {
   const API_KEY = process.env.TICKETMASTER_API_KEY;
