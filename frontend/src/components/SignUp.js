@@ -5,42 +5,46 @@ import CustomButton from "./CustomButton.js";
 // only want to navigate to profile from here so useNavigate is better
 const SignUp = () => {
   const navigate = useNavigate();
-  const handleProfileClick = () => {
-    console.log("Sign up is working");
-    navigate("/Profile");
-  };
+  console.log("Sign up is working");
 
   const [email, setEmail] = useState("");
   const [fullName, setFullName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log("it's working");
-    // fetch data from the backend
+
+    // check if passwords match
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
     try {
-      const response = await fetch("http://localhost:3006/register", {
+      const response = await fetch("/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          username,
-          email,
-          password,
-        }),
+
+        body: JSON.stringify({ fullName, email, password }),
       });
-      if (response.ok) {
-        const data = await response.json();
-        setMessage("Signup successful!");
-        //redirect here?
-      } else {
-        const errorData = await response.json();
-        setMessage("Signup failed: ${errorData.message}");
+
+      if (!response.ok) {
+        throw new Error("Registration failed");
       }
+
+      const data = await response.json();
+      console.log("Registration successful", data);
+
+      // Navigate to profile or login page on success
+      navigate("/");
     } catch (error) {
-      setMessage("An error occured.");
-      console.error("Error:", error);
+      console.error("Error during registration:", error);
+      setError(error.message);
     }
   };
 
@@ -88,12 +92,9 @@ const SignUp = () => {
             placeholder="Confirm password"
           />
         </div>
+        {error && <p className="error">{error}</p>}
+        <CustomButton type="submit" onClick={() => {}} buttonText="Sign up" />
       </form>
-      <CustomButton
-        type="signup"
-        onClick={handleProfileClick}
-        buttonText="Sign up"
-      />
     </div>
   );
 };

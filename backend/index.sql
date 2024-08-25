@@ -3,20 +3,27 @@ CREATE DATABASE Festival_Meetup;
 
 USE Festival_Meetup;
 
-CREATE TABLE User_sign_up 
-(user_id INT AUTO_INCREMENT NOT NULL,
-full_name VARCHAR (50) NOT NULL,
-email_address VARCHAR (50) NOT NULL UNIQUE,
-password VARCHAR (50) NOT NULL UNIQUE,
-PRIMARY KEY (user_id));
+-- CREATE TABLE User_sign_up
+-- (user_id INT AUTO_INCREMENT NOT NULL,
+-- fullName VARCHAR (50) NOT NULL,
+-- email VARCHAR (50) NOT NULL UNIQUE,
+-- password VARCHAR (50) NOT NULL UNIQUE,
+-- PRIMARY KEY (user_id));
 
-CREATE TABLE User_login
-(user_id INT AUTO_INCREMENT NOT NULL, 
-email_address VARCHAR (50) NOT NULL, 
-password VARCHAR (50) UNIQUE, 
-FOREIGN KEY (user_id) REFERENCES User_sign_up (user_id),
-FOREIGN KEY (email_address) REFERENCES User_sign_up (email_address),
-FOREIGN KEY (password) REFERENCES User_sign_up (password));
+-- CREATE TABLE User_login
+-- (user_id INT AUTO_INCREMENT NOT NULL, 
+-- email VARCHAR (50) NOT NULL, 
+-- password VARCHAR (50) UNIQUE, 
+-- FOREIGN KEY (user_id) REFERENCES User_sign_up (user_id),
+-- FOREIGN KEY (email) REFERENCES User_sign_up (email),
+-- FOREIGN KEY (password) REFERENCES User_sign_up (password));
+
+CREATE TABLE User
+(user_id INT AUTO_INCREMENT NOT NULL,
+fullName VARCHAR (50) NOT NULL,
+email VARCHAR (50) NOT NULL UNIQUE,
+password VARCHAR (500) NOT NULL,
+PRIMARY KEY (user_id));
 
 
 CREATE TABLE User_profile
@@ -24,61 +31,86 @@ CREATE TABLE User_profile
 first_name VARCHAR (50) NOT NULL,
 age INT NOT NULL,
 location VARCHAR (50),
-profile_picture_url VARCHAR (200),
+profile_picture_url VARCHAR (500),
 about_me VARCHAR (200), 
 favourite_artists VARCHAR (100),
 attended_festivals VARCHAR (100),
 plan_to_visit VARCHAR (100),
-FOREIGN KEY (user_id) REFERENCES User_sign_up (user_id));
+FOREIGN KEY (user_id) REFERENCES User (user_id));
 
 
 CREATE TABLE Feeds
-(user_id INT AUTO_INCREMENT, 
-first_name VARCHAR (50) NOT NULL,
-profile_picture_url VARCHAR (200),
+(user_id INT NOT NULL, 
 post_message VARCHAR (500),
-FOREIGN KEY (user_id) REFERENCES User_sign_up (user_id));
+post_id INT AUTO_INCREMENT,
+PRIMARY KEY (post_id),
+FOREIGN KEY (user_id) REFERENCES User (user_id));
+
+CREATE TABLE conversations (
+    conversation_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(250),
+    type ENUM('private', 'group') NOT NULL
+);
+
+CREATE TABLE messages (
+    messages_id INT AUTO_INCREMENT PRIMARY KEY,
+    conversation_id INT,
+    user_id INT NOT NULL,
+    content TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (conversation_id) REFERENCES conversations(conversation_id),
+    FOREIGN KEY (user_id) REFERENCES User (user_id)
+);
+
+CREATE TABLE group_memberships (
+    membership_id INT AUTO_INCREMENT PRIMARY KEY,
+    conversation_id INT,
+    user_id INT NOT NULL,
+    FOREIGN KEY (conversation_id) REFERENCES conversations(conversation_id),
+    FOREIGN KEY (user_id) REFERENCES User (user_id)
+);
 
 
--- CREATE TABLE Private_messages
--- (message_id INT AUTO_INCREMENT, 
--- sender_id INT AUTO_INCREMENT, 
--- receiver_id INT AUTO_INCREMENT, 
--- private_message VARCHAR (200),
--- PRIMARY KEY (message_id),
--- FOREIGN KEY (sender_id) REFERENCES User_sign_up (user_id),
--- FOREIGN KEY (receiver_id) REFERENCES User_sign_up (user_id));
 
-
-INSERT INTO User_sign_up
-(full_name, email_address, password)
-VALUES 
+INSERT INTO User
+(fullName, email, password)
+VALUES
 ("Lydia Hague", "ljhague94@gmail.com", "LJH38ty25"),
 ("Marie Williams", "tj19@hotmail.co.uk", "hello1990"),
 ("Josie Barker", "jellyfish9@gmail.com", "jellyfiiish55");
 
-INSERT INTO User_login
-(email_address, password)
-VALUES 
-("ljhague94@gmail.com", "LJH38ty25"),
-("tj19@hotmail.co.uk", "hello1990"),
-("jellyfish9@gmail.com", "jellyfiiish55");
-
 INSERT INTO User_profile
 (first_name, age, location, profile_picture_url, about_me, favourite_artists, attended_festivals, plan_to_visit)
 VALUES
-("Lydia", 29, "Cardiff", "/Users/lydiahague/Downloads/IMG_6205.HEIC", "lorem...	", "Fred Again, Cat Burns, Caity Baser", "Leeds Festival, Isle of Wight Festival, Glastonbury", "Reading Festival, Glastonbury"),
-("Sarah", 26, "London", "https://media.istockphoto.com/id/1457409025/photo/festival-moment.jpg?s=612x612&w=0&k=20&c=fC9ihV9iAr8M4PwqCbn428T1JLeFGOURxEkOFmg9Rvs=", "I am a festival goer from London, "lorem...	", "Beyonce, Raye, Dave", "Reading Festival", "Boomtown"),
-("Josie", 22, "Sussex", "15 June 18-38-19 LYDIA.jpg", "lorem...", "Raye, Loyle Carner, Coldplay", "Glastonbury, Coachella", "Reading");
-
--- INSERT INTO Private_messages
--- (sender_id, receiver_id, private_message)
--- VALUES
--- ("lorem...	");
+("Lydia", 29, "Cardiff", "https://i.pinimg.com/originals/9b/20/4c/9b204c0801c9cc705ee129b61af3b6dc.jpg", "lorem...	", "Fred Again, Cat Burns, Caity Baser", "Leeds Festival, Isle of Wight Festival, Glastonbury", "Reading Festival, Glastonbury"),
+("Sarah", 26, "London", "https://media.istockphoto.com/id/1457409025/photo/festival-moment.jpg?s=612x612&w=0&k=20&c=fC9ihV9iAr8M4PwqCbn428T1JLeFGOURxEkOFmg9Rvs=", "I am a festival goer from London", "Beyonce, Raye, Dave", "Reading Festival", "Boomtown"),
+("Josie", 22, "Sussex", "https://img.freepik.com/free-photo/young-people-bonding-spending-time-together-youth-activities_23-2151664337.jpg", "lorem...", "Raye, Loyle Carner, Coldplay", "Glastonbury, Coachella", "Reading");
 
 INSERT INTO Feeds
-(first_name, profile_picture_url, post_message)
+(user_id, post_message)
 VALUES
-("Bob", "IMG_1733.jpg", "Hey guys, I'm going to Leeds festival on the weekend by myself, would be great if anyone wants to meet"),
-("Hannah", "19 January 19-38-02 LYDIA", "Hi everyone, I'm Hannah! I'm so excited to go to Glastonbury but none of my friends could get tickets, if anyone wants to meet up who also loves dance music let me know!"),
-("Josie", "15 June 18-38-19 LYDIA.jpg", "Hi guys, can't wait to see Raye at Reading next week, would be great to meet some like-minded people");
+(1, "Hey guys, I'm going to Leeds festival on the weekend by myself, would be great if anyone wants to meet"),
+(2, "Hi everyone, I'm Hannah! I'm so excited to go to Glastonbury but none of my friends could get tickets, if anyone wants to meet up who also loves dance music let me know!"),
+(3, "Hi guys, can't wait to see Raye at Reading next week, would be great to meet some like-minded people");
+
+INSERT INTO conversations (name) 
+VALUES ("Glasto!!"), ("Festival gals");
+
+INSERT INTO messages (conversation_id, user_id, content) 
+VALUES 
+(1, 1, "Hey, I saw youre attending Glasto on the feeds page, I am too!"),
+(2, 2, "Hiya!! I LOVE dance music!!");
+
+
+CREATE TABLE Comments (
+comment_id INT AUTO_INCREMENT PRIMARY KEY,
+post_id INT NOT NULL,
+user_id INT NOT NULL,
+comment VARCHAR (500) NOT NULL,
+FOREIGN KEY (post_id) REFERENCES Feeds (post_id),
+FOREIGN KEY (user_id) REFERENCES User (user_id));
+
+INSERT INTO Comments 
+(post_id, user_id, comment)
+VALUES
+(1, 1, "hey guys");
