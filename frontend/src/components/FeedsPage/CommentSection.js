@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
+import './FeedsPage.css';
 const CommentSection = ({ userId, postId }) => {
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
@@ -35,6 +35,7 @@ const CommentSection = ({ userId, postId }) => {
             const response = await axios.get(`http://localhost:3006/post/${postId}/comments`);
             setComments(response.data);
             console.log("Comment:", response.data);
+            
             setNewComment('');
         } catch (error) {
             console.error('Error adding comment:', error);
@@ -52,9 +53,14 @@ const CommentSection = ({ userId, postId }) => {
                 />
                 <button type="submit">Comment</button>
             </form>
+
             <div className="comments-list">
+               
                 {comments.map(comment => (
                     <div key={comment.comment_id}>
+                        <img className="post-header" src={comment.profile_picture_url} alt="profile picture"
+                        style={{height:50, width:50}}/>
+                        <p>{comment.first_name}</p>
                         <p>{comment.comment}</p>
                     </div>
                 ))}

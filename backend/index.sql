@@ -3,20 +3,6 @@ CREATE DATABASE Festival_Meetup;
 
 USE Festival_Meetup;
 
--- CREATE TABLE User_sign_up
--- (user_id INT AUTO_INCREMENT NOT NULL,
--- fullName VARCHAR (50) NOT NULL,
--- email VARCHAR (50) NOT NULL UNIQUE,
--- password VARCHAR (50) NOT NULL UNIQUE,
--- PRIMARY KEY (user_id));
-
--- CREATE TABLE User_login
--- (user_id INT AUTO_INCREMENT NOT NULL, 
--- email VARCHAR (50) NOT NULL, 
--- password VARCHAR (50) UNIQUE, 
--- FOREIGN KEY (user_id) REFERENCES User_sign_up (user_id),
--- FOREIGN KEY (email) REFERENCES User_sign_up (email),
--- FOREIGN KEY (password) REFERENCES User_sign_up (password));
 
 CREATE TABLE User
 (user_id INT AUTO_INCREMENT NOT NULL,
@@ -90,8 +76,8 @@ INSERT INTO Feeds
 (user_id, post_message)
 VALUES
 (1, "Hey guys, I'm going to Leeds festival on the weekend by myself, would be great if anyone wants to meet"),
-(2, "Hi everyone, I'm Hannah! I'm so excited to go to Glastonbury but none of my friends could get tickets, if anyone wants to meet up who also loves dance music let me know!"),
-(3, "Hi guys, can't wait to see Raye at Reading next week, would be great to meet some like-minded people");
+(2, "Hi everyone, I'm so excited to go to Glastonbury but none of my friends could get tickets, if anyone wants to meet up who also loves dance music let me know!"),
+(3, "Hi guys, can't wait to see Raye at Leeds next week, would be great to meet some like-minded people");
 
 INSERT INTO conversations (name) 
 VALUES ("Glasto!!"), ("Festival gals");
@@ -113,4 +99,4 @@ FOREIGN KEY (user_id) REFERENCES User (user_id));
 INSERT INTO Comments 
 (post_id, user_id, comment)
 VALUES
-(1, 1, "hey guys");
+(3, 1, "Hello, i'm going there too!");
