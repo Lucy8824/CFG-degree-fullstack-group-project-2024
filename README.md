@@ -6,7 +6,7 @@ This repository contains the group project work for the CFG Fullstack Degree of 
 
 This **README.md** file contains all the details for the building of our 'Festival Meetup App'.
 
-## _Intructions for execution of the code_
+## _Instructions for execution of the code_
 
 1. Set up the development environment:
 
