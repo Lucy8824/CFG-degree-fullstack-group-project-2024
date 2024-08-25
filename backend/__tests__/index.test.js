@@ -6,7 +6,7 @@ const app = require('../index');
 jest.mock('axios');
 
 
-describe('GET /api/festivals', () => {
+describe('GET /api/festivals/user/:id', () => {
     it('should return festivals data successfully', async () => {
         const mockData = {
             _embedded: {
@@ -20,7 +20,7 @@ describe('GET /api/festivals', () => {
         axios.get.mockResolvedValue({ data: mockData });
 
         const response = await request(app)
-            .get('/api/festivals')
+            .get('/api/festivals/user/1')
             .query({ page: 0 });
 
         expect(response.status).toBe(200);
@@ -42,7 +42,7 @@ describe('GET /api/festivals', () => {
         axios.get.mockRejectedValue(new Error('Network Error'));
 
         const response = await request(app)
-            .get('/api/festivals')
+            .get('/api/festivals/user/1')
             .query({ page: 0 });
 
         expect(response.status).toBe(500);
