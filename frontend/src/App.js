@@ -1,16 +1,14 @@
-import "./App.css";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import LoginPage from "./components/LoginPage/LoginPage.js";
 import SignUp from "./components/SignUp.js";
 import Profile from "./components/ProfilePage/Profile.js";
 
-import Festivals from "./Pages/Festivals";
+import Festivals from "./components/FestivalsPage/Festivals";
 import PrivateRoutes from "./components/LoginPage/PrivateRoutes.js";
 import AuthProvider from "./components/AuthProvider.js";
 import FeedsPage from "./components/FeedsPage/FeedsPage.js";
 // import CustomButton from "./components/CustomButton.js";
-import FestivalDetailsPage from "./Pages/FestivalDetailsPage";
-import FestivalButton from "./component/FestivalButton";
+import FestivalDetailsPage from "./components/FestivalsPage/FestivalDetailsPage";
 import ChatsPage from "./components/MessagesPage/ChatsPage.js";
 import "bootstrap/dist/css/bootstrap.min.css";
 

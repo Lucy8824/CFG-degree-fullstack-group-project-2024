@@ -6,6 +6,42 @@ This repository contains the group project work for the CFG Fullstack Degree of 
 
 This **README.md** file contains all the details for the building of our 'Festival Meetup App'.
 
+## _Instructions for execution of the code_
+
+1. Set up the development environment:
+
+- Install Node.js and npm.
+
+- Clone the repository from GitHub.
+
+2. Install the project dependencies:
+
+- `cd` into repository.
+
+- Run `npm install` in the root, frontend and backend folders.
+
+3. Run the React application:
+
+- Start the development server in the frontend with `npm start`.
+
+- Start the backend server with `node index.js`.
+
+- Build the production environment with `npm run build`.
+
+4. Set up the database in MySQL using the `index.sql` file.
+
+5. Change the environment variables using the `.env.example`file:
+
+- Change the database password to your own.
+
+- Change the name of the database to match the one in `index.sql`.
+
+- Request your own key for the Ticketmaster API.
+
+- Change this key `your_jwt_secret_key`to your own.
+
+6. The app should now be working. You can test by running the backend and frontend servers.
+
 ## _Part 1: project details_
 
 ### What is the concept?

@@ -27,7 +27,7 @@ a.forgot-password-link:hover {
   /* padding: 0; */
 }
 
-.modal-title {
+div.modal-title {
   font-size: 1.5em;
   font-weight: 700;
   color: white;
@@ -101,7 +101,7 @@ a.forgot-password-link:hover {
 }
 
 @media (max-width: 900px) {
-  .modal {
+  div.modal {
     position: absolute;
     float: left;
     left: 50%;

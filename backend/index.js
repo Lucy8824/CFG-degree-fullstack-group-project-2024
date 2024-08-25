@@ -129,7 +129,7 @@ if (require.main === module) {
   });
 }
 
-
+// get request for feeds page
 app.get("/Feeds/:id", async (req, res) => {
   try {
     const [posts] = await pool.query(`
@@ -311,7 +311,6 @@ app.get("/getProfile/:id", async (req, res) => {
 });
 
 //endpoint for updating user information - put works, however will need to ensure user authentication
-
 app.put("/updateProfile/:id", async (req, res) => {
   const profileID = req.params.id; // the profile ID being edited
   const userid = req.params.id; // the logged-in user ID extracted from the JWT
@@ -383,8 +382,6 @@ app.put("/updateProfile/:id", async (req, res) => {
   }
 });
 
-// Messages
-//// need to add a middleware/route to not repeat myself so much with the authorisation
 // creating conversations
 app.post("/api/conversations", (req, res) => {
   const { name, type, participants } = req.body;
@@ -588,12 +585,5 @@ app.get("/api/festival/:id", async (req, res) => {
     }
   }
 });
-
-// Only start the server if this file is executed directly (not needed by tests)
-// if (require.main === module) {
-//   app.listen(port, () => {
-//     console.log(`listening on port ${port}`)
-//   });
-// }
 
 module.exports = app; // Export the app for testing purposes
