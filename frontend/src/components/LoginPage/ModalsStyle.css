@@ -93,7 +93,7 @@ a.forgot-password-link:hover {
 }
 
 @media (max-width: 900px) {
-  .modal {
+  div.modal {
     position: absolute;
     float: left;
     left: 50%;

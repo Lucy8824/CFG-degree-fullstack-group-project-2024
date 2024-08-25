@@ -160,3 +160,8 @@ html, body {
   justify-content: center;
   height: 20vh;
 }
+
+@media (max-width: 900px) {
+  .title {
+    font-size: 50px;}
+  }

@@ -38,12 +38,18 @@ export default function ModalResetPassword() {
         Reset password
       </a>
 
-      <Modal show={show} onHide={handleClose} aria-labelledby="modal-title" centered>
+      <Modal
+        show={show}
+        onHide={handleClose}
+        aria-labelledby="modal-title"
+        centered>
         <Modal.Header closeButton>
           <Modal.Title id="modal-title">Reset password</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p className="modal-description">Please enter your new password and confirm it</p>
+          <p className="modal-description">
+            Please enter your new password and confirm it
+          </p>
           <Form>
             <Form.Group className="mb-3" controlId="formPassword">
               <Form.Control
@@ -68,10 +74,16 @@ export default function ModalResetPassword() {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button className="secondary-button" onClick={handleClose}>
+          <Button
+            variant="secondary"
+            className="button secondary-button"
+            onClick={handleClose}>
             Close
           </Button>
-          <Button className="primary-button" onClick={handleSubmit}>
+          <Button
+            variant="primary"
+            className="button primary-button"
+            onClick={handleSubmit}>
             Continue
           </Button>
         </Modal.Footer>
