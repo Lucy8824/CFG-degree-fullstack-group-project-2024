@@ -123,9 +123,19 @@ app.get("/user/validateToken", (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`listening on port ${port}`);
-});
+if (require.main === module) {
+  app.listen(port, () => {
+    console.log(`listening on port ${port}`);
+  });
+}
+
+// Only start the server if this file is executed directly (not needed by tests)
+// if (require.main === module) {
+//   app.listen(port, () => {
+//     console.log(`listening on port ${port}`)
+//   });
+// }
+
 
 // get request attempt
 // app.get("/User_sign_up", async (req, res) => {
