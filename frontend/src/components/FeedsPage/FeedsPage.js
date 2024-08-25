@@ -3,6 +3,7 @@ import Post from './Post';
 import NewPost from './NewPost';
 import NavBar from '../NavBar/NavBar';
 import { useParams } from 'react-router-dom';
+import './FeedsPage.css';
 
 
 const FeedsPage = () => {
@@ -53,8 +54,8 @@ console.log('userId', userId);
     <>
     <NavBar userId={userId} />
 
-    <div>
-       <h2>Festival Feed</h2>
+    <div className="feeds-container">
+       <h2 className="feeds-title">Festival Feed</h2>
        <NewPost userId={userId} setPosts={updatePosts} />
         
        {posts.map((post, index) => (
