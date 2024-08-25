@@ -1,0 +1,36 @@
+.messages-container {
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.chat-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.message-list {
+    flex-grow: 1;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
+.message-input-container {
+    display: flex;
+    gap: 10px;
+}
+
+.message-input {
+    flex-grow: 1;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.send-buton {
+    padding: 10px 20px;
+}

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import './Messages.css';
 
 const Messages = ({ conversation_id }) => {
   const [messages, setMessages] = useState([]);
@@ -56,29 +57,31 @@ const Messages = ({ conversation_id }) => {
   }
 
   return (
-    <div>
-      <h2>
+    <div className="messages-container">
+      <h2 className="chat-title">
         {conversationDetails.type === "group"
           ? conversationDetails.name
           : "Private Chat"}
       </h2>
       <div className="message-list">
         {messages.map((messages, index) => (
-          <div key={index} className="message-item">
+          <div key={index} 
+               className="message-item">
             <p>
               <strong>{messages.senderUsername}:</strong> {messages.content}
             </p>
           </div>
         ))}
       </div>
-      <div className="message-input">
+      <div className="message-input-container">
         <input
           type="text"
           value={newMessages}
           onChange={(e) => setNewMessages(e.target.value)}
           placeholder="Start typing here"
+          className="message-input"
         />
-        <button onClick={sendMessages}>Send</button>
+        <button onClick={sendMessages} className="send-button">Send</button>
       </div>
     </div>
   );

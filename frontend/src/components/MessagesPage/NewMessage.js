@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import './NewMessage.css';
 
 const NewMessage = ({ onCreate }) => {
   const [chatName, setChatName] = useState("");
@@ -39,12 +40,12 @@ const NewMessage = ({ onCreate }) => {
   };
 
   return (
-    <div>
-      <h2>Create a New Chat</h2>
-      <div>
+    <div className="new-message-container">
+      <h2 className="new-message-title">Create a New Chat</h2>
+      <div className="form-group">
         <label>
           Chat Type:
-          <select value={type} onChange={(e) => setType(e.target.value)}>
+          <select value={type} onChange={(e) => setType(e.target.value)} className="form-select">
             <option value="private">Private Chat</option>
             <option value="group">Group Chat</option>
           </select>
@@ -52,7 +53,7 @@ const NewMessage = ({ onCreate }) => {
       </div>
 
       {type === "group" && (
-        <div>
+        <div className="form-group">
           <label>
             Group Name:
             <input
@@ -60,12 +61,13 @@ const NewMessage = ({ onCreate }) => {
               value={chatName}
               onChange={(e) => setChatName(e.target.value)}
               placeholder="Enter group name"
+              className="form-input"
             />
           </label>
         </div>
       )}
 
-      <div>
+      <div className="form-group"> 
         <label>
           Add Participants (comma-separated user IDs):
           <input
@@ -73,11 +75,12 @@ const NewMessage = ({ onCreate }) => {
             value={participants.join(",")}
             onChange={handleParticipantsChange}
             placeholder="Enter user IDs"
+            className="form-input"
           />
         </label>
       </div>
 
-      <button onClick={handleCreateChat}>Create Chat</button>
+      <button onClick={handleCreateChat} className="create-chat-button">Create Chat</button>
     </div>
   );
 };
