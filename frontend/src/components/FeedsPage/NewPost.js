@@ -28,7 +28,7 @@ const NewPost = ({ setPosts, userId }) => {
     };
 
     return (
-        <form onSubmit={handlePostSubmit}>
+        <form onSubmit={handlePostSubmit} className="new-post-form">
             <textarea 
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
