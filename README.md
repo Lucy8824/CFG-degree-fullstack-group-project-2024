@@ -30,7 +30,15 @@ This **README.md** file contains all the details for the building of our 'Festiv
 
 4. Set up the database in MySQL using the `index.sql` file.
 
-5. Change the environment variables using the `.env.example` file and change the database password to your own.
+5. Change the environment variables using the `.env.example`file:
+
+- Change the database password to your own.
+
+- Change the name of the database to match the one in `index.sql`.
+
+- Request your own key for the Ticketmaster API.
+
+- Change this key `your_jwt_secret_key`to your own.
 
 6. The app should now be working. You can test by running the backend and frontend servers.
 
