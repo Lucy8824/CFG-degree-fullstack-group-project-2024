@@ -109,13 +109,13 @@ const LoginPage = () => {
           />
         </div>
       </form>
-      <div>
+      <div className="modal-password-forgotten">
         <ModalForgotPassword
           show={showForgotPasswordModal}
           onHide={() => setShowForgotPasswordModal(false)}
         />
       </div>
-      <div>
+      <div className="modal-password-reset">
         <ModalResetPassword
           show={showResetPasswordModal}
           onHide={() => setShowResetPasswordModal(false)}
