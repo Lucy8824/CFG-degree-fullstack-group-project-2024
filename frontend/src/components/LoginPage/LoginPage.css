@@ -35,7 +35,7 @@ html, body {
 .form {
   position: relative;
   background: rgba(255, 255, 255, 0.8);
-  padding: 45px;
+  padding: 35px;
   text-align: center;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
   margin-top: 20px;
@@ -53,6 +53,7 @@ html, body {
   box-sizing: border-box;
   height: 10px;
   font-size: 15px;
+  height: 40px;
 }
 
 .passwordBox {
@@ -66,6 +67,7 @@ html, body {
   box-sizing: border-box;
   height: 10px;
   font-size: 15px;
+  height: 40px;
 }
 
 .customButtonLogin {
@@ -76,7 +78,7 @@ html, body {
   border: 0;
   padding: 10px;
   margin: 0;
-  margin-top: 15px;;
+  /* margin-top: 5px; */
   color: whitesmoke;
   font-size: 15px;
   -webkit-transition: all 0.3 ease;
@@ -122,7 +124,7 @@ html, body {
   /* padding: 10px; */
   width: 255px;
   height: 20px;
-  margin-bottom: 15px;
+  margin-bottom: 5px;
   line-height: normal;
   font-size: 15px;
   display: block;
@@ -168,4 +170,13 @@ html, body {
 @media (max-width: 900px) {
   .title {
     font-size: 50px;}
+  }
+
+  .modal-password-forgotten {
+    margin-top: 10px;
+    font-size: 15px;
+  }
+
+  .modal-password-reset {
+    font-size: 15px;
   }

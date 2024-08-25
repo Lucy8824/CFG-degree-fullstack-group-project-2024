@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CustomButton from "./CustomButton.js";
+import './SignUp.css';
 
 // only want to navigate to profile from here so useNavigate is better
 const SignUp = () => {
@@ -49,22 +50,24 @@ const SignUp = () => {
   };
 
   return (
-    <div className="container">
+    <div className="container-signup">
       <form onSubmit={handleSubmit}>
-        <div>
-          <div>
+        <div className="form-group">
             <input
               type="fullName"
               id="fullName"
+              className="input-field"
               value={fullName}
               onChange={(event) => setFullName(event.target.value)}
               required
               placeholder="Full name"
             />
           </div>
+          <div className="form-group">
           <input
             type="email"
             id="email"
+            className="input-field"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             required
@@ -75,6 +78,7 @@ const SignUp = () => {
           <input
             type="password"
             id="password"
+            className="input-field"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
             required
@@ -82,10 +86,11 @@ const SignUp = () => {
           />
         </div>
 
-        <div>
+        <div className="form-group">
           <input
             type="confirmPassword"
             id="confirmPassword"
+            className="input-field"
             value={confirmPassword}
             onChange={(event) => setConfirmPassword(event.target.value)}
             required
@@ -93,7 +98,7 @@ const SignUp = () => {
           />
         </div>
         {error && <p className="error">{error}</p>}
-        <CustomButton type="submit" onClick={() => {}} buttonText="Sign up" />
+        <CustomButton className="custom-button" type="submit" onClick={() => {}} buttonText="Sign up" />
       </form>
     </div>
   );
