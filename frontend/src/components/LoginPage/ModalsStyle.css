@@ -1,15 +1,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
 
 body {
-  font-family: "Roboto", sans-serif;
+  font-family: "Roboto", sans-serif !important;
 }
 
 a.forgot-password-link {
-  color: black;
+  color: whitesmoke;
   text-decoration: none;
-  font-weight: 500;
+  /* font-weight: 500; */
   transition: color 0.3s ease;
 }
+
 
 a.forgot-password-link:hover {
   color: black;
@@ -20,6 +21,10 @@ a.forgot-password-link:hover {
   border-bottom: none;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+  /* padding: 0; */
 }
 
 .modal-title {
@@ -38,15 +43,17 @@ a.forgot-password-link:hover {
 .password-input {
   border-radius: 0.5rem;
   padding: 0.75rem;
-  border: 1px solid #cbd5e0;
+  border: 1px solid #ccc;
   font-size: 1em;
   transition: border-color 0.3s ease;
+  width: 100%;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .email-input:focus,
 .password-input:focus {
-  border-color: #8164d1;
-  box-shadow: 0 0 0 0.2rem rgba(37, 37, 38, 0.25);
+  border-color: #CC5500;
+  box-shadow: 0 0 5px rgba(37, 37, 38, 0.25);
 }
 
 .secondary-button,
@@ -55,13 +62,13 @@ a.forgot-password-link:hover {
   padding: 0.75rem 1.5rem;
   font-size: 1em;
   transition: background-color 0.3s ease, transform 0.3s ease,
-    box-shadow 0.3s ease;
+    transform 0.3s ease;
 }
 
 .secondary-button {
   color: #e2e8f0;
-  background-color: black;
-  border: none;
+  background-color: black !important;
+  border: none !important;
 }
 
 .secondary-button:hover {
@@ -72,8 +79,8 @@ a.forgot-password-link:hover {
 }
 
 .primary-button {
-  background-color: black;
-  border: none;
+  background-color: #CC5500 !important;
+  border: none !important;
 }
 
 .primary-button:hover {
@@ -84,12 +91,13 @@ a.forgot-password-link:hover {
 }
 
 .modal-footer {
-  border-top: none;
-  justify-content: center;
-  padding-top: 20px;
-  background: #f8f9fa;
+  border-top: none !important;
+  justify-content: center !important;
+  padding: 10px !important;
+  background-color: #f8f9fa;
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
+  display: flex !important;
 }
 
 @media (max-width: 900px) {
@@ -121,4 +129,27 @@ a.forgot-password-link:hover {
   .modal-footer {
     padding-top: 2px;
   }
+}
+
+#modal-title {
+  color: white;
+  flex-grow: 1;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  width: 100%;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.modal-header .btn-close {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.modal-content {
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
