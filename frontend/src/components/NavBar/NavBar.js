@@ -23,7 +23,7 @@ const NavBar = ({userId}) => {
                         <Nav.Link className="navBarList"as={Link} to={`/feeds/${userId}`}>Feeds</Nav.Link>
                         <Nav.Link className="navBarList"as={Link} to={`/festivals/${userId}`}>Festivals</Nav.Link>
                     </Nav>
-                    <Button className="logOutButton">Log Out</Button>
+                    <Button className="logOutButton"as={Link} to="/">Log Out</Button>
                 </Navbar.Collapse>
             </Container>
         </Navbar>
